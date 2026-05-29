@@ -1,1269 +1,3280 @@
 <!doctype html>
 <html lang="ru">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Глухов Григорий — таргетолог · Яндекс Директ · ВК · Авито</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --bg: #0f1410;
-    --bg-2: #161c18;
-    --card: #1c241f;
-    --card-2: #232c25;
-    --line: rgba(255,255,255,0.08);
-    --line-2: rgba(255,255,255,0.14);
-    --ink: #f1efe9;
-    --ink-2: #d6d3cb;
-    --muted: #8b9089;
-    --accent: #b8e34a;
-    --accent-2: #6dba3d;
-    --warn: #ff7a52;
-    --radius: 26px;
-    --radius-lg: 36px;
-    --pad: clamp(20px, 4vw, 64px);
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    font-family: 'Manrope', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    font-size: 17px; line-height: 1.5;
-    overflow-x: hidden; position: relative;
-  }
-  h1, h2, h3, .display { font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-weight: 500; }
-  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: -0.01em; }
-  a { color: inherit; text-decoration: none; }
-  img { max-width: 100%; display: block; }
-  ::selection { background: var(--accent); color: var(--bg); }
-
-  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 var(--pad); position: relative; }
-
-  /* === DECOR BACKGROUNDS === */
-  /* Hero — крупный 3D-объект справа (графический плейсхолдер) */
-  .deco-blob {
-    position: absolute; pointer-events: none; user-select: none; z-index: 0;
-  }
-
-  /* === NAV === */
-  nav.top {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(15, 20, 16, 0.72);
-    backdrop-filter: saturate(160%) blur(18px);
-    -webkit-backdrop-filter: saturate(160%) blur(18px);
-    border-bottom: 1px solid var(--line);
-  }
-  nav.top .row { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
-  .logo {
-    display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -0.02em; font-size: 17px;
-  }
-  .logo-mark {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: var(--accent); color: #0a1502;
-    display: grid; place-items: center; font-weight: 800; font-size: 14px;
-    font-family: 'JetBrains Mono', monospace;
-    box-shadow: 0 0 0 1px rgba(184,227,74,.3), 0 8px 18px -8px rgba(184,227,74,.5);
-  }
-  .logo .city { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); margin-left: 4px; font-weight: 400; }
-  nav .links { display: flex; gap: 30px; font-size: 14.5px; color: var(--ink-2); }
-  nav .links a:hover { color: var(--accent); }
-  nav .cta {
-    background: var(--ink); color: var(--bg); padding: 12px 20px; border-radius: 100px;
-    font-size: 14px; font-weight: 600; transition: .2s;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  nav .cta:hover { background: var(--accent); }
-  @media (max-width: 800px) { nav .links { display: none; } }
-
-  /* === HERO === */
-  .hero {
-    padding: 60px 0 80px; position: relative; overflow: hidden;
-  }
-  /* Большая «зелёная» вспышка-плашка-фон */
-  .hero-bg {
-    position: absolute; inset: 0; pointer-events: none; z-index: 0;
-    background:
-      radial-gradient(60% 70% at 80% 10%, rgba(184,227,74,0.18), transparent 65%),
-      radial-gradient(50% 60% at 0% 20%, rgba(109,186,61,0.12), transparent 65%),
-      radial-gradient(40% 50% at 60% 90%, rgba(184,227,74,0.10), transparent 70%);
-  }
-  /* SVG листья как декор */
-  .leaves {
-    position: absolute; inset: 0; pointer-events: none; z-index: 0;
-    opacity: 0.5;
-  }
-
-  .hero .wrap { z-index: 2; position: relative; }
-  .hero-inner { max-width: 1000px; }
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: 'JetBrains Mono', monospace; font-size: 12px;
-    color: var(--accent); letter-spacing: 0.05em;
-    padding: 8px 14px; border-radius: 100px;
-    background: rgba(184,227,74,0.10); border: 1px solid rgba(184,227,74,0.22);
-    margin-bottom: 28px;
-  }
-  .eyebrow .dot { opacity: 0.75; }
-  .hero h1 {
-    font-size: clamp(48px, 9vw, 140px);
-    line-height: 0.94; letter-spacing: -0.04em; font-weight: 500;
-    margin: 28px 0 0; text-wrap: balance;
-  }
-  .hero h1 em { font-style: italic; color: var(--accent); font-weight: 400; }
-  .hero-sub {
-    color: var(--ink-2); font-size: clamp(17px, 1.5vw, 21px); line-height: 1.5;
-    max-width: 56ch; margin: 32px 0 0;
-  }
-  .hero-actions {
-    display: flex; gap: 14px; flex-wrap: wrap; margin-top: 40px; align-items: center;
-  }
-  .hero-actions .cta-big {
-    background: var(--accent); color: #0a1502; padding: 20px 28px; border-radius: 100px;
-    font-weight: 600; font-size: 16px; display: inline-flex; align-items: center; gap: 14px;
-    transition: .2s; cursor: pointer; border: 0;
-    box-shadow: 0 18px 40px -10px rgba(184,227,74,0.4);
-  }
-  .hero-actions .cta-big:hover { background: white; transform: translateY(-2px); }
-  .hero-actions .cta-big .arrow {
-    width: 30px; height: 30px; border-radius: 100px; background: #0a1502; color: var(--accent);
-    display: grid; place-items: center; font-size: 14px; transition: .2s;
-  }
-  .hero-actions .cta-big:hover .arrow { transform: rotate(-45deg); }
-  .hero-actions .cta-ghost {
-    color: var(--ink); padding: 18px 24px; border-radius: 100px;
-    border: 1px solid var(--line-2); background: rgba(255,255,255,0.03);
-    font-weight: 500; font-size: 15.5px; display: inline-flex; align-items: center; gap: 10px;
-    transition: .2s;
-  }
-  .hero-actions .cta-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* Каналы под хиро — брендовые плашки без вырвиглазных баферов */
-  .hero-channels {
-    margin-top: clamp(48px, 6vw, 80px);
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-  }
-  .hero-channel {
-    border-radius: 18px; padding: 22px 24px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    transition: .2s; border: 1px solid transparent;
-  }
-  .hero-channel:hover { transform: translateY(-2px); }
-  .hero-channel .ic {
-    width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
-    font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.04em;
-    flex: none;
-  }
-  .hero-channel .body { flex: 1; }
-  .hero-channel .ttl { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 500; font-size: 17px; letter-spacing: -0.02em; line-height: 1.1; }
-  .hero-channel .sub { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; opacity: 0.65; margin-top: 4px; }
-  .hero-channel.vk { background: #0077FF; color: #fff; }
-  .hero-channel.vk .ic { background: #fff; color: #0077FF; }
-  .hero-channel.ya { background: #FFCC00; color: #1a1a1a; }
-  .hero-channel.ya .ic { background: #1a1a1a; color: #FFCC00; }
-  .hero-channel.av { background: #97CF26; color: #0a2a00; }
-  .hero-channel.av .ic { background: #0a2a00; color: #97CF26; }
-  @media (max-width: 800px) { .hero-channels { grid-template-columns: 1fr; } }
-
-  /* === LIVE STATS row === */
-  .stat-row {
-    display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 18px;
-    margin-top: clamp(40px, 6vw, 80px); position: relative; z-index: 2;
-  }
-  .stat-intro {
-    color: var(--ink-2); font-size: 14.5px; line-height: 1.5;
-    padding: 24px 0;
-  }
-  .stat-intro .lbl {
-    font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .stat-intro .lbl::before { content: ''; width: 6px; height: 6px; border-radius: 100px; background: var(--accent); }
-  .stat-card {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 18px; padding: 20px 24px;
-    display: flex; flex-direction: column; gap: 6px;
-    transition: .2s; position: relative; overflow: hidden;
-  }
-  .stat-card::before {
-    content: ''; position: absolute; top: 0; left: 24px; right: 24px; height: 2px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-    opacity: 0; transition: opacity .2s;
-  }
-  .stat-card:hover { background: var(--card-2); border-color: var(--line-2); transform: translateY(-2px); }
-  .stat-card:hover::before { opacity: 1; }
-  .stat-card .n { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(30px, 2.8vw, 40px); font-weight: 500; letter-spacing: -0.04em; line-height: 1; color: var(--ink); }
-  .stat-card .l { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
-  @media (max-width: 1000px) { .stat-row { grid-template-columns: 1fr 1fr; } .stat-intro { grid-column: span 2; } }
-  @media (max-width: 600px) { .stat-row { grid-template-columns: 1fr; } .stat-intro { grid-column: 1; } }
-
-  /* === SECTION HEADER === */
-  section { padding: clamp(60px, 8vw, 120px) 0; position: relative; }
-  .sec-label {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.08em;
-  }
-  .sec-label::before { content: ''; width: 6px; height: 6px; border-radius: 100px; background: var(--accent); }
-  .sec-h {
-    font-size: clamp(34px, 5.5vw, 76px); line-height: 0.98; letter-spacing: -0.035em;
-    font-weight: 500; max-width: 22ch; margin: 18px 0 0; text-wrap: balance;
-  }
-  .sec-h em { font-style: italic; color: var(--accent); font-weight: 400; }
-  .sec-sub { color: var(--muted); margin-top: 18px; max-width: 56ch; font-size: 17px; }
-  .sec-head-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
-
-  /* === SERVICES — channel cards === */
-  .services-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
-    margin-top: clamp(40px, 5vw, 64px);
-  }
-  .service {
-    border-radius: var(--radius); padding: 36px; min-height: 480px;
-    display: flex; flex-direction: column; position: relative; overflow: hidden;
-    transition: .25s;
-  }
-  .service:hover { transform: translateY(-3px); }
-  .service .num {
-    font-family: 'JetBrains Mono', monospace; font-size: 13px; opacity: 0.6;
-  }
-  .service .name {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: clamp(28px, 3vw, 38px); font-weight: 500; letter-spacing: -0.03em;
-    line-height: 1; margin-top: 90px;
-  }
-  .service .price {
-    font-family: 'JetBrains Mono', monospace; font-size: 14px; opacity: 0.75;
-    margin-top: 14px;
-  }
-  .service .price b { font-weight: 600; font-size: 22px; letter-spacing: -0.02em; opacity: 1; font-family: 'Bricolage Grotesque', sans-serif; }
-  .service ul {
-    list-style: none; padding: 0; margin: 28px 0 0; border-top: 1px solid currentColor;
-    border-top-color: rgba(0,0,0,.18);
-  }
-  .service ul li {
-    padding: 14px 0; border-bottom: 1px dashed rgba(0,0,0,.14); font-size: 14.5px; opacity: .9;
-    display: flex; gap: 12px; align-items: flex-start;
-  }
-  .service ul li::before {
-    content: '→'; font-weight: 500; flex: none; width: 14px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .service .glyph {
-    position: absolute; top: 36px; right: 36px;
-    width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center;
-    font-size: 26px; font-weight: 700; letter-spacing: -0.04em;
-    font-family: 'Bricolage Grotesque', sans-serif;
-  }
-  /* ВК */
-  .service.s1 { background: #0077FF; color: #fff; }
-  .service.s1 ul { border-top-color: rgba(255,255,255,.2); }
-  .service.s1 ul li { border-bottom-color: rgba(255,255,255,.14); }
-  .service.s1 .glyph { background: #fff; color: #0077FF; }
-  /* Яндекс */
-  .service.s2 { background: #FFCC00; color: #1a1a1a; }
-  .service.s2 .glyph { background: #1a1a1a; color: #FFCC00; }
-  /* Авито */
-  .service.s3 { background: #97CF26; color: #0a2a00; }
-  .service.s3 .glyph { background: #0a2a00; color: #97CF26; }
-  @media (max-width: 900px) { .services-grid { grid-template-columns: 1fr; } .service { min-height: auto; } .service .name { margin-top: 64px; } }
-
-  /* === NUMBERED FEATURES === */
-  .why { padding-bottom: 0; }
-  .why-h { text-align: center; max-width: 26ch; margin: 18px auto 0; }
-  .why-sub { text-align: center; margin: 18px auto 0; }
-  .why-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
-    margin-top: clamp(40px, 5vw, 60px);
-  }
-  .why-card {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: var(--radius); padding: 36px 32px;
-    display: flex; flex-direction: column; gap: 20px; min-height: 320px;
-    transition: .25s; position: relative; overflow: hidden;
-  }
-  .why-card:hover { background: var(--card-2); border-color: var(--line-2); transform: translateY(-3px); }
-  .why-num {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 88px; line-height: 0.9; letter-spacing: -0.05em; font-weight: 400;
-    color: var(--ink); margin: 0;
-  }
-  .why-num em { font-style: italic; color: var(--accent); font-weight: 300; }
-  .why-card h3 { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; margin: 0; line-height: 1.15; }
-  .why-card p { font-size: 14.5px; color: var(--muted); line-height: 1.5; margin: 0; }
-  @media (max-width: 1000px) { .why-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 560px) { .why-grid { grid-template-columns: 1fr; } }
-
-  /* === CASES === */
-  .cases-filter { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
-  .chip {
-    font-size: 13px; padding: 10px 18px; border-radius: 100px;
-    border: 1px solid var(--line); background: var(--card); color: var(--ink-2);
-    cursor: pointer; transition: .15s;
-  }
-  .chip.is-active { background: var(--accent); color: #0a1502; border-color: var(--accent); }
-  .chip:hover { border-color: var(--line-2); }
-  .cases-grid {
-    display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px;
-    margin-top: clamp(40px, 5vw, 60px);
-  }
-  .case {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column;
-    transition: .25s; position: relative; padding: clamp(24px, 2.4vw, 36px); min-height: 380px;
-  }
-  .case:hover { background: var(--card-2); border-color: var(--line-2); transform: translateY(-3px); }
-  .case.big { grid-column: span 3; }
-  .case.med { grid-column: span 3; }
-  .case.sm { grid-column: span 2; }
-  .case .case-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 28px; }
-  .case .niche-pill {
-    font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
-    padding: 6px 12px; border-radius: 100px; background: rgba(184,227,74,0.12);
-    border: 1px solid rgba(184,227,74,0.25); color: var(--accent);
-  }
-  .case .status { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
-  .case .status::before { content: ''; width: 7px; height: 7px; border-radius: 100px; background: var(--accent); box-shadow: 0 0 0 3px rgba(184,227,74,.18); }
-  .case .status.archived::before { background: var(--muted); box-shadow: none; }
-  .case .title {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: clamp(22px, 2.2vw, 28px); font-weight: 500; letter-spacing: -0.025em;
-    line-height: 1.12; margin: 0 0 18px;
-  }
-  .case .summary { font-size: 14.5px; color: var(--muted); line-height: 1.55; margin: 0 0 24px; }
-  .case .channels-row-mini { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
-  .case .channels-row-mini span {
-    font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--ink-2);
-    padding: 5px 10px; border-radius: 6px; background: rgba(255,255,255,0.04);
-    border: 1px solid var(--line);
-  }
-  .case .kpi { margin-top: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 22px; border-top: 1px solid var(--line); }
-  .case .kpi .v {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; letter-spacing: -0.03em; line-height: 1;
-  }
-  .case .kpi .v.accent { color: var(--accent); }
-  .case .kpi .k { font-size: 11.5px; color: var(--muted); margin-top: 8px; font-family: 'JetBrains Mono', monospace; }
-  @media (max-width: 1100px) { .cases-grid { grid-template-columns: repeat(4, 1fr); } .case.big, .case.med, .case.sm { grid-column: span 2; } }
-  @media (max-width: 700px) { .cases-grid { grid-template-columns: 1fr; } .case.big, .case.med, .case.sm { grid-column: span 1; } .case { min-height: auto; } }
-
-  /* === PROCESS === */
-  .process-bg {
-    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  }
-  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: clamp(40px, 5vw, 60px); border-top: 1px solid var(--line); }
-  .step { padding: 32px 24px 32px 0; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 18px; padding-left: 24px; }
-  .step:first-child { padding-left: 0; }
-  .step:last-child { border-right: 0; }
-  .step .n { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
-  .step .n .when { font-size: 11px; color: var(--accent); }
-  .step .t { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(20px, 1.8vw, 24px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; min-height: 3.4em; }
-  .step .d { font-size: 14.5px; color: var(--muted); line-height: 1.5; }
-  @media (max-width: 1000px) { .steps { grid-template-columns: 1fr 1fr; } .step { border-right: 0; border-bottom: 1px solid var(--line); padding: 24px; } .step .t { min-height: auto; } }
-
-  /* === CALCULATOR === */
-  .calc-wrap {
-    margin-top: clamp(40px, 5vw, 60px);
-    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg);
-    display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; overflow: hidden;
-  }
-  .calc-inputs { padding: clamp(28px, 4vw, 48px); border-right: 1px solid var(--line); }
-  .calc-result { padding: clamp(28px, 4vw, 48px); background: var(--bg-2); display: flex; flex-direction: column; }
-  .calc-row { margin-bottom: 28px; }
-  .calc-row:last-child { margin-bottom: 0; }
-  .calc-row .lbl { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; }
-  .calc-options { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-  .calc-opt {
-    padding: 12px 18px; border-radius: 100px; border: 1px solid var(--line);
-    background: var(--bg-2); cursor: pointer; font-size: 14.5px; transition: .15s; user-select: none;
-    color: var(--ink-2);
-  }
-  .calc-opt.is-on { background: var(--accent); color: #0a1502; border-color: var(--accent); }
-  .calc-opt:hover:not(.is-on) { border-color: var(--line-2); color: var(--ink); }
-  .calc-slider { margin-top: 16px; }
-  .calc-slider input { width: 100%; -webkit-appearance: none; appearance: none; background: transparent; height: 24px; }
-  .calc-slider input::-webkit-slider-runnable-track { height: 4px; background: var(--line); border-radius: 100px; }
-  .calc-slider input::-moz-range-track { height: 4px; background: var(--line); border-radius: 100px; }
-  .calc-slider input::-webkit-slider-thumb {
-    -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 100px;
-    background: var(--accent); margin-top: -9px; cursor: grab; border: 4px solid var(--bg); box-shadow: 0 0 0 1px var(--accent);
-  }
-  .calc-slider input::-moz-range-thumb { width: 22px; height: 22px; border-radius: 100px; background: var(--accent); cursor: grab; border: 4px solid var(--bg); box-shadow: 0 0 0 1px var(--accent); }
-  .calc-slider .v { display: flex; justify-content: space-between; margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--muted); }
-  .calc-slider .v b { color: var(--ink); font-weight: 500; font-size: 22px; letter-spacing: -0.02em; font-family: 'Bricolage Grotesque', sans-serif; }
-  .result-num { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(48px, 6vw, 80px); font-weight: 500; letter-spacing: -0.04em; line-height: 1; margin: 12px 0; }
-  .result-breakdown { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14.5px; }
-  .result-breakdown .b-row { display: flex; justify-content: space-between; color: var(--ink-2); }
-  .result-breakdown .b-row b { font-weight: 500; color: var(--ink); }
-  .result-cta { margin-top: auto; padding-top: 24px; }
-  .btn-primary {
-    background: var(--accent); color: #0a1502; padding: 18px 28px; border-radius: 100px;
-    font-weight: 600; font-size: 15.5px; display: inline-flex; align-items: center; gap: 12px;
-    transition: .2s; cursor: pointer; border: 0;
-  }
-  .btn-primary:hover { background: #ffffff; transform: translateY(-1px); }
-  .btn-primary .arrow { width: 26px; height: 26px; border-radius: 100px; background: #0a1502; color: var(--accent); display: grid; place-items: center; font-size: 13px; transition: .2s; }
-  .btn-primary:hover .arrow { transform: rotate(-45deg); }
-  @media (max-width: 900px) { .calc-wrap { grid-template-columns: 1fr; } .calc-inputs { border-right: 0; border-bottom: 1px solid var(--line); } }
-
-  /* === GUARANTEES === */
-  .guarantees { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: clamp(40px, 5vw, 60px); }
-  .guar { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; display: flex; flex-direction: column; gap: 18px; min-height: 250px; }
-  .guar .icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(184,227,74,0.12); border: 1px solid rgba(184,227,74,0.25); display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--accent); font-size: 14px; }
-  .guar h3 { font-size: 20px; font-weight: 500; letter-spacing: -0.02em; margin: 0; line-height: 1.2; }
-  .guar p { font-size: 14.5px; color: var(--muted); margin: 0; line-height: 1.5; }
-  @media (max-width: 900px) { .guarantees { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 560px) { .guarantees { grid-template-columns: 1fr; } }
-
-  /* === ABOUT === */
-  .about-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(24px, 5vw, 64px); align-items: start; margin-top: clamp(40px, 5vw, 60px); }
-  .about-photo {
-    aspect-ratio: 4/5; border-radius: var(--radius-lg); position: relative; overflow: hidden;
-    background:
-      radial-gradient(circle at 50% 30%, rgba(184,227,74,0.25), transparent 55%),
-      linear-gradient(160deg, #1c241f, #0a1502);
-    border: 1px solid var(--line-2);
-    box-shadow: 0 50px 100px -40px rgba(0,0,0,0.7), 0 0 0 1px rgba(184,227,74,0.08);
-  }
-  .about-photo img {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; object-position: center 15%;
-    /* Подтягиваем под тёмную сцену сайта */
-    filter:
-      contrast(1.08)
-      saturate(0.85)
-      brightness(0.95);
-    transition: transform .8s cubic-bezier(.2,.8,.2,1);
-  }
-  .about-photo:hover img { transform: scale(1.03); }
-  /* Тональный слой: подкрашивает светлый свитер и фон в холодный зелёно-угольный тон */
-  .about-photo::before {
-    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background:
-      linear-gradient(160deg, rgba(15, 20, 16, 0.15) 0%, rgba(15, 20, 16, 0) 50%, rgba(15, 20, 16, 0.45) 100%);
-    mix-blend-mode: multiply;
-  }
-  /* Глубокая виньетка и зелёный блик в углу */
-  .about-photo::after {
-    content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-    background:
-      radial-gradient(75% 60% at 0% 100%, rgba(184, 227, 74, 0.20), transparent 60%),
-      radial-gradient(110% 80% at 50% 100%, rgba(0,0,0,0.55), transparent 60%),
-      radial-gradient(140% 100% at 50% 50%, transparent 55%, rgba(0,0,0,0.35) 100%);
-  }
-  .about-photo .badge {
-    position: absolute; left: 24px; top: 24px; z-index: 3;
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
-    padding: 8px 12px 8px 8px; border-radius: 100px;
-    background: rgba(15, 20, 16, 0.55); border: 1px solid rgba(255,255,255,0.16);
-    color: var(--ink); backdrop-filter: blur(12px);
-  }
-  .about-photo .badge .dot { width: 8px; height: 8px; border-radius: 100px; background: var(--accent); box-shadow: 0 0 0 4px rgba(184,227,74,0.18); }
-  .about-photo .caption {
-    position: absolute; left: 24px; right: 24px; bottom: 24px; z-index: 3;
-    color: var(--ink); display: flex; flex-direction: column; gap: 4px;
-  }
-  .about-photo .caption .name {
-    font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.1;
-  }
-  .about-photo .caption .role { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.7); }
-  .about-text p { font-size: clamp(17px, 1.4vw, 20px); color: var(--ink-2); line-height: 1.55; }
-  .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 32px; border-top: 1px solid var(--line); padding-top: 32px; }
-  .about-stats .s .n { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(28px, 3vw, 40px); font-weight: 500; letter-spacing: -0.03em; line-height: 1; }
-  .about-stats .s .l { font-size: 13px; color: var(--muted); margin-top: 8px; font-family: 'JetBrains Mono', monospace; }
-  @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; } }
-
-  /* === REVIEWS === */
-  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: clamp(40px, 5vw, 60px); }
-  .review { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; display: flex; flex-direction: column; gap: 20px; min-height: 280px; }
-  .review .quote { font-size: 16.5px; line-height: 1.5; color: var(--ink-2); flex: 1; text-wrap: pretty; }
-  .review .who { display: flex; gap: 14px; align-items: center; padding-top: 20px; border-top: 1px solid var(--line); }
-  .review .ava { width: 44px; height: 44px; border-radius: 100px; background: rgba(184,227,74,0.12); border: 1px solid rgba(184,227,74,0.25); display: grid; place-items: center; font-weight: 600; font-size: 15px; color: var(--accent); }
-  .review .who .name { font-weight: 500; font-size: 15px; }
-  .review .who .role { font-size: 13px; color: var(--muted); margin-top: 2px; }
-  .review .stars { color: var(--accent); font-size: 14px; letter-spacing: 2px; }
-  @media (max-width: 900px) { .reviews-grid { grid-template-columns: 1fr; } }
-
-  /* === FAQ === */
-  .faq-wrap { margin-top: clamp(40px, 5vw, 60px); border-top: 1px solid var(--line); }
-  .faq-item { border-bottom: 1px solid var(--line); }
-  .faq-q { padding: 32px 0; display: flex; justify-content: space-between; gap: 24px; cursor: pointer; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; letter-spacing: -0.02em; align-items: center; }
-  .faq-q .plus { width: 36px; height: 36px; border-radius: 100px; border: 1px solid var(--line); display: grid; place-items: center; flex: none; transition: .2s; font-weight: 400; font-size: 18px; color: var(--ink-2); }
-  .faq-item.is-open .plus { background: var(--accent); color: #0a1502; border-color: var(--accent); transform: rotate(45deg); }
-  .faq-a { max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease; color: var(--muted); font-size: 16px; line-height: 1.55; padding-right: 56px; }
-  .faq-item.is-open .faq-a { max-height: 400px; padding-bottom: 28px; }
-
-  /* === FORM === */
-  .form-wrap {
-    background: linear-gradient(140deg, #1c241f 0%, #0f1410 100%);
-    border: 1px solid var(--line-2);
-    border-radius: var(--radius-lg); padding: clamp(36px, 5vw, 72px);
-    margin-top: clamp(40px, 5vw, 60px); position: relative; overflow: hidden;
-  }
-  .form-wrap::before {
-    content: ''; position: absolute; top: -40%; right: -10%; width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(184,227,74,.25), transparent 60%);
-    pointer-events: none;
-  }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 56px); position: relative; }
-  .form-grid h2 { font-size: clamp(36px, 5vw, 60px); letter-spacing: -0.035em; line-height: 1; font-weight: 500; margin: 16px 0 0; max-width: 14ch; }
-  .form-grid .form-side .lead { color: var(--muted); margin: 24px 0 0; font-size: 17px; max-width: 36ch; }
-  .form-contacts { display: flex; flex-direction: column; gap: 0; margin-top: 32px; }
-  .form-contacts a { display: flex; align-items: center; gap: 14px; font-size: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); transition: .15s; color: var(--ink); }
-  .form-contacts a:hover { color: var(--accent); padding-left: 8px; }
-  .form-contacts .ic { width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--line); display: grid; place-items: center; font-size: 11px; font-family: 'JetBrains Mono', monospace; flex: none; color: var(--accent); }
-
-  .form-fields { display: flex; flex-direction: column; gap: 14px; }
-  .field { display: flex; flex-direction: column; }
-  .field input, .field textarea, .field select {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--line);
-    border-radius: 100px;
-    color: var(--ink); font-family: inherit; font-size: 16px; padding: 18px 24px;
-    transition: .2s;
-  }
-  .field textarea { border-radius: 22px; min-height: 110px; resize: vertical; }
-  .field input::placeholder, .field textarea::placeholder { color: var(--muted); }
-  .field input:focus, .field textarea:focus, .field select:focus {
-    outline: 0; border-color: var(--accent); background: rgba(184,227,74,0.05);
-  }
-  .field select { appearance: none; cursor: pointer; }
-  .form-submit {
-    background: var(--ink); color: var(--bg); padding: 20px 28px; border-radius: 100px;
-    font-weight: 600; font-size: 16px; border: 0; cursor: pointer; margin-top: 4px;
-    display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-    transition: .2s;
-  }
-  .form-submit:hover { background: var(--accent); }
-  .form-note { font-size: 12.5px; color: var(--muted); margin-top: 12px; text-align: center; }
-  @media (max-width: 900px) { .form-grid { grid-template-columns: 1fr; } }
-
-  /* === FOOTER === */
-  footer { border-top: 1px solid var(--line); padding: 60px 0 32px; margin-top: clamp(60px, 7vw, 100px); }
-  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; }
-  .foot-grid h4 { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 16px; font-weight: 500; }
-  .foot-grid ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 14.5px; color: var(--ink-2); }
-  .foot-grid ul a:hover { color: var(--accent); }
-  .foot-big { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(28px, 3vw, 40px); font-weight: 500; letter-spacing: -0.025em; line-height: 1.05; max-width: 16ch; color: var(--ink); }
-  .foot-bot { display: flex; justify-content: space-between; gap: 16px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); flex-wrap: wrap; }
-  @media (max-width: 900px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 560px) { .foot-grid { grid-template-columns: 1fr; } }
-
-  .corner-tag {
-    position: fixed; right: 18px; bottom: 18px; z-index: 60;
-    background: var(--accent); color: #0a1502; padding: 14px 20px; border-radius: 100px;
-    display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600;
-    box-shadow: 0 18px 40px rgba(184,227,74,.25), 0 0 0 1px rgba(184,227,74,.4);
-    cursor: pointer; transition: .2s;
-  }
-  .corner-tag:hover { background: white; transform: translateY(-2px); }
-  .corner-tag .ic { width: 22px; height: 22px; border-radius: 100px; background: #0a1502; color: var(--accent); display: grid; place-items: center; font-size: 12px; }
-
-  /* === MODAL === */
-  .modal-overlay {
-    position: fixed; inset: 0; z-index: 100;
-    background: rgba(5, 8, 6, 0.75);
-    backdrop-filter: blur(14px) saturate(140%);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
-    display: grid; place-items: center;
-    padding: 20px;
-    opacity: 0; pointer-events: none; transition: opacity .25s ease;
-  }
-  .modal-overlay.is-open { opacity: 1; pointer-events: auto; }
-  .modal {
-    background: linear-gradient(160deg, #1c241f 0%, #0f1410 100%);
-    border: 1px solid var(--line-2);
-    border-radius: var(--radius-lg);
-    padding: clamp(28px, 4vw, 48px);
-    width: 100%; max-width: 520px;
-    max-height: calc(100vh - 40px);
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 60px 120px -30px rgba(0, 0, 0, 0.7);
-    transform: scale(0.96) translateY(20px); transition: transform .3s ease;
-  }
-  .modal-overlay.is-open .modal { transform: scale(1) translateY(0); }
-  .modal::before {
-    content: ''; position: absolute; top: -30%; right: -10%; width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(184,227,74,.18), transparent 65%);
-    pointer-events: none;
-  }
-  .modal-close {
-    position: absolute; top: 20px; right: 20px;
-    width: 40px; height: 40px; border-radius: 100px;
-    background: rgba(255,255,255,0.05); border: 1px solid var(--line);
-    color: var(--ink-2); cursor: pointer; font-size: 18px;
-    display: grid; place-items: center; transition: .15s;
-    z-index: 2;
-  }
-  .modal-close:hover { background: var(--accent); color: #0a1502; border-color: var(--accent); }
-  .modal-inner { position: relative; z-index: 1; }
-  .modal h3 {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: clamp(26px, 3vw, 36px); font-weight: 500; letter-spacing: -0.03em; line-height: 1.05;
-    margin: 0 0 12px; max-width: 14ch;
-  }
-  .modal h3 em { font-style: italic; color: var(--accent); font-weight: 400; }
-  .modal .modal-sub { color: var(--muted); font-size: 15px; line-height: 1.5; margin: 0 0 28px; }
-  .modal .form-fields { gap: 12px; }
-  .modal .form-fields input,
-  .modal .form-fields textarea {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--line);
-    border-radius: 100px;
-    color: var(--ink); font-family: inherit; font-size: 15.5px; padding: 16px 22px;
-    transition: .2s;
-  }
-  .modal .form-fields textarea { border-radius: 20px; min-height: 90px; resize: vertical; }
-  .modal .form-fields input::placeholder,
-  .modal .form-fields textarea::placeholder { color: var(--muted); }
-  .modal .form-fields input:focus,
-  .modal .form-fields textarea:focus { outline: 0; border-color: var(--accent); background: rgba(184,227,74,0.05); }
-  .modal .form-submit {
-    background: var(--accent); color: #0a1502; padding: 18px 28px; border-radius: 100px;
-    font-weight: 600; font-size: 15.5px; border: 0; cursor: pointer; margin-top: 4px;
-    display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: .2s;
-  }
-  .modal .form-submit:hover { background: white; }
-  .modal .modal-alt {
-    display: flex; gap: 10px; margin-top: 22px; padding-top: 22px;
-    border-top: 1px solid var(--line); flex-wrap: wrap; justify-content: center;
-  }
-  .modal .modal-alt a {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 16px; border-radius: 100px;
-    background: rgba(255,255,255,0.04); border: 1px solid var(--line);
-    font-size: 13.5px; color: var(--ink-2); transition: .15s;
-  }
-  .modal .modal-alt a:hover { color: var(--accent); border-color: var(--accent); }
-  .modal .modal-alt .ic {
-    width: 22px; height: 22px; border-radius: 100px; background: rgba(184,227,74,0.12);
-    color: var(--accent); display: grid; place-items: center; font-size: 10px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .modal .modal-note { font-size: 11.5px; color: var(--muted); text-align: center; margin-top: 14px; line-height: 1.4; }
-
-  /* success state */
-  .modal-success { display: none; text-align: center; padding: 20px 0; }
-  .modal.is-success .modal-inner > *:not(.modal-success) { display: none; }
-  .modal.is-success .modal-success { display: block; }
-  .modal-success .check {
-    width: 72px; height: 72px; border-radius: 100px; background: var(--accent); color: #0a1502;
-    display: grid; place-items: center; margin: 0 auto 24px; font-size: 32px; font-weight: 700;
-    box-shadow: 0 20px 40px -10px rgba(184,227,74,0.4);
-  }
-</style>
-</head>
-<body>
-
-<nav class="top">
-  <div class="wrap row">
-    <div class="logo">
-      <div class="logo-mark">ГГ</div>
-      <span>Глухов Григорий</span>
-      <span class="city">· Ижевск</span>
-    </div>
-    <div class="links">
-      <a href="#services">Услуги</a>
-      <a href="#cases">Кейсы</a>
-      <a href="#why">Почему я</a>
-      <a href="#calc">Калькулятор</a>
-      <a href="#faq">FAQ</a>
-    </div>
-    <a href="#" class="cta" data-open-modal>Получить расчёт</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<header class="hero">
-  <div class="hero-bg"></div>
-  <svg class="leaves" viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <defs>
-      <radialGradient id="leafGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#b8e34a" stop-opacity="0.08"/>
-        <stop offset="100%" stop-color="#b8e34a" stop-opacity="0"/>
-      </radialGradient>
-    </defs>
-    <circle cx="200" cy="650" r="320" fill="url(#leafGlow)"/>
-    <circle cx="1200" cy="200" r="280" fill="url(#leafGlow)"/>
-  </svg>
-
-  <div class="wrap">
-    <div class="hero-inner">
-      <span class="eyebrow"><span class="dot">★</span> Таргетолог · с 2022 · 120+ проектов</span>
-      <h1>Реклама, которая <em>работает</em>,<br />а не сливает бюджет</h1>
-      <p class="hero-sub">Настраиваю и веду рекламу в Яндекс&nbsp;Директ, ВК и Авито. Заявки уже на&nbsp;первой неделе. Прозрачная еженедельная отчётность. Работаю в&nbsp;15+&nbsp;нишах — от МФО до стоматологии.</p>
-
-      <div class="hero-actions">
-        <button class="cta-big" data-open-modal>Получить расчёт <span class="arrow">→</span></button>
-        <a href="#cases" class="cta-ghost">Смотреть кейсы</a>
-      </div>
-    </div>
-
-    <!-- каналы в брендовых цветах — вместо квадрата справа -->
-    <div class="hero-channels">
-      <a href="#services" class="hero-channel vk">
-        <div class="ic">ВК</div>
-        <div class="body">
-          <div class="ttl">Таргет ВКонтакте</div>
-          <div class="sub">от 30 000 ₽ / мес</div>
-        </div>
-        <span style="font-size: 16px; opacity: 0.6;">→</span>
-      </a>
-      <a href="#services" class="hero-channel ya">
-        <div class="ic">Я</div>
-        <div class="body">
-          <div class="ttl">Яндекс Директ</div>
-          <div class="sub">от 40 000 ₽ / мес</div>
-        </div>
-        <span style="font-size: 16px; opacity: 0.6;">→</span>
-      </a>
-      <a href="#services" class="hero-channel av">
-        <div class="ic">A</div>
-        <div class="body">
-          <div class="ttl">Авито Реклама</div>
-          <div class="sub">от 35 000 ₽ / мес</div>
-        </div>
-        <span style="font-size: 16px; opacity: 0.6;">→</span>
-      </a>
-    </div>
-
-    <!-- стат-капсулы -->
-    <div class="stat-row">
-      <div class="stat-intro">
-        <div class="lbl">Цифры в работе</div>
-        Веду рекламу так,<br />чтобы заявки превращались в&nbsp;деньги, а&nbsp;не&nbsp;в&nbsp;графики&nbsp;для красоты.
-      </div>
-      <div class="stat-card"><div class="n">120+</div><div class="l">проектов</div></div>
-      <div class="stat-card"><div class="n">15+</div><div class="l">ниш</div></div>
-      <div class="stat-card"><div class="n">с 2022</div><div class="l">в перформансе</div></div>
-    </div>
-  </div>
-</header>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="wrap">
-    <span class="sec-label">01 / Обо мне</span>
-    <h2 class="sec-h">Григорий Глухов — таргетолог <em>с&nbsp;2022&nbsp;года</em>.</h2>
-
-    <div class="about-grid">
-      <div class="about-photo">
-        <img src="assets/grigory.png" alt="Глухов Григорий — таргетолог" />
-        <span class="badge"><span class="dot"></span>Свободен для проектов</span>
-        <div class="caption">
-          <div class="name">Глухов Григорий</div>
-          <div class="role">таргетолог · Ижевск</div>
-        </div>
-      </div>
-      <div class="about-text">
-        <p>Я не агентство и не команда из 12 человек. Я тот, кто сам пишет семантику, сам собирает кампании, сам смотрит в&nbsp;статистику и&nbsp;сам же отвечает на ваши сообщения в&nbsp;Telegram.</p>
-        <p>С&nbsp;2022&nbsp;года провёл рекламу для МФО, стоматологий, школ танцев и волейбола, оптового производства одежды, рекрутинга и десятка локальных бизнесов. В работе одновременно держу до&nbsp;5&nbsp;проектов — чтобы каждому хватало внимания.</p>
-
-        <div class="about-stats">
-          <div class="s"><div class="n">120+</div><div class="l">проектов</div></div>
-          <div class="s"><div class="n">15+</div><div class="l">ниш</div></div>
-          <div class="s"><div class="n">3+ года</div><div class="l">опыта</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="wrap">
-    <span class="sec-label">02 / Услуги и тарифы</span>
-    <h2 class="sec-h">Три канала. Один подход — <em>окупаемость</em>.</h2>
-    <p class="sec-sub">Беру на ведение проекты с понятной экономикой. Каждый канал работает на свою задачу — комбинирую их так, чтобы заявки шли из нескольких источников и не зависели от одного алгоритма.</p>
-
-    <div class="services-grid">
-      <div class="service s1">
-        <div class="num">01</div>
-        <div class="glyph">ВК</div>
-        <div class="name">Таргет ВКонтакте</div>
-        <div class="price">от <b>30 000 ₽</b> / мес</div>
-        <ul>
-          <li>Аналитика конкурентов и аудитории</li>
-          <li>Креативы, тестирование 5+ связок</li>
-          <li>Парсинг, ретаргет, look-alike</li>
-          <li>Лид-формы и подписные базы</li>
-          <li>Еженедельный отчёт + созвон</li>
-        </ul>
-      </div>
-      <div class="service s2">
-        <div class="num">02</div>
-        <div class="glyph">Я</div>
-        <div class="name">Яндекс Директ</div>
-        <div class="price">от <b>40 000 ₽</b> / мес</div>
-        <ul>
-          <li>Семантика + минус-слова</li>
-          <li>Поиск, РСЯ, Мастер кампаний</li>
-          <li>Подключение целей в Метрике</li>
-          <li>Сегментация и А/Б тестирование</li>
-          <li>Корректировка ставок и аудиторий</li>
-        </ul>
-      </div>
-      <div class="service s3">
-        <div class="num">03</div>
-        <div class="glyph">A</div>
-        <div class="name">Авито Реклама</div>
-        <div class="price">от <b>35 000 ₽</b> / мес</div>
-        <ul>
-          <li>Аудит и упаковка магазина</li>
-          <li>SEO-оптимизация объявлений</li>
-          <li>Запуск и оптимизация продвижения</li>
-          <li>Скрипты ответов и автоответы</li>
-          <li>Контроль конверсии в звонки</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WHY 4 reasons -->
-<section id="why" class="why">
-  <div class="wrap" style="text-align: center;">
-    <span class="sec-label" style="display: inline-flex;">03 / Почему я</span>
-    <h2 class="sec-h why-h">4 причины, почему со&nbsp;мной удобно и&nbsp;надёжно <em>работать</em></h2>
-    <p class="sec-sub why-sub">Не агентство, не «команда из 12 человек». Один таргетолог, который сам делает и сам отвечает.</p>
-  </div>
-  <div class="wrap">
-    <div class="why-grid">
-      <div class="why-card">
-        <div class="why-num">1</div>
-        <h3>Сам делаю</h3>
-        <p>Не передаю кампании джунам и стажёрам. Семантику, креативы и оптимизацию веду лично.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-num">2</div>
-        <h3>Прозрачно</h3>
-        <p>Каждую неделю — отчёт с цифрами: бюджет, клики, заявки, CPL. Без «всё нормально».</p>
-      </div>
-      <div class="why-card">
-        <div class="why-num">3</div>
-        <h3>Без слива</h3>
-        <p>На брифе обсуждаем реалистичный CPL — и работаем именно на него. Не на показы, не на лайки.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-num">4</div>
-        <h3>Доступы у&nbsp;вас</h3>
-        <p>Все кабинеты — на ваше юр- или физлицо. Уйду — данные и связки остаются с вами.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CASES -->
-<section id="cases">
-  <div class="wrap">
-    <div class="sec-head-row">
-      <div>
-        <span class="sec-label">04 / Кейсы и цифры</span>
-        <h2 class="sec-h">Результаты, а&nbsp;не&nbsp;<em>скриншоты&nbsp;лайков</em>.</h2>
-      </div>
-      <div class="cases-filter">
-        <button class="chip is-active" data-f="all">Все ниши</button>
-        <button class="chip" data-f="finance">Финансы</button>
-        <button class="chip" data-f="b2b">B2B</button>
-        <button class="chip" data-f="local">Локальные</button>
-        <button class="chip" data-f="hr">HR</button>
-      </div>
-    </div>
-
-    <div class="cases-grid">
-      <article class="case big" data-niche="finance">
-        <div class="case-head"><span class="niche-pill">Финансы / МФО</span><span class="status">в работе</span></div>
-        <h3 class="title">МФО: 200 выдач в&nbsp;месяц при&nbsp;бюджете 1,5&nbsp;млн&nbsp;₽</h3>
-        <p class="summary">Масштабирование на Поиск + РСЯ. Перераспределил бюджет между активными и&nbsp;остановленными связками — CPA удержали в&nbsp;диапазоне 80&nbsp;₽ при объёме 13&nbsp;900 конверсий за период.</p>
-        <div class="channels-row-mini"><span>Яндекс Директ</span><span>Поиск + РСЯ</span><span>Москва + регионы</span></div>
-        <div class="kpi">
-          <div><div class="v">1,5&nbsp;млн&nbsp;₽</div><div class="k">бюджет / мес</div></div>
-          <div><div class="v accent">200</div><div class="k">выдач / мес</div></div>
-          <div><div class="v">7&nbsp;млн&nbsp;₽</div><div class="k">заработали</div></div>
-        </div>
-      </article>
-
-      <article class="case med" data-niche="finance">
-        <div class="case-head"><span class="niche-pill">Финансы / МФО</span><span class="status archived">в архиве</span></div>
-        <h3 class="title">МФО v2: масштабирование на&nbsp;1&nbsp;млн&nbsp;₽</h3>
-        <p class="summary">Параллельный запуск нескольких UTM-меток и&nbsp;двух лендингов. Тестировали стратегии «целевая доля» и&nbsp;«оптимизация конверсий» — нашли рабочую связку и&nbsp;удержали CPA&nbsp;~68&nbsp;₽.</p>
-        <div class="channels-row-mini"><span>Яндекс Директ</span><span>2 лендинга</span></div>
-        <div class="kpi">
-          <div><div class="v">1&nbsp;млн&nbsp;₽</div><div class="k">бюджет / мес</div></div>
-          <div><div class="v accent">130</div><div class="k">выдач</div></div>
-          <div><div class="v">4,5&nbsp;млн&nbsp;₽</div><div class="k">выручка</div></div>
-        </div>
-      </article>
-
-      <article class="case med" data-niche="b2b">
-        <div class="case-head"><span class="niche-pill">B2B / Производство</span><span class="status">в работе</span></div>
-        <h3 class="title">Пошив одежды опт: 402&nbsp;лида и&nbsp;15&nbsp;млн&nbsp;₽ выручки</h3>
-        <p class="summary">Чистый Поиск без РСЯ — целились в&nbsp;закупщиков и&nbsp;оптовиков. Семантика по&nbsp;тканям, материалам и&nbsp;тиражам. CPA&nbsp;1&nbsp;670&nbsp;₽ при чеке от&nbsp;40&nbsp;000&nbsp;₽.</p>
-        <div class="channels-row-mini"><span>Яндекс Поиск</span><span>3 кампании</span></div>
-        <div class="kpi">
-          <div><div class="v">670&nbsp;тыс&nbsp;₽</div><div class="k">бюджет</div></div>
-          <div><div class="v accent">402</div><div class="k">лида</div></div>
-          <div><div class="v">15&nbsp;млн&nbsp;₽</div><div class="k">выручка</div></div>
-        </div>
-      </article>
-
-      <article class="case sm" data-niche="local">
-        <div class="case-head"><span class="niche-pill">Ивент</span><span class="status archived">завершён</span></div>
-        <h3 class="title">Офлайн-конференция: 50&nbsp;лидов</h3>
-        <p class="summary">Короткий запуск под дату мероприятия. Поиск&nbsp;+ РСЯ, оптимизация по&nbsp;конверсиям. CPA&nbsp;~2&nbsp;200&nbsp;₽ при стоимости билета от&nbsp;15&nbsp;000&nbsp;₽.</p>
-        <div class="kpi">
-          <div><div class="v">120&nbsp;тыс</div><div class="k">бюджет</div></div>
-          <div><div class="v accent">50</div><div class="k">лидов</div></div>
-          <div><div class="v">800&nbsp;тыс</div><div class="k">выручка</div></div>
-        </div>
-      </article>
-
-      <article class="case med" data-niche="local">
-        <div class="case-head"><span class="niche-pill">Локально / Спорт</span><span class="status">2 года в работе</span></div>
-        <h3 class="title">Школа волейбола СПб: 800&nbsp;записей за&nbsp;2&nbsp;года</h3>
-        <p class="summary">Долгосрочный проект на ВК. 44&nbsp;кампании, постоянное обновление креативов и&nbsp;аудиторий. Средний CPL&nbsp;— 432&nbsp;₽, удерживается из&nbsp;месяца в&nbsp;месяц.</p>
-        <div class="channels-row-mini"><span>ВК Реклама</span><span>СПб</span><span>44 кампании</span></div>
-        <div class="kpi">
-          <div><div class="v">600&nbsp;тыс&nbsp;₽</div><div class="k">за 24 мес</div></div>
-          <div><div class="v accent">800</div><div class="k">лидов</div></div>
-          <div><div class="v">2&nbsp;млн&nbsp;₽</div><div class="k">выручка</div></div>
-        </div>
-      </article>
-
-      <article class="case sm" data-niche="hr">
-        <div class="case-head"><span class="niche-pill">HR / Подбор</span><span class="status">в работе</span></div>
-        <h3 class="title">Подбор персонала: 113&nbsp;откликов</h3>
-        <p class="summary">Поиск кандидатов на&nbsp;позиции «взыскание долгов» и&nbsp;«менеджер контакт-центра». CPA&nbsp;~600&nbsp;₽ при средней зарплате 70&nbsp;000&nbsp;₽.</p>
-        <div class="kpi">
-          <div><div class="v">68&nbsp;тыс</div><div class="k">бюджет</div></div>
-          <div><div class="v accent">113</div><div class="k">откликов</div></div>
-          <div><div class="v">~600&nbsp;₽</div><div class="k">CPA</div></div>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section id="process" class="process-bg">
-  <div class="wrap">
-    <span class="sec-label">05 / Этапы работы</span>
-    <h2 class="sec-h">5 шагов от&nbsp;брифа до&nbsp;<em>стабильного потока</em> заявок.</h2>
-
-    <div class="steps">
-      <div class="step"><div class="n"><span>01</span><span class="when">день 1</span></div><div class="t">Бриф и аудит ниши</div><div class="d">Созваниваемся 30–40&nbsp;минут. Разбираю продукт, конкурентов, экономику, ожидания по&nbsp;CPL.</div></div>
-      <div class="step"><div class="n"><span>02</span><span class="when">дни 2–4</span></div><div class="t">Стратегия и медиаплан</div><div class="d">Каналы, бюджеты, гипотезы, контрольные точки. Согласовываем — и&nbsp;только потом запуск.</div></div>
-      <div class="step"><div class="n"><span>03</span><span class="when">дни 5–7</span></div><div class="t">Запуск кампаний</div><div class="d">Семантика, креативы, цели в Метрике, UTM-разметка, пиксели. Первые показы — на&nbsp;6–7&nbsp;день.</div></div>
-      <div class="step"><div class="n"><span>04</span><span class="when">недели 2–4</span></div><div class="t">Оптимизация</div><div class="d">Чищу площадки, докручиваю креативы, перераспределяю бюджет на&nbsp;связки с&nbsp;лучшим CPL.</div></div>
-      <div class="step"><div class="n"><span>05</span><span class="when">каждую неделю</span></div><div class="t">Отчёт и созвон</div><div class="d">Прозрачный отчёт по&nbsp;затратам, заявкам и&nbsp;CPL. Видите, за что платите и&nbsp;что улучшаем.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CALCULATOR -->
-<section id="calc">
-  <div class="wrap">
-    <span class="sec-label">06 / Калькулятор</span>
-    <h2 class="sec-h">Посчитайте стоимость работ за&nbsp;<em>30 секунд</em>.</h2>
-    <p class="sec-sub">Это ориентир, а не оффер — точную смету составлю после короткого брифа.</p>
-
-    <div class="calc-wrap">
-      <div class="calc-inputs">
-        <div class="calc-row">
-          <div class="lbl">Каналы</div>
-          <div class="calc-options" id="calc-channels">
-            <div class="calc-opt is-on" data-ch="vk" data-price="30000">ВК · 30 000 ₽</div>
-            <div class="calc-opt is-on" data-ch="ya" data-price="40000">Яндекс · 40 000 ₽</div>
-            <div class="calc-opt" data-ch="av" data-price="35000">Авито · 35 000 ₽</div>
-          </div>
-        </div>
-
-        <div class="calc-row">
-          <div class="lbl">Рекламный бюджет, ₽/мес</div>
-          <div class="calc-slider">
-            <input id="calc-budget" type="range" min="50000" max="2000000" step="10000" value="300000" />
-            <div class="v"><span>50 000 ₽</span><b id="calc-budget-v">300 000 ₽</b><span>2 000 000 ₽</span></div>
-          </div>
-        </div>
-
-        <div class="calc-row">
-          <div class="lbl">Срок сотрудничества</div>
-          <div class="calc-options" id="calc-term">
-            <div class="calc-opt" data-term="1" data-mult="1">1 мес</div>
-            <div class="calc-opt is-on" data-term="3" data-mult="0.95">3 мес · −5%</div>
-            <div class="calc-opt" data-term="6" data-mult="0.9">6 мес · −10%</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="calc-result">
-        <div class="lbl mono" style="color: var(--muted); font-size:12px; text-transform: uppercase; letter-spacing: 0.06em;">Ваш ориентир / месяц</div>
-        <div class="result-num" id="calc-total">71 250 ₽</div>
-        <div class="lbl mono" style="color: var(--muted); font-size:12px;">+ рекламный бюджет</div>
-
-        <div class="result-breakdown" id="calc-breakdown"></div>
-
-        <div class="result-cta">
-          <a href="#" class="btn-primary" data-open-modal>Обсудить условия <span class="arrow">→</span></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- GUARANTEES -->
-<section id="guarantees" style="padding-top: 0;">
-  <div class="wrap">
-    <span class="sec-label">07 / Гарантии</span>
-    <h2 class="sec-h">Чем рискую я,&nbsp;<em>а чем&nbsp;— вы</em>.</h2>
-
-    <div class="guarantees">
-      <div class="guar"><div class="icon">01</div><h3>Без предоплат за пустоту</h3><p>Беру оплату за конкретный объём работ. Не «маркетинг вообще», а настройка, ведение и отчёт по чек-листу.</p></div>
-      <div class="guar"><div class="icon">02</div><h3>Доступ к&nbsp;кабинетам — у&nbsp;вас</h3><p>Все рекламные аккаунты регистрируются на ваше юрлицо или физлицо. Уйду — вы не теряете данные и связки.</p></div>
-      <div class="guar"><div class="icon">03</div><h3>Прозрачная отчётность</h3><p>Каждую неделю — отчёт с цифрами по затратам, кликам, заявкам и CPL. Без «всё нормально» — только конкретика.</p></div>
-      <div class="guar"><div class="icon">04</div><h3>Договор и&nbsp;чеки</h3><p>Работаю как самозанятый: договор оферты, чек в «Моё&nbsp;дело» после каждой оплаты. Без&nbsp;«переведи на&nbsp;карту» и&nbsp;«договор потом».</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- REVIEWS -->
-<section id="reviews" style="padding-top: 0;">
-  <div class="wrap">
-    <span class="sec-label">08 / Отзывы</span>
-    <h2 class="sec-h">Что говорят клиенты, которые работают со&nbsp;мной <em>год и&nbsp;дольше</em>.</h2>
-
-    <div class="reviews-grid">
-      <div class="review">
-        <div class="stars">★★★★★</div>
-        <p class="quote">«Заявки пошли уже на 5-й день после запуска. До этого работал с двумя агентствами — оба слили бюджет на тестах. С Григорием договорились на конкретный CPL и держим его четвёртый месяц подряд.»</p>
-        <div class="who"><div class="ava">АК</div><div><div class="name">Алексей К.</div><div class="role">Собственник, МФО</div></div></div>
-      </div>
-      <div class="review">
-        <div class="stars">★★★★★</div>
-        <p class="quote">«Самое ценное — отчёт каждую неделю и нормальный человеческий ответ на вопрос „почему так“. Раньше казалось, что таргет — это магия, а тут всё по полочкам.»</p>
-        <div class="who"><div class="ava">МР</div><div><div class="name">Мария Р.</div><div class="role">Школа волейбола, СПб</div></div></div>
-      </div>
-      <div class="review">
-        <div class="stars">★★★★★</div>
-        <p class="quote">«За полгода работы окупили рекламу в опте х22. Отдельный плюс — Григорий не зацикливается на одном канале, перенёс часть бюджета в Авито и оттуда тоже пошли заказы.»</p>
-        <div class="who"><div class="ava">ИШ</div><div><div class="name">Игорь Ш.</div><div class="role">Пошив одежды опт</div></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq" style="padding-top: 0;">
-  <div class="wrap">
-    <span class="sec-label">09 / Частые вопросы</span>
-    <h2 class="sec-h">Если ещё думаете — <em>почитайте</em>.</h2>
-
-    <div class="faq-wrap" id="faq-list">
-      <div class="faq-item is-open"><div class="faq-q">Через сколько пойдут первые заявки? <span class="plus">+</span></div><div class="faq-a">Обычно — 5–7 дней после запуска. На Яндекс Поиске часто быстрее, в ВК нужно 3–5 дней на разгон и тест связок. Я не обещаю «заявки за 24 часа» — это маркетинговая сказка.</div></div>
-      <div class="faq-item"><div class="faq-q">Гарантируете количество заявок? <span class="plus">+</span></div><div class="faq-a">Гарантирую запуск, ведение и работу по чек-листу. Количество заявок зависит от продукта, конкурентности ниши и качества сайта. На брифе всегда обсуждаем реалистичный диапазон CPL — и работаем именно на него.</div></div>
-      <div class="faq-item"><div class="faq-q">Минимальный рекламный бюджет? <span class="plus">+</span></div><div class="faq-a">Для Яндекс Директа — от 50 000 ₽/мес, для ВК — от 40 000 ₽/мес, для Авито — от 30 000 ₽/мес. На меньшем бюджете не наберётся статистики для оптимизации.</div></div>
-      <div class="faq-item"><div class="faq-q">Кто платит за рекламу? <span class="plus">+</span></div><div class="faq-a">Вы — напрямую через свой рекламный кабинет. Я не «прогоняю бюджет через себя» и не беру комиссию с открутки. Моя оплата — отдельный фикс за ведение.</div></div>
-      <div class="faq-item"><div class="faq-q">А если ниша сложная — банкротство, медицина, МФО? <span class="plus">+</span></div><div class="faq-a">С такими нишами работаю чаще, чем со «свободными». МФО, юридические услуги и медицину веду по правилам модерации каждой площадки — без серых схем и блокировок.</div></div>
-      <div class="faq-item"><div class="faq-q">Делаете лендинг или нужен уже готовый? <span class="plus">+</span></div><div class="faq-a">Можно прийти со своим сайтом — посмотрю и подскажу, где правки. Можно собрать новый лендинг под трафик — это отдельная услуга, 25 000 ₽ за страницу.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FORM -->
-<section id="form" style="padding-top: 0;">
-  <div class="wrap">
-    <div class="form-wrap">
-      <div class="form-grid">
-        <div class="form-side">
-          <span class="sec-label">10 / Обсудим детали</span>
-          <h2>Свяжитесь со&nbsp;мной — отвечу за&nbsp;<em>пару часов</em>.</h2>
-          <p class="lead">Расскажу, подходит ли ваша ниша, какой реалистичный CPL и&nbsp;с&nbsp;каким бюджетом стартовать. Без воды и&nbsp;продаж.</p>
-
-          <div class="form-contacts">
-            <a href="tel:+79120168771"><span class="ic">тел</span><span>+7 (912) 016-87-71</span></a>
-            <a href="https://t.me/grigatarget" target="_blank" rel="noopener"><span class="ic">tg</span><span>@grigatarget</span></a>
-            <a href="https://vk.com/grishatarget" target="_blank" rel="noopener"><span class="ic">vk</span><span>vk.com/grishatarget</span></a>
-          </div>
-        </div>
-
-        <div id="bottom-form-wrap">
-          <form class="form-fields" id="bottom-form" onsubmit="submitBottomForm(event)">
-            <div class="field"><input id="f-name" type="text" placeholder="Имя" required /></div>
-            <div class="field"><input id="f-contact" type="text" placeholder="Телефон или @telegram" required /></div>
-            <div class="field"><input id="f-niche" type="text" placeholder="Ниша / продукт" /></div>
-            <div class="field"><textarea id="f-msg" placeholder="Комментарий: бюджет, цели, что уже пробовали…"></textarea></div>
-            <button class="form-submit" type="submit">Отправить заявку</button>
-            <div class="form-note">Нажимая на кнопку, вы даёте согласие на обработку персональных данных</div>
-          </form>
-          <div id="bottom-form-success" style="display:none; text-align:center; padding: 48px 0;">
-            <div style="width:72px;height:72px;border-radius:100px;background:var(--accent);color:#0a1502;display:grid;place-items:center;margin:0 auto 24px;font-size:30px;font-weight:700;">✓</div>
-            <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:500;letter-spacing:-0.02em;margin:0 0 10px;color:var(--ink);">Спасибо!</h3>
-            <p style="color:var(--muted);margin:0;">Свяжусь с вами в течение пары часов. Если срочно — пишите в <a href="https://t.me/grigatarget" style="color:var(--accent);">@grigatarget</a>.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="logo" style="margin-bottom: 22px;"><div class="logo-mark">ГГ</div><span>Глухов Григорий</span></div>
-        <div class="foot-big">Реклама, которая работает, а не сливает бюджет.</div>
-      </div>
-      <div>
-        <h4>Каналы</h4>
-        <ul><li><a href="#services">Яндекс Директ</a></li><li><a href="#services">ВКонтакте</a></li><li><a href="#services">Авито</a></li></ul>
-      </div>
-      <div>
-        <h4>Сайт</h4>
-        <ul><li><a href="#cases">Кейсы</a></li><li><a href="#process">Этапы</a></li><li><a href="#calc">Калькулятор</a></li><li><a href="#faq">FAQ</a></li></ul>
-      </div>
-      <div>
-        <h4>Контакты</h4>
-        <ul><li><a href="tel:+79120168771">+7 (912) 016-87-71</a></li><li><a href="https://t.me/grigatarget" target="_blank" rel="noopener">Telegram</a></li><li><a href="https://vk.com/grishatarget" target="_blank" rel="noopener">ВКонтакте</a></li></ul>
-      </div>
-    </div>
-    <div class="foot-bot">
-      <div class="mono">© 2026 · Глухов Г. А. · Самозанятый</div>
-      <div class="mono">Сделано вручную, без шаблонов</div>
-    </div>
-  </div>
-</footer>
-
-<a href="#" class="corner-tag" data-open-modal><span class="ic">→</span> Получить расчёт</a>
-
-<!-- MODAL: форма заявки -->
-<div class="modal-overlay" id="lead-modal" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
-  <div class="modal">
-    <button class="modal-close" aria-label="Закрыть">✕</button>
-    <div class="modal-inner">
-      <span class="sec-label" style="margin-bottom: 14px; display: inline-flex;">Оставить заявку</span>
-      <h3 id="lead-modal-title">Напишите — отвечу за&nbsp;<em>пару часов</em></h3>
-      <p class="modal-sub">Расскажу, подходит ли ваша ниша, какой реалистичный CPL и&nbsp;с&nbsp;каким бюджетом стартовать. Без&nbsp;воды и&nbsp;продаж.</p>
-
-      <form class="form-fields" id="modal-form" onsubmit="event.preventDefault(); this.closest('.modal').classList.add('is-success');">
-        <div class="field"><input type="text" placeholder="Имя" required /></div>
-        <div class="field"><input type="text" placeholder="Телефон или @telegram" required /></div>
-        <div class="field"><input type="text" placeholder="Ниша / продукт (необязательно)" /></div>
-        <div class="field"><textarea placeholder="Комментарий: бюджет, цели, что уже пробовали…"></textarea></div>
-        <button class="form-submit" type="submit">Отправить заявку →</button>
-      </form>
-
-      <div class="modal-alt">
-        <a href="tel:+79120168771"><span class="ic">тел</span>+7 (912) 016-87-71</a>
-        <a href="https://t.me/grigatarget" target="_blank" rel="noopener"><span class="ic">tg</span>@grigatarget</a>
-      </div>
-      <div class="modal-note">Нажимая «Отправить», вы соглашаетесь <br />с обработкой персональных данных</div>
-
-      <div class="modal-success">
-        <div class="check">✓</div>
-        <h3 style="margin: 0 auto 12px;">Спасибо!</h3>
-        <p class="modal-sub" style="margin-bottom: 0;">Свяжусь с вами в ближайшие пару часов. Если срочно&nbsp;— пишите в Telegram <a href="https://t.me/grigatarget" style="color: var(--accent);">@grigatarget</a>.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  // === MODAL ===
-  const leadModal = document.getElementById('lead-modal');
-  function openModal() {
-    leadModal.classList.add('is-open');
-    leadModal.classList.remove('is-success');
-    document.body.style.overflow = 'hidden';
-    const first = leadModal.querySelector('input');
-    if (first) setTimeout(() => first.focus(), 320);
-  }
-  function closeModal() {
-    leadModal.classList.remove('is-open');
-    document.body.style.overflow = '';
-    // сбрасываем success через паузу
-    setTimeout(() => {
-      const m = leadModal.querySelector('.modal');
-      m.classList.remove('is-success');
-      const f = document.getElementById('modal-form');
-      if (f) f.reset();
-    }, 300);
-  }
-  document.querySelectorAll('[data-open-modal]').forEach(el => {
-    el.addEventListener('click', e => { e.preventDefault(); openModal(); });
-  });
-  leadModal.querySelector('.modal-close').addEventListener('click', closeModal);
-  leadModal.addEventListener('click', e => { if (e.target === leadModal) closeModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && leadModal.classList.contains('is-open')) closeModal(); });
-
-  // Появляется автоматически через 35 с — один раз за сессию
-  if (!sessionStorage.getItem('lead-shown')) {
-    setTimeout(() => {
-      if (!leadModal.classList.contains('is-open')) {
-        openModal();
-        sessionStorage.setItem('lead-shown', '1');
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Глухов Григорий — таргетолог · Яндекс Директ · ВКонтакте · Авито · Ижевск
+    </title>
+    <meta
+      name="description"
+      content="Григорий Глухов — специалист по платной рекламе в Ижевске. Таргетированная реклама ВКонтакте, контекстная реклама Яндекс Директ, продвижение на Авито. 120+ проектов, работаю с 2022 года. Ведение под ключ от 30 000 ₽/мес."
+    />
+    <meta
+      name="keywords"
+      content="таргетолог Ижевск, настройка рекламы ВКонтакте, Яндекс Директ Ижевск, реклама Авито, таргетированная реклама, контекстная реклама, специалист по рекламе"
+    />
+    <meta name="author" content="Глухов Григорий" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://greklama.ru/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://greklama.ru/" />
+    <meta
+      property="og:title"
+      content="Глухов Григорий — таргетолог · Яндекс Директ · ВКонтакте · Авито"
+    />
+    <meta
+      property="og:description"
+      content="Специалист по платной рекламе в Ижевске. 120+ проектов с 2022 года. ВКонтакте, Яндекс Директ, Авито — ведение под ключ."
+    />
+    <meta
+      property="og:image"
+      content="https://greklama.ru/assets/grigory.jpg"
+    />
+    <meta property="og:image:width" content="900" />
+    <meta property="og:image:alt" content="Глухов Григорий — таргетолог" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="Глухов Григорий — таргетолог" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Глухов Григорий — таргетолог · Яндекс Директ · ВКонтакте · Авито"
+    />
+    <meta
+      name="twitter:description"
+      content="Специалист по платной рекламе в Ижевске. 120+ проектов с 2022 года."
+    />
+    <meta
+      name="twitter:image"
+      content="https://greklama.ru/assets/grigory.jpg"
+    />
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Глухов Григорий",
+        "jobTitle": "Специалист по платной рекламе",
+        "description": "Таргетированная реклама ВКонтакте, контекстная реклама Яндекс Директ, продвижение на Авито. 120+ проектов с 2022 года.",
+        "url": "https://greklama.ru",
+        "image": "https://greklama.ru/assets/grigory.jpg",
+        "telephone": "+79120168771",
+        "sameAs": ["https://t.me/grigatarget", "https://vk.com/grishatarget"],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Ижевск",
+          "addressCountry": "RU"
+        },
+        "knowsAbout": [
+          "Таргетированная реклама",
+          "Яндекс Директ",
+          "Авито реклама",
+          "ВКонтакте реклама"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Услуги по рекламе",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Таргетированная реклама ВКонтакте",
+                "description": "Настройка и ведение таргетированной рекламы в VK Рекламе"
+              },
+              "price": "30000",
+              "priceCurrency": "RUB",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "billingIncrement": "1",
+                "unitCode": "MON"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Контекстная реклама Яндекс Директ",
+                "description": "Настройка и ведение контекстной рекламы на поиске Яндекса и в РСЯ"
+              },
+              "price": "40000",
+              "priceCurrency": "RUB",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "billingIncrement": "1",
+                "unitCode": "MON"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Реклама на Авито",
+                "description": "Продвижение объявлений и Авито.Промо"
+              },
+              "price": "35000",
+              "priceCurrency": "RUB",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "billingIncrement": "1",
+                "unitCode": "MON"
+              }
+            }
+          ]
+        }
       }
-    }, 35000);
-  }
+    </script>
 
-  function submitBottomForm(e) {
-    e.preventDefault();
-    document.getElementById('bottom-form').style.display = 'none';
-    document.getElementById('bottom-form-success').style.display = 'block';
-  }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0f1410;
+        --bg-2: #161c18;
+        --card: #1c241f;
+        --card-2: #232c25;
+        --line: rgba(255, 255, 255, 0.08);
+        --line-2: rgba(255, 255, 255, 0.14);
+        --ink: #f1efe9;
+        --ink-2: #d6d3cb;
+        --muted: #8b9089;
+        --accent: #b8e34a;
+        --accent-2: #6dba3d;
+        --warn: #ff7a52;
+        --radius: 26px;
+        --radius-lg: 36px;
+        --pad: clamp(20px, 4vw, 64px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Manrope", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-size: 17px;
+        line-height: 1.5;
+        overflow-x: hidden;
+        position: relative;
+      }
+      h1,
+      h2,
+      h3,
+      .display {
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-variation-settings: "opsz" 96;
+        font-weight: 500;
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+        letter-spacing: -0.01em;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      ::selection {
+        background: var(--accent);
+        color: var(--bg);
+      }
 
-  document.querySelectorAll('.faq-q').forEach(q => {
-    q.addEventListener('click', () => q.parentElement.classList.toggle('is-open'));
-  });
+      .wrap {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 0 var(--pad);
+        position: relative;
+      }
 
-  document.querySelectorAll('.cases-filter .chip').forEach(c => {
-    c.addEventListener('click', () => {
-      document.querySelectorAll('.cases-filter .chip').forEach(x => x.classList.remove('is-active'));
-      c.classList.add('is-active');
-      const f = c.dataset.f;
-      document.querySelectorAll('.case').forEach(card => {
-        card.style.display = (f === 'all' || card.dataset.niche === f) ? '' : 'none';
+      /* === DECOR BACKGROUNDS === */
+      /* Hero — крупный 3D-объект справа (графический плейсхолдер) */
+      .deco-blob {
+        position: absolute;
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+      }
+
+      /* === NAV === */
+      nav.top {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(15, 20, 16, 0.72);
+        backdrop-filter: saturate(160%) blur(18px);
+        -webkit-backdrop-filter: saturate(160%) blur(18px);
+        border-bottom: 1px solid var(--line);
+      }
+      nav.top .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 0;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        font-size: 17px;
+      }
+      .logo-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: var(--accent);
+        color: #0a1502;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 14px;
+        font-family: "JetBrains Mono", monospace;
+        box-shadow:
+          0 0 0 1px rgba(184, 227, 74, 0.3),
+          0 8px 18px -8px rgba(184, 227, 74, 0.5);
+      }
+      .logo .city {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--muted);
+        margin-left: 4px;
+        font-weight: 400;
+      }
+      nav .links {
+        display: flex;
+        gap: 30px;
+        font-size: 14.5px;
+        color: var(--ink-2);
+      }
+      nav .links a:hover {
+        color: var(--accent);
+      }
+      nav .cta {
+        background: var(--ink);
+        color: var(--bg);
+        padding: 12px 20px;
+        border-radius: 100px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      nav .cta:hover {
+        background: var(--accent);
+      }
+      @media (max-width: 800px) {
+        nav .links {
+          display: none;
+        }
+      }
+
+      /* === HERO === */
+      .hero {
+        padding: 60px 0 80px;
+        position: relative;
+        overflow: hidden;
+      }
+      /* Большая «зелёная» вспышка-плашка-фон */
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background:
+          radial-gradient(
+            60% 70% at 80% 10%,
+            rgba(184, 227, 74, 0.18),
+            transparent 65%
+          ),
+          radial-gradient(
+            50% 60% at 0% 20%,
+            rgba(109, 186, 61, 0.12),
+            transparent 65%
+          ),
+          radial-gradient(
+            40% 50% at 60% 90%,
+            rgba(184, 227, 74, 0.1),
+            transparent 70%
+          );
+      }
+      /* SVG листья как декор */
+      .leaves {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.5;
+      }
+
+      .hero .wrap {
+        z-index: 2;
+        position: relative;
+      }
+      .hero-inner {
+        max-width: 1000px;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--accent);
+        letter-spacing: 0.05em;
+        padding: 8px 14px;
+        border-radius: 100px;
+        background: rgba(184, 227, 74, 0.1);
+        border: 1px solid rgba(184, 227, 74, 0.22);
+        margin-bottom: 28px;
+      }
+      .eyebrow .dot {
+        opacity: 0.75;
+      }
+      .hero h1 {
+        font-size: clamp(48px, 9vw, 140px);
+        line-height: 0.94;
+        letter-spacing: -0.04em;
+        font-weight: 500;
+        margin: 28px 0 0;
+        text-wrap: balance;
+      }
+      .hero h1 em {
+        font-style: italic;
+        color: var(--accent);
+        font-weight: 400;
+      }
+      .hero-sub {
+        color: var(--ink-2);
+        font-size: clamp(17px, 1.5vw, 21px);
+        line-height: 1.5;
+        max-width: 56ch;
+        margin: 32px 0 0;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+        align-items: center;
+      }
+      .hero-actions .cta-big {
+        background: var(--accent);
+        color: #0a1502;
+        padding: 20px 28px;
+        border-radius: 100px;
+        font-weight: 600;
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        transition: 0.2s;
+        cursor: pointer;
+        border: 0;
+        box-shadow: 0 18px 40px -10px rgba(184, 227, 74, 0.4);
+      }
+      .hero-actions .cta-big:hover {
+        background: white;
+        transform: translateY(-2px);
+      }
+      .hero-actions .cta-big .arrow {
+        width: 30px;
+        height: 30px;
+        border-radius: 100px;
+        background: #0a1502;
+        color: var(--accent);
+        display: grid;
+        place-items: center;
+        font-size: 14px;
+        transition: 0.2s;
+      }
+      .hero-actions .cta-big:hover .arrow {
+        transform: rotate(-45deg);
+      }
+      .hero-actions .cta-ghost {
+        color: var(--ink);
+        padding: 18px 24px;
+        border-radius: 100px;
+        border: 1px solid var(--line-2);
+        background: rgba(255, 255, 255, 0.03);
+        font-weight: 500;
+        font-size: 15.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: 0.2s;
+      }
+      .hero-actions .cta-ghost:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      /* Каналы под хиро — брендовые плашки без вырвиглазных баферов */
+      .hero-channels {
+        margin-top: clamp(48px, 6vw, 80px);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .hero-channel {
+        border-radius: 18px;
+        padding: 22px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        transition: 0.2s;
+        border: 1px solid transparent;
+      }
+      .hero-channel:hover {
+        transform: translateY(-2px);
+      }
+      .hero-channel .ic {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: -0.04em;
+        flex: none;
+      }
+      .hero-channel .body {
+        flex: 1;
+      }
+      .hero-channel .ttl {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 500;
+        font-size: 17px;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .hero-channel .sub {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        opacity: 0.65;
+        margin-top: 4px;
+      }
+      .hero-channel.vk {
+        background: #0077ff;
+        color: #fff;
+      }
+      .hero-channel.vk .ic {
+        background: #fff;
+        color: #0077ff;
+      }
+      .hero-channel.ya {
+        background: #ffcc00;
+        color: #1a1a1a;
+      }
+      .hero-channel.ya .ic {
+        background: #1a1a1a;
+        color: #ffcc00;
+      }
+      .hero-channel.av {
+        background: #97cf26;
+        color: #0a2a00;
+      }
+      .hero-channel.av .ic {
+        background: #0a2a00;
+        color: #97cf26;
+      }
+      @media (max-width: 800px) {
+        .hero-channels {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* === LIVE STATS row === */
+      .stat-row {
+        display: grid;
+        grid-template-columns: 1.4fr repeat(3, 1fr);
+        gap: 18px;
+        margin-top: clamp(40px, 6vw, 80px);
+        position: relative;
+        z-index: 2;
+      }
+      .stat-intro {
+        color: var(--ink-2);
+        font-size: 14.5px;
+        line-height: 1.5;
+        padding: 24px 0;
+      }
+      .stat-intro .lbl {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .stat-intro .lbl::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 100px;
+        background: var(--accent);
+      }
+      .stat-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 20px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        transition: 0.2s;
+        position: relative;
+        overflow: hidden;
+      }
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 24px;
+        right: 24px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .stat-card:hover {
+        background: var(--card-2);
+        border-color: var(--line-2);
+        transform: translateY(-2px);
+      }
+      .stat-card:hover::before {
+        opacity: 1;
+      }
+      .stat-card .n {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(30px, 2.8vw, 40px);
+        font-weight: 500;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        color: var(--ink);
+      }
+      .stat-card .l {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      @media (max-width: 1000px) {
+        .stat-row {
+          grid-template-columns: 1fr 1fr;
+        }
+        .stat-intro {
+          grid-column: span 2;
+        }
+      }
+      @media (max-width: 600px) {
+        .stat-row {
+          grid-template-columns: 1fr;
+        }
+        .stat-intro {
+          grid-column: 1;
+        }
+      }
+
+      /* === SECTION HEADER === */
+      section {
+        padding: clamp(60px, 8vw, 120px) 0;
+        position: relative;
+      }
+      .sec-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .sec-label::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 100px;
+        background: var(--accent);
+      }
+      .sec-h {
+        font-size: clamp(34px, 5.5vw, 76px);
+        line-height: 0.98;
+        letter-spacing: -0.035em;
+        font-weight: 500;
+        max-width: 22ch;
+        margin: 18px 0 0;
+        text-wrap: balance;
+      }
+      .sec-h em {
+        font-style: italic;
+        color: var(--accent);
+        font-weight: 400;
+      }
+      .sec-sub {
+        color: var(--muted);
+        margin-top: 18px;
+        max-width: 56ch;
+        font-size: 17px;
+      }
+      .sec-head-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      /* === SERVICES — channel cards === */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: clamp(40px, 5vw, 64px);
+      }
+      .service {
+        border-radius: var(--radius);
+        padding: 36px;
+        min-height: 480px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+        transition: 0.25s;
+      }
+      .service:hover {
+        transform: translateY(-3px);
+      }
+      .service .num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        opacity: 0.6;
+      }
+      .service .name {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(28px, 3vw, 38px);
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        margin-top: 90px;
+      }
+      .service .price {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        opacity: 0.75;
+        margin-top: 14px;
+      }
+      .service .price b {
+        font-weight: 600;
+        font-size: 22px;
+        letter-spacing: -0.02em;
+        opacity: 1;
+        font-family: "Bricolage Grotesque", sans-serif;
+      }
+      .service ul {
+        list-style: none;
+        padding: 0;
+        margin: 28px 0 0;
+        border-top: 1px solid currentColor;
+        border-top-color: rgba(0, 0, 0, 0.18);
+      }
+      .service ul li {
+        padding: 14px 0;
+        border-bottom: 1px dashed rgba(0, 0, 0, 0.14);
+        font-size: 14.5px;
+        opacity: 0.9;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .service ul li::before {
+        content: "→";
+        font-weight: 500;
+        flex: none;
+        width: 14px;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .service .glyph {
+        position: absolute;
+        top: 36px;
+        right: 36px;
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        font-family: "Bricolage Grotesque", sans-serif;
+      }
+      /* ВК */
+      .service.s1 {
+        background: #0077ff;
+        color: #fff;
+      }
+      .service.s1 ul {
+        border-top-color: rgba(255, 255, 255, 0.2);
+      }
+      .service.s1 ul li {
+        border-bottom-color: rgba(255, 255, 255, 0.14);
+      }
+      .service.s1 .glyph {
+        background: #fff;
+        color: #0077ff;
+      }
+      /* Яндекс */
+      .service.s2 {
+        background: #ffcc00;
+        color: #1a1a1a;
+      }
+      .service.s2 .glyph {
+        background: #1a1a1a;
+        color: #ffcc00;
+      }
+      /* Авито */
+      .service.s3 {
+        background: #97cf26;
+        color: #0a2a00;
+      }
+      .service.s3 .glyph {
+        background: #0a2a00;
+        color: #97cf26;
+      }
+      @media (max-width: 900px) {
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+        .service {
+          min-height: auto;
+        }
+        .service .name {
+          margin-top: 64px;
+        }
+      }
+
+      /* === NUMBERED FEATURES === */
+      .why {
+        padding-bottom: 0;
+      }
+      .why-h {
+        text-align: center;
+        max-width: 26ch;
+        margin: 18px auto 0;
+      }
+      .why-sub {
+        text-align: center;
+        margin: 18px auto 0;
+      }
+      .why-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-top: clamp(40px, 5vw, 60px);
+      }
+      .why-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 36px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        min-height: 320px;
+        transition: 0.25s;
+        position: relative;
+        overflow: hidden;
+      }
+      .why-card:hover {
+        background: var(--card-2);
+        border-color: var(--line-2);
+        transform: translateY(-3px);
+      }
+      .why-num {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: 88px;
+        line-height: 0.9;
+        letter-spacing: -0.05em;
+        font-weight: 400;
+        color: var(--ink);
+        margin: 0;
+      }
+      .why-num em {
+        font-style: italic;
+        color: var(--accent);
+        font-weight: 300;
+      }
+      .why-card h3 {
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        margin: 0;
+        line-height: 1.15;
+      }
+      .why-card p {
+        font-size: 14.5px;
+        color: var(--muted);
+        line-height: 1.5;
+        margin: 0;
+      }
+      @media (max-width: 1000px) {
+        .why-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 560px) {
+        .why-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* === CASES === */
+      .cases-filter {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+      }
+      .chip {
+        font-size: 13px;
+        padding: 10px 18px;
+        border-radius: 100px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--ink-2);
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .chip.is-active {
+        background: var(--accent);
+        color: #0a1502;
+        border-color: var(--accent);
+      }
+      .chip:hover {
+        border-color: var(--line-2);
+      }
+      .cases-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 18px;
+        margin-top: clamp(40px, 5vw, 60px);
+      }
+      .case {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: 0.25s;
+        position: relative;
+        padding: clamp(24px, 2.4vw, 36px);
+        min-height: 380px;
+      }
+      .case:hover {
+        background: var(--card-2);
+        border-color: var(--line-2);
+        transform: translateY(-3px);
+      }
+      .case.big {
+        grid-column: span 3;
+      }
+      .case.med {
+        grid-column: span 3;
+      }
+      .case.sm {
+        grid-column: span 2;
+      }
+      .case .case-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 28px;
+      }
+      .case .niche-pill {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        padding: 6px 12px;
+        border-radius: 100px;
+        background: rgba(184, 227, 74, 0.12);
+        border: 1px solid rgba(184, 227, 74, 0.25);
+        color: var(--accent);
+      }
+      .case .status {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .case .status::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 100px;
+        background: var(--accent);
+        box-shadow: 0 0 0 3px rgba(184, 227, 74, 0.18);
+      }
+      .case .status.archived::before {
+        background: var(--muted);
+        box-shadow: none;
+      }
+      .case .title {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(22px, 2.2vw, 28px);
+        font-weight: 500;
+        letter-spacing: -0.025em;
+        line-height: 1.12;
+        margin: 0 0 18px;
+      }
+      .case .summary {
+        font-size: 14.5px;
+        color: var(--muted);
+        line-height: 1.55;
+        margin: 0 0 24px;
+      }
+      .case .channels-row-mini {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      .case .channels-row-mini span {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        color: var(--ink-2);
+        padding: 5px 10px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--line);
+      }
+      .case .kpi {
+        margin-top: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+      }
+      .case .kpi .v {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(22px, 2.2vw, 30px);
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .case .kpi .v.accent {
+        color: var(--accent);
+      }
+      .case .kpi .k {
+        font-size: 11.5px;
+        color: var(--muted);
+        margin-top: 8px;
+        font-family: "JetBrains Mono", monospace;
+      }
+      @media (max-width: 1100px) {
+        .cases-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+        .case.big,
+        .case.med,
+        .case.sm {
+          grid-column: span 2;
+        }
+      }
+      @media (max-width: 700px) {
+        .cases-grid {
+          grid-template-columns: 1fr;
+        }
+        .case.big,
+        .case.med,
+        .case.sm {
+          grid-column: span 1;
+        }
+        .case {
+          min-height: auto;
+        }
+      }
+
+      /* === PROCESS === */
+      .process-bg {
+        background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0;
+        margin-top: clamp(40px, 5vw, 60px);
+        border-top: 1px solid var(--line);
+      }
+      .step {
+        padding: 32px 24px 32px 0;
+        border-right: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        padding-left: 24px;
+      }
+      .step:first-child {
+        padding-left: 0;
+      }
+      .step:last-child {
+        border-right: 0;
+      }
+      .step .n {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .step .n .when {
+        font-size: 11px;
+        color: var(--accent);
+      }
+      .step .t {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(20px, 1.8vw, 24px);
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+        min-height: 3.4em;
+      }
+      .step .d {
+        font-size: 14.5px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      @media (max-width: 1000px) {
+        .steps {
+          grid-template-columns: 1fr 1fr;
+        }
+        .step {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          padding: 24px;
+        }
+        .step .t {
+          min-height: auto;
+        }
+      }
+
+      /* === CALCULATOR === */
+      .calc-wrap {
+        margin-top: clamp(40px, 5vw, 60px);
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 0;
+        overflow: hidden;
+      }
+      .calc-inputs {
+        padding: clamp(28px, 4vw, 48px);
+        border-right: 1px solid var(--line);
+      }
+      .calc-result {
+        padding: clamp(28px, 4vw, 48px);
+        background: var(--bg-2);
+        display: flex;
+        flex-direction: column;
+      }
+      .calc-row {
+        margin-bottom: 28px;
+      }
+      .calc-row:last-child {
+        margin-bottom: 0;
+      }
+      .calc-row .lbl {
+        font-size: 12px;
+        color: var(--muted);
+        font-family: "JetBrains Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .calc-options {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+      .calc-opt {
+        padding: 12px 18px;
+        border-radius: 100px;
+        border: 1px solid var(--line);
+        background: var(--bg-2);
+        cursor: pointer;
+        font-size: 14.5px;
+        transition: 0.15s;
+        user-select: none;
+        color: var(--ink-2);
+      }
+      .calc-opt.is-on {
+        background: var(--accent);
+        color: #0a1502;
+        border-color: var(--accent);
+      }
+      .calc-opt:hover:not(.is-on) {
+        border-color: var(--line-2);
+        color: var(--ink);
+      }
+      .calc-slider {
+        margin-top: 16px;
+      }
+      .calc-slider input {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
+        height: 24px;
+      }
+      .calc-slider input::-webkit-slider-runnable-track {
+        height: 4px;
+        background: var(--line);
+        border-radius: 100px;
+      }
+      .calc-slider input::-moz-range-track {
+        height: 4px;
+        background: var(--line);
+        border-radius: 100px;
+      }
+      .calc-slider input::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border-radius: 100px;
+        background: var(--accent);
+        margin-top: -9px;
+        cursor: grab;
+        border: 4px solid var(--bg);
+        box-shadow: 0 0 0 1px var(--accent);
+      }
+      .calc-slider input::-moz-range-thumb {
+        width: 22px;
+        height: 22px;
+        border-radius: 100px;
+        background: var(--accent);
+        cursor: grab;
+        border: 4px solid var(--bg);
+        box-shadow: 0 0 0 1px var(--accent);
+      }
+      .calc-slider .v {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+      .calc-slider .v b {
+        color: var(--ink);
+        font-weight: 500;
+        font-size: 22px;
+        letter-spacing: -0.02em;
+        font-family: "Bricolage Grotesque", sans-serif;
+      }
+      .result-num {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(48px, 6vw, 80px);
+        font-weight: 500;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        margin: 12px 0;
+      }
+      .result-breakdown {
+        margin-top: 24px;
+        border-top: 1px solid var(--line);
+        padding-top: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 14.5px;
+      }
+      .result-breakdown .b-row {
+        display: flex;
+        justify-content: space-between;
+        color: var(--ink-2);
+      }
+      .result-breakdown .b-row b {
+        font-weight: 500;
+        color: var(--ink);
+      }
+      .result-cta {
+        margin-top: auto;
+        padding-top: 24px;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #0a1502;
+        padding: 18px 28px;
+        border-radius: 100px;
+        font-weight: 600;
+        font-size: 15.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        transition: 0.2s;
+        cursor: pointer;
+        border: 0;
+      }
+      .btn-primary:hover {
+        background: #ffffff;
+        transform: translateY(-1px);
+      }
+      .btn-primary .arrow {
+        width: 26px;
+        height: 26px;
+        border-radius: 100px;
+        background: #0a1502;
+        color: var(--accent);
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+        transition: 0.2s;
+      }
+      .btn-primary:hover .arrow {
+        transform: rotate(-45deg);
+      }
+      @media (max-width: 900px) {
+        .calc-wrap {
+          grid-template-columns: 1fr;
+        }
+        .calc-inputs {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+      }
+
+      /* === GUARANTEES === */
+      .guarantees {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-top: clamp(40px, 5vw, 60px);
+      }
+      .guar {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        min-height: 250px;
+      }
+      .guar .icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: rgba(184, 227, 74, 0.12);
+        border: 1px solid rgba(184, 227, 74, 0.25);
+        display: grid;
+        place-items: center;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 600;
+        color: var(--accent);
+        font-size: 14px;
+      }
+      .guar h3 {
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        margin: 0;
+        line-height: 1.2;
+      }
+      .guar p {
+        font-size: 14.5px;
+        color: var(--muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+      @media (max-width: 900px) {
+        .guarantees {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 560px) {
+        .guarantees {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* === ABOUT === */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: clamp(24px, 5vw, 64px);
+        align-items: start;
+        margin-top: clamp(40px, 5vw, 60px);
+      }
+      .about-photo {
+        aspect-ratio: 4/5;
+        border-radius: var(--radius-lg);
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(
+            circle at 50% 30%,
+            rgba(184, 227, 74, 0.25),
+            transparent 55%
+          ),
+          linear-gradient(160deg, #1c241f, #0a1502);
+        border: 1px solid var(--line-2);
+        box-shadow:
+          0 50px 100px -40px rgba(0, 0, 0, 0.7),
+          0 0 0 1px rgba(184, 227, 74, 0.08);
+      }
+      .about-photo img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 15%;
+        /* Подтягиваем под тёмную сцену сайта */
+        filter: contrast(1.08) saturate(0.85) brightness(0.95);
+        transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .about-photo:hover img {
+        transform: scale(1.03);
+      }
+      /* Тональный слой: подкрашивает светлый свитер и фон в холодный зелёно-угольный тон */
+      .about-photo::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: linear-gradient(
+          160deg,
+          rgba(15, 20, 16, 0.15) 0%,
+          rgba(15, 20, 16, 0) 50%,
+          rgba(15, 20, 16, 0.45) 100%
+        );
+        mix-blend-mode: multiply;
+      }
+      /* Глубокая виньетка и зелёный блик в углу */
+      .about-photo::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        background:
+          radial-gradient(
+            75% 60% at 0% 100%,
+            rgba(184, 227, 74, 0.2),
+            transparent 60%
+          ),
+          radial-gradient(
+            110% 80% at 50% 100%,
+            rgba(0, 0, 0, 0.55),
+            transparent 60%
+          ),
+          radial-gradient(
+            140% 100% at 50% 50%,
+            transparent 55%,
+            rgba(0, 0, 0, 0.35) 100%
+          );
+      }
+      .about-photo .badge {
+        position: absolute;
+        left: 24px;
+        top: 24px;
+        z-index: 3;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        padding: 8px 12px 8px 8px;
+        border-radius: 100px;
+        background: rgba(15, 20, 16, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: var(--ink);
+        backdrop-filter: blur(12px);
+      }
+      .about-photo .badge .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 100px;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px rgba(184, 227, 74, 0.18);
+      }
+      .about-photo .caption {
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        bottom: 24px;
+        z-index: 3;
+        color: var(--ink);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .about-photo .caption .name {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .about-photo .caption .role {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .about-text p {
+        font-size: clamp(17px, 1.4vw, 20px);
+        color: var(--ink-2);
+        line-height: 1.55;
+      }
+      .about-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 32px;
+        border-top: 1px solid var(--line);
+        padding-top: 32px;
+      }
+      .about-stats .s .n {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(28px, 3vw, 40px);
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .about-stats .s .l {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 8px;
+        font-family: "JetBrains Mono", monospace;
+      }
+      @media (max-width: 900px) {
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* === REVIEWS === */
+      .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: clamp(40px, 5vw, 60px);
+      }
+      .review {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        min-height: 280px;
+      }
+      .review .quote {
+        font-size: 16.5px;
+        line-height: 1.5;
+        color: var(--ink-2);
+        flex: 1;
+        text-wrap: pretty;
+      }
+      .review .who {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+      }
+      .review .ava {
+        width: 44px;
+        height: 44px;
+        border-radius: 100px;
+        background: rgba(184, 227, 74, 0.12);
+        border: 1px solid rgba(184, 227, 74, 0.25);
+        display: grid;
+        place-items: center;
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--accent);
+      }
+      .review .who .name {
+        font-weight: 500;
+        font-size: 15px;
+      }
+      .review .who .role {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .review .stars {
+        color: var(--accent);
+        font-size: 14px;
+        letter-spacing: 2px;
+      }
+      @media (max-width: 900px) {
+        .reviews-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* === FAQ === */
+      .faq-wrap {
+        margin-top: clamp(40px, 5vw, 60px);
+        border-top: 1px solid var(--line);
+      }
+      .faq-item {
+        border-bottom: 1px solid var(--line);
+      }
+      .faq-q {
+        padding: 32px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        cursor: pointer;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(18px, 1.8vw, 22px);
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        align-items: center;
+      }
+      .faq-q .plus {
+        width: 36px;
+        height: 36px;
+        border-radius: 100px;
+        border: 1px solid var(--line);
+        display: grid;
+        place-items: center;
+        flex: none;
+        transition: 0.2s;
+        font-weight: 400;
+        font-size: 18px;
+        color: var(--ink-2);
+      }
+      .faq-item.is-open .plus {
+        background: var(--accent);
+        color: #0a1502;
+        border-color: var(--accent);
+        transform: rotate(45deg);
+      }
+      .faq-a {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.35s ease,
+          padding 0.35s ease;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.55;
+        padding-right: 56px;
+      }
+      .faq-item.is-open .faq-a {
+        max-height: 400px;
+        padding-bottom: 28px;
+      }
+
+      /* === FORM === */
+      .form-wrap {
+        background: linear-gradient(140deg, #1c241f 0%, #0f1410 100%);
+        border: 1px solid var(--line-2);
+        border-radius: var(--radius-lg);
+        padding: clamp(36px, 5vw, 72px);
+        margin-top: clamp(40px, 5vw, 60px);
+        position: relative;
+        overflow: hidden;
+      }
+      .form-wrap::before {
+        content: "";
+        position: absolute;
+        top: -40%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(184, 227, 74, 0.25),
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(24px, 5vw, 56px);
+        position: relative;
+      }
+      .form-grid h2 {
+        font-size: clamp(36px, 5vw, 60px);
+        letter-spacing: -0.035em;
+        line-height: 1;
+        font-weight: 500;
+        margin: 16px 0 0;
+        max-width: 14ch;
+      }
+      .form-grid .form-side .lead {
+        color: var(--muted);
+        margin: 24px 0 0;
+        font-size: 17px;
+        max-width: 36ch;
+      }
+      .form-contacts {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-top: 32px;
+      }
+      .form-contacts a {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 16px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--line);
+        transition: 0.15s;
+        color: var(--ink);
+      }
+      .form-contacts a:hover {
+        color: var(--accent);
+        padding-left: 8px;
+      }
+      .form-contacts .ic {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--line);
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        font-family: "JetBrains Mono", monospace;
+        flex: none;
+        color: var(--accent);
+      }
+
+      .form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+      }
+      .field input,
+      .field textarea,
+      .field select {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--line);
+        border-radius: 100px;
+        color: var(--ink);
+        font-family: inherit;
+        font-size: 16px;
+        padding: 18px 24px;
+        transition: 0.2s;
+      }
+      .field textarea {
+        border-radius: 22px;
+        min-height: 110px;
+        resize: vertical;
+      }
+      .field input::placeholder,
+      .field textarea::placeholder {
+        color: var(--muted);
+      }
+      .field input:focus,
+      .field textarea:focus,
+      .field select:focus {
+        outline: 0;
+        border-color: var(--accent);
+        background: rgba(184, 227, 74, 0.05);
+      }
+      .field select {
+        appearance: none;
+        cursor: pointer;
+      }
+      .form-submit {
+        background: var(--ink);
+        color: var(--bg);
+        padding: 20px 28px;
+        border-radius: 100px;
+        font-weight: 600;
+        font-size: 16px;
+        border: 0;
+        cursor: pointer;
+        margin-top: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        transition: 0.2s;
+      }
+      .form-submit:hover {
+        background: var(--accent);
+      }
+      .form-note {
+        font-size: 12.5px;
+        color: var(--muted);
+        margin-top: 12px;
+        text-align: center;
+      }
+      @media (max-width: 900px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* === FOOTER === */
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 60px 0 32px;
+        margin-top: clamp(60px, 7vw, 100px);
+      }
+      .foot-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 32px;
+      }
+      .foot-grid h4 {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin: 0 0 16px;
+        font-weight: 500;
+      }
+      .foot-grid ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 14.5px;
+        color: var(--ink-2);
+      }
+      .foot-grid ul a:hover {
+        color: var(--accent);
+      }
+      .foot-big {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(28px, 3vw, 40px);
+        font-weight: 500;
+        letter-spacing: -0.025em;
+        line-height: 1.05;
+        max-width: 16ch;
+        color: var(--ink);
+      }
+      .foot-bot {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding-top: 32px;
+        margin-top: 48px;
+        border-top: 1px solid var(--line);
+        font-size: 13px;
+        color: var(--muted);
+        flex-wrap: wrap;
+      }
+      @media (max-width: 900px) {
+        .foot-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 560px) {
+        .foot-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .corner-tag {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 60;
+        background: var(--accent);
+        color: #0a1502;
+        padding: 14px 20px;
+        border-radius: 100px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow:
+          0 18px 40px rgba(184, 227, 74, 0.25),
+          0 0 0 1px rgba(184, 227, 74, 0.4);
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .corner-tag:hover {
+        background: white;
+        transform: translateY(-2px);
+      }
+      .corner-tag .ic {
+        width: 22px;
+        height: 22px;
+        border-radius: 100px;
+        background: #0a1502;
+        color: var(--accent);
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+      }
+
+      /* === MODAL === */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: rgba(5, 8, 6, 0.75);
+        backdrop-filter: blur(14px) saturate(140%);
+        -webkit-backdrop-filter: blur(14px) saturate(140%);
+        display: grid;
+        place-items: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+      .modal-overlay.is-open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal {
+        background: linear-gradient(160deg, #1c241f 0%, #0f1410 100%);
+        border: 1px solid var(--line-2);
+        border-radius: var(--radius-lg);
+        padding: clamp(28px, 4vw, 48px);
+        width: 100%;
+        max-width: 520px;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 60px 120px -30px rgba(0, 0, 0, 0.7);
+        transform: scale(0.96) translateY(20px);
+        transition: transform 0.3s ease;
+      }
+      .modal-overlay.is-open .modal {
+        transform: scale(1) translateY(0);
+      }
+      .modal::before {
+        content: "";
+        position: absolute;
+        top: -30%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(
+          circle,
+          rgba(184, 227, 74, 0.18),
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+      .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 100px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--line);
+        color: var(--ink-2);
+        cursor: pointer;
+        font-size: 18px;
+        display: grid;
+        place-items: center;
+        transition: 0.15s;
+        z-index: 2;
+      }
+      .modal-close:hover {
+        background: var(--accent);
+        color: #0a1502;
+        border-color: var(--accent);
+      }
+      .modal-inner {
+        position: relative;
+        z-index: 1;
+      }
+      .modal h3 {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(26px, 3vw, 36px);
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        margin: 0 0 12px;
+        max-width: 14ch;
+      }
+      .modal h3 em {
+        font-style: italic;
+        color: var(--accent);
+        font-weight: 400;
+      }
+      .modal .modal-sub {
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.5;
+        margin: 0 0 28px;
+      }
+      .modal .form-fields {
+        gap: 12px;
+      }
+      .modal .form-fields input,
+      .modal .form-fields textarea {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--line);
+        border-radius: 100px;
+        color: var(--ink);
+        font-family: inherit;
+        font-size: 15.5px;
+        padding: 16px 22px;
+        transition: 0.2s;
+      }
+      .modal .form-fields textarea {
+        border-radius: 20px;
+        min-height: 90px;
+        resize: vertical;
+      }
+      .modal .form-fields input::placeholder,
+      .modal .form-fields textarea::placeholder {
+        color: var(--muted);
+      }
+      .modal .form-fields input:focus,
+      .modal .form-fields textarea:focus {
+        outline: 0;
+        border-color: var(--accent);
+        background: rgba(184, 227, 74, 0.05);
+      }
+      .modal .form-submit {
+        background: var(--accent);
+        color: #0a1502;
+        padding: 18px 28px;
+        border-radius: 100px;
+        font-weight: 600;
+        font-size: 15.5px;
+        border: 0;
+        cursor: pointer;
+        margin-top: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: 0.2s;
+      }
+      .modal .form-submit:hover {
+        background: white;
+      }
+      .modal .modal-alt {
+        display: flex;
+        gap: 10px;
+        margin-top: 22px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .modal .modal-alt a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 100px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--line);
+        font-size: 13.5px;
+        color: var(--ink-2);
+        transition: 0.15s;
+      }
+      .modal .modal-alt a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+      .modal .modal-alt .ic {
+        width: 22px;
+        height: 22px;
+        border-radius: 100px;
+        background: rgba(184, 227, 74, 0.12);
+        color: var(--accent);
+        display: grid;
+        place-items: center;
+        font-size: 10px;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .modal .modal-note {
+        font-size: 11.5px;
+        color: var(--muted);
+        text-align: center;
+        margin-top: 14px;
+        line-height: 1.4;
+      }
+
+      /* success state */
+      .modal-success {
+        display: none;
+        text-align: center;
+        padding: 20px 0;
+      }
+      .modal.is-success .modal-inner > *:not(.modal-success) {
+        display: none;
+      }
+      .modal.is-success .modal-success {
+        display: block;
+      }
+      .modal-success .check {
+        width: 72px;
+        height: 72px;
+        border-radius: 100px;
+        background: var(--accent);
+        color: #0a1502;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 24px;
+        font-size: 32px;
+        font-weight: 700;
+        box-shadow: 0 20px 40px -10px rgba(184, 227, 74, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="top">
+      <div class="wrap row">
+        <div class="logo">
+          <div class="logo-mark">ГГ</div>
+          <span>Глухов Григорий</span>
+          <span class="city">· Ижевск</span>
+        </div>
+        <div class="links">
+          <a href="#services">Услуги</a>
+          <a href="#cases">Кейсы</a>
+          <a href="#why">Почему я</a>
+          <a href="#calc">Калькулятор</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <a href="#" class="cta" data-open-modal>Получить расчёт</a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-bg"></div>
+      <svg
+        class="leaves"
+        viewBox="0 0 1440 800"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+      >
+        <defs>
+          <radialGradient id="leafGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#b8e34a" stop-opacity="0.08" />
+            <stop offset="100%" stop-color="#b8e34a" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <circle cx="200" cy="650" r="320" fill="url(#leafGlow)" />
+        <circle cx="1200" cy="200" r="280" fill="url(#leafGlow)" />
+      </svg>
+
+      <div class="wrap">
+        <div class="hero-inner">
+          <span class="eyebrow"
+            ><span class="dot">★</span> Таргетолог · с 2022 · 120+
+            проектов</span
+          >
+          <h1>Реклама, которая <em>работает</em>,<br />а не сливает бюджет</h1>
+          <p class="hero-sub">
+            Настраиваю и веду рекламу в Яндекс&nbsp;Директ, ВК и Авито. Заявки
+            уже на&nbsp;первой неделе. Прозрачная еженедельная отчётность.
+            Работаю в&nbsp;15+&nbsp;нишах — от МФО до стоматологии.
+          </p>
+
+          <div class="hero-actions">
+            <button class="cta-big" data-open-modal>
+              Получить расчёт <span class="arrow">→</span>
+            </button>
+            <a href="#cases" class="cta-ghost">Смотреть кейсы</a>
+          </div>
+        </div>
+
+        <!-- каналы в брендовых цветах — вместо квадрата справа -->
+        <div class="hero-channels">
+          <a href="#services" class="hero-channel vk">
+            <div class="ic">ВК</div>
+            <div class="body">
+              <div class="ttl">Таргет ВКонтакте</div>
+              <div class="sub">от 30 000 ₽ / мес</div>
+            </div>
+            <span style="font-size: 16px; opacity: 0.6">→</span>
+          </a>
+          <a href="#services" class="hero-channel ya">
+            <div class="ic">Я</div>
+            <div class="body">
+              <div class="ttl">Яндекс Директ</div>
+              <div class="sub">от 40 000 ₽ / мес</div>
+            </div>
+            <span style="font-size: 16px; opacity: 0.6">→</span>
+          </a>
+          <a href="#services" class="hero-channel av">
+            <div class="ic">A</div>
+            <div class="body">
+              <div class="ttl">Авито Реклама</div>
+              <div class="sub">от 35 000 ₽ / мес</div>
+            </div>
+            <span style="font-size: 16px; opacity: 0.6">→</span>
+          </a>
+        </div>
+
+        <!-- стат-капсулы -->
+        <div class="stat-row">
+          <div class="stat-intro">
+            <div class="lbl">Цифры в работе</div>
+            Веду рекламу так,<br />чтобы заявки превращались в&nbsp;деньги,
+            а&nbsp;не&nbsp;в&nbsp;графики&nbsp;для красоты.
+          </div>
+          <div class="stat-card">
+            <div class="n">120+</div>
+            <div class="l">проектов</div>
+          </div>
+          <div class="stat-card">
+            <div class="n">15+</div>
+            <div class="l">ниш</div>
+          </div>
+          <div class="stat-card">
+            <div class="n">с 2022</div>
+            <div class="l">в перформансе</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="wrap">
+        <span class="sec-label">01 / Обо мне</span>
+        <h2 class="sec-h">
+          Григорий Глухов — таргетолог <em>с&nbsp;2022&nbsp;года</em>.
+        </h2>
+
+        <div class="about-grid">
+          <div class="about-photo">
+            <img
+              src="assets/grigory.jpg"
+              alt="Глухов Григорий — таргетолог"
+              loading="eager"
+              fetchpriority="high"
+            />
+            <span class="badge"
+              ><span class="dot"></span>Свободен для проектов</span
+            >
+            <div class="caption">
+              <div class="name">Глухов Григорий</div>
+              <div class="role">таргетолог · Ижевск</div>
+            </div>
+          </div>
+          <div class="about-text">
+            <p>
+              Я не агентство и не команда из 12 человек. Я тот, кто сам пишет
+              семантику, сам собирает кампании, сам смотрит в&nbsp;статистику
+              и&nbsp;сам же отвечает на ваши сообщения в&nbsp;Telegram.
+            </p>
+            <p>
+              С&nbsp;2022&nbsp;года провёл рекламу для МФО, стоматологий, школ
+              танцев и волейбола, оптового производства одежды, рекрутинга и
+              десятка локальных бизнесов. В работе одновременно держу
+              до&nbsp;5&nbsp;проектов — чтобы каждому хватало внимания.
+            </p>
+
+            <div class="about-stats">
+              <div class="s">
+                <div class="n">120+</div>
+                <div class="l">проектов</div>
+              </div>
+              <div class="s">
+                <div class="n">15+</div>
+                <div class="l">ниш</div>
+              </div>
+              <div class="s">
+                <div class="n">3+ года</div>
+                <div class="l">опыта</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="wrap">
+        <span class="sec-label">02 / Услуги и тарифы</span>
+        <h2 class="sec-h">Три канала. Один подход — <em>окупаемость</em>.</h2>
+        <p class="sec-sub">
+          Беру на ведение проекты с понятной экономикой. Каждый канал работает
+          на свою задачу — комбинирую их так, чтобы заявки шли из нескольких
+          источников и не зависели от одного алгоритма.
+        </p>
+
+        <div class="services-grid">
+          <div class="service s1">
+            <div class="num">01</div>
+            <div class="glyph">ВК</div>
+            <div class="name">Таргет ВКонтакте</div>
+            <div class="price">от <b>30 000 ₽</b> / мес</div>
+            <ul>
+              <li>Аналитика конкурентов и аудитории</li>
+              <li>Креативы, тестирование 5+ связок</li>
+              <li>Парсинг, ретаргет, look-alike</li>
+              <li>Лид-формы и подписные базы</li>
+              <li>Еженедельный отчёт + созвон</li>
+            </ul>
+          </div>
+          <div class="service s2">
+            <div class="num">02</div>
+            <div class="glyph">Я</div>
+            <div class="name">Яндекс Директ</div>
+            <div class="price">от <b>40 000 ₽</b> / мес</div>
+            <ul>
+              <li>Семантика + минус-слова</li>
+              <li>Поиск, РСЯ, Мастер кампаний</li>
+              <li>Подключение целей в Метрике</li>
+              <li>Сегментация и А/Б тестирование</li>
+              <li>Корректировка ставок и аудиторий</li>
+            </ul>
+          </div>
+          <div class="service s3">
+            <div class="num">03</div>
+            <div class="glyph">A</div>
+            <div class="name">Авито Реклама</div>
+            <div class="price">от <b>35 000 ₽</b> / мес</div>
+            <ul>
+              <li>Аудит и упаковка магазина</li>
+              <li>SEO-оптимизация объявлений</li>
+              <li>Запуск и оптимизация продвижения</li>
+              <li>Скрипты ответов и автоответы</li>
+              <li>Контроль конверсии в звонки</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY 4 reasons -->
+    <section id="why" class="why">
+      <div class="wrap" style="text-align: center">
+        <span class="sec-label" style="display: inline-flex"
+          >03 / Почему я</span
+        >
+        <h2 class="sec-h why-h">
+          4 причины, почему со&nbsp;мной удобно и&nbsp;надёжно <em>работать</em>
+        </h2>
+        <p class="sec-sub why-sub">
+          Не агентство, не «команда из 12 человек». Один таргетолог, который сам
+          делает и сам отвечает.
+        </p>
+      </div>
+      <div class="wrap">
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-num">1</div>
+            <h3>Сам делаю</h3>
+            <p>
+              Не передаю кампании джунам и стажёрам. Семантику, креативы и
+              оптимизацию веду лично.
+            </p>
+          </div>
+          <div class="why-card">
+            <div class="why-num">2</div>
+            <h3>Прозрачно</h3>
+            <p>
+              Каждую неделю — отчёт с цифрами: бюджет, клики, заявки, CPL. Без
+              «всё нормально».
+            </p>
+          </div>
+          <div class="why-card">
+            <div class="why-num">3</div>
+            <h3>Без слива</h3>
+            <p>
+              На брифе обсуждаем реалистичный CPL — и работаем именно на него.
+              Не на показы, не на лайки.
+            </p>
+          </div>
+          <div class="why-card">
+            <div class="why-num">4</div>
+            <h3>Доступы у&nbsp;вас</h3>
+            <p>
+              Все кабинеты — на ваше юр- или физлицо. Уйду — данные и связки
+              остаются с вами.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASES -->
+    <section id="cases">
+      <div class="wrap">
+        <div class="sec-head-row">
+          <div>
+            <span class="sec-label">04 / Кейсы и цифры</span>
+            <h2 class="sec-h">
+              Результаты, а&nbsp;не&nbsp;<em>скриншоты&nbsp;лайков</em>.
+            </h2>
+          </div>
+          <div class="cases-filter">
+            <button class="chip is-active" data-f="all">Все ниши</button>
+            <button class="chip" data-f="finance">Финансы</button>
+            <button class="chip" data-f="b2b">B2B</button>
+            <button class="chip" data-f="local">Локальные</button>
+            <button class="chip" data-f="hr">HR</button>
+          </div>
+        </div>
+
+        <div class="cases-grid">
+          <article class="case big" data-niche="finance">
+            <div class="case-head">
+              <span class="niche-pill">Финансы / МФО</span
+              ><span class="status">в работе</span>
+            </div>
+            <h3 class="title">
+              МФО: 200 выдач в&nbsp;месяц при&nbsp;бюджете 1,5&nbsp;млн&nbsp;₽
+            </h3>
+            <p class="summary">
+              Масштабирование на Поиск + РСЯ. Перераспределил бюджет между
+              активными и&nbsp;остановленными связками — CPA удержали
+              в&nbsp;диапазоне 80&nbsp;₽ при объёме 13&nbsp;900 конверсий за
+              период.
+            </p>
+            <div class="channels-row-mini">
+              <span>Яндекс Директ</span><span>Поиск + РСЯ</span
+              ><span>Москва + регионы</span>
+            </div>
+            <div class="kpi">
+              <div>
+                <div class="v">1,5&nbsp;млн&nbsp;₽</div>
+                <div class="k">бюджет / мес</div>
+              </div>
+              <div>
+                <div class="v accent">200</div>
+                <div class="k">выдач / мес</div>
+              </div>
+              <div>
+                <div class="v">7&nbsp;млн&nbsp;₽</div>
+                <div class="k">заработали</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case med" data-niche="finance">
+            <div class="case-head">
+              <span class="niche-pill">Финансы / МФО</span
+              ><span class="status archived">в архиве</span>
+            </div>
+            <h3 class="title">
+              МФО v2: масштабирование на&nbsp;1&nbsp;млн&nbsp;₽
+            </h3>
+            <p class="summary">
+              Параллельный запуск нескольких UTM-меток и&nbsp;двух лендингов.
+              Тестировали стратегии «целевая доля» и&nbsp;«оптимизация
+              конверсий» — нашли рабочую связку и&nbsp;удержали
+              CPA&nbsp;~68&nbsp;₽.
+            </p>
+            <div class="channels-row-mini">
+              <span>Яндекс Директ</span><span>2 лендинга</span>
+            </div>
+            <div class="kpi">
+              <div>
+                <div class="v">1&nbsp;млн&nbsp;₽</div>
+                <div class="k">бюджет / мес</div>
+              </div>
+              <div>
+                <div class="v accent">130</div>
+                <div class="k">выдач</div>
+              </div>
+              <div>
+                <div class="v">4,5&nbsp;млн&nbsp;₽</div>
+                <div class="k">выручка</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case med" data-niche="b2b">
+            <div class="case-head">
+              <span class="niche-pill">B2B / Производство</span
+              ><span class="status">в работе</span>
+            </div>
+            <h3 class="title">
+              Пошив одежды опт: 402&nbsp;лида и&nbsp;15&nbsp;млн&nbsp;₽ выручки
+            </h3>
+            <p class="summary">
+              Чистый Поиск без РСЯ — целились в&nbsp;закупщиков
+              и&nbsp;оптовиков. Семантика по&nbsp;тканям, материалам
+              и&nbsp;тиражам. CPA&nbsp;1&nbsp;670&nbsp;₽ при чеке
+              от&nbsp;40&nbsp;000&nbsp;₽.
+            </p>
+            <div class="channels-row-mini">
+              <span>Яндекс Поиск</span><span>3 кампании</span>
+            </div>
+            <div class="kpi">
+              <div>
+                <div class="v">670&nbsp;тыс&nbsp;₽</div>
+                <div class="k">бюджет</div>
+              </div>
+              <div>
+                <div class="v accent">402</div>
+                <div class="k">лида</div>
+              </div>
+              <div>
+                <div class="v">15&nbsp;млн&nbsp;₽</div>
+                <div class="k">выручка</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case sm" data-niche="local">
+            <div class="case-head">
+              <span class="niche-pill">Ивент</span
+              ><span class="status archived">завершён</span>
+            </div>
+            <h3 class="title">Офлайн-конференция: 50&nbsp;лидов</h3>
+            <p class="summary">
+              Короткий запуск под дату мероприятия. Поиск&nbsp;+ РСЯ,
+              оптимизация по&nbsp;конверсиям. CPA&nbsp;~2&nbsp;200&nbsp;₽ при
+              стоимости билета от&nbsp;15&nbsp;000&nbsp;₽.
+            </p>
+            <div class="kpi">
+              <div>
+                <div class="v">120&nbsp;тыс</div>
+                <div class="k">бюджет</div>
+              </div>
+              <div>
+                <div class="v accent">50</div>
+                <div class="k">лидов</div>
+              </div>
+              <div>
+                <div class="v">800&nbsp;тыс</div>
+                <div class="k">выручка</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case med" data-niche="local">
+            <div class="case-head">
+              <span class="niche-pill">Локально / Спорт</span
+              ><span class="status">2 года в работе</span>
+            </div>
+            <h3 class="title">
+              Школа волейбола СПб: 800&nbsp;записей за&nbsp;2&nbsp;года
+            </h3>
+            <p class="summary">
+              Долгосрочный проект на ВК. 44&nbsp;кампании, постоянное обновление
+              креативов и&nbsp;аудиторий. Средний CPL&nbsp;— 432&nbsp;₽,
+              удерживается из&nbsp;месяца в&nbsp;месяц.
+            </p>
+            <div class="channels-row-mini">
+              <span>ВК Реклама</span><span>СПб</span><span>44 кампании</span>
+            </div>
+            <div class="kpi">
+              <div>
+                <div class="v">600&nbsp;тыс&nbsp;₽</div>
+                <div class="k">за 24 мес</div>
+              </div>
+              <div>
+                <div class="v accent">800</div>
+                <div class="k">лидов</div>
+              </div>
+              <div>
+                <div class="v">2&nbsp;млн&nbsp;₽</div>
+                <div class="k">выручка</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case sm" data-niche="hr">
+            <div class="case-head">
+              <span class="niche-pill">HR / Подбор</span
+              ><span class="status">в работе</span>
+            </div>
+            <h3 class="title">Подбор персонала: 113&nbsp;откликов</h3>
+            <p class="summary">
+              Поиск кандидатов на&nbsp;позиции «взыскание долгов»
+              и&nbsp;«менеджер контакт-центра». CPA&nbsp;~600&nbsp;₽ при средней
+              зарплате 70&nbsp;000&nbsp;₽.
+            </p>
+            <div class="kpi">
+              <div>
+                <div class="v">68&nbsp;тыс</div>
+                <div class="k">бюджет</div>
+              </div>
+              <div>
+                <div class="v accent">113</div>
+                <div class="k">откликов</div>
+              </div>
+              <div>
+                <div class="v">~600&nbsp;₽</div>
+                <div class="k">CPA</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="process" class="process-bg">
+      <div class="wrap">
+        <span class="sec-label">05 / Этапы работы</span>
+        <h2 class="sec-h">
+          5 шагов от&nbsp;брифа до&nbsp;<em>стабильного потока</em> заявок.
+        </h2>
+
+        <div class="steps">
+          <div class="step">
+            <div class="n"><span>01</span><span class="when">день 1</span></div>
+            <div class="t">Бриф и аудит ниши</div>
+            <div class="d">
+              Созваниваемся 30–40&nbsp;минут. Разбираю продукт, конкурентов,
+              экономику, ожидания по&nbsp;CPL.
+            </div>
+          </div>
+          <div class="step">
+            <div class="n">
+              <span>02</span><span class="when">дни 2–4</span>
+            </div>
+            <div class="t">Стратегия и медиаплан</div>
+            <div class="d">
+              Каналы, бюджеты, гипотезы, контрольные точки. Согласовываем —
+              и&nbsp;только потом запуск.
+            </div>
+          </div>
+          <div class="step">
+            <div class="n">
+              <span>03</span><span class="when">дни 5–7</span>
+            </div>
+            <div class="t">Запуск кампаний</div>
+            <div class="d">
+              Семантика, креативы, цели в Метрике, UTM-разметка, пиксели. Первые
+              показы — на&nbsp;6–7&nbsp;день.
+            </div>
+          </div>
+          <div class="step">
+            <div class="n">
+              <span>04</span><span class="when">недели 2–4</span>
+            </div>
+            <div class="t">Оптимизация</div>
+            <div class="d">
+              Чищу площадки, докручиваю креативы, перераспределяю бюджет
+              на&nbsp;связки с&nbsp;лучшим CPL.
+            </div>
+          </div>
+          <div class="step">
+            <div class="n">
+              <span>05</span><span class="when">каждую неделю</span>
+            </div>
+            <div class="t">Отчёт и созвон</div>
+            <div class="d">
+              Прозрачный отчёт по&nbsp;затратам, заявкам и&nbsp;CPL. Видите, за
+              что платите и&nbsp;что улучшаем.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALCULATOR -->
+    <section id="calc">
+      <div class="wrap">
+        <span class="sec-label">06 / Калькулятор</span>
+        <h2 class="sec-h">
+          Посчитайте стоимость работ за&nbsp;<em>30 секунд</em>.
+        </h2>
+        <p class="sec-sub">
+          Это ориентир, а не оффер — точную смету составлю после короткого
+          брифа.
+        </p>
+
+        <div class="calc-wrap">
+          <div class="calc-inputs">
+            <div class="calc-row">
+              <div class="lbl">Каналы</div>
+              <div class="calc-options" id="calc-channels">
+                <div class="calc-opt is-on" data-ch="vk" data-price="30000">
+                  ВК · 30 000 ₽
+                </div>
+                <div class="calc-opt is-on" data-ch="ya" data-price="40000">
+                  Яндекс · 40 000 ₽
+                </div>
+                <div class="calc-opt" data-ch="av" data-price="35000">
+                  Авито · 35 000 ₽
+                </div>
+              </div>
+            </div>
+
+            <div class="calc-row">
+              <div class="lbl">Рекламный бюджет, ₽/мес</div>
+              <div class="calc-slider">
+                <input
+                  id="calc-budget"
+                  type="range"
+                  min="50000"
+                  max="2000000"
+                  step="10000"
+                  value="300000"
+                />
+                <div class="v">
+                  <span>50 000 ₽</span><b id="calc-budget-v">300 000 ₽</b
+                  ><span>2 000 000 ₽</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="calc-row">
+              <div class="lbl">Срок сотрудничества</div>
+              <div class="calc-options" id="calc-term">
+                <div class="calc-opt" data-term="1" data-mult="1">1 мес</div>
+                <div class="calc-opt is-on" data-term="3" data-mult="0.95">
+                  3 мес · −5%
+                </div>
+                <div class="calc-opt" data-term="6" data-mult="0.9">
+                  6 мес · −10%
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-result">
+            <div
+              class="lbl mono"
+              style="
+                color: var(--muted);
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+              "
+            >
+              Ваш ориентир / месяц
+            </div>
+            <div class="result-num" id="calc-total">71 250 ₽</div>
+            <div class="lbl mono" style="color: var(--muted); font-size: 12px">
+              + рекламный бюджет
+            </div>
+
+            <div class="result-breakdown" id="calc-breakdown"></div>
+
+            <div class="result-cta">
+              <a href="#" class="btn-primary" data-open-modal
+                >Обсудить условия <span class="arrow">→</span></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUARANTEES -->
+    <section id="guarantees" style="padding-top: 0">
+      <div class="wrap">
+        <span class="sec-label">07 / Гарантии</span>
+        <h2 class="sec-h">Чем рискую я,&nbsp;<em>а чем&nbsp;— вы</em>.</h2>
+
+        <div class="guarantees">
+          <div class="guar">
+            <div class="icon">01</div>
+            <h3>Без предоплат за пустоту</h3>
+            <p>
+              Беру оплату за конкретный объём работ. Не «маркетинг вообще», а
+              настройка, ведение и отчёт по чек-листу.
+            </p>
+          </div>
+          <div class="guar">
+            <div class="icon">02</div>
+            <h3>Доступ к&nbsp;кабинетам — у&nbsp;вас</h3>
+            <p>
+              Все рекламные аккаунты регистрируются на ваше юрлицо или физлицо.
+              Уйду — вы не теряете данные и связки.
+            </p>
+          </div>
+          <div class="guar">
+            <div class="icon">03</div>
+            <h3>Прозрачная отчётность</h3>
+            <p>
+              Каждую неделю — отчёт с цифрами по затратам, кликам, заявкам и
+              CPL. Без «всё нормально» — только конкретика.
+            </p>
+          </div>
+          <div class="guar">
+            <div class="icon">04</div>
+            <h3>Договор и&nbsp;чеки</h3>
+            <p>
+              Работаю как самозанятый: договор оферты, чек в «Моё&nbsp;дело»
+              после каждой оплаты. Без&nbsp;«переведи на&nbsp;карту»
+              и&nbsp;«договор потом».
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviews" style="padding-top: 0">
+      <div class="wrap">
+        <span class="sec-label">08 / Отзывы</span>
+        <h2 class="sec-h">
+          Что говорят клиенты, которые работают со&nbsp;мной
+          <em>год и&nbsp;дольше</em>.
+        </h2>
+
+        <div class="reviews-grid">
+          <div class="review">
+            <div class="stars">★★★★★</div>
+            <p class="quote">
+              «Заявки пошли уже на 5-й день после запуска. До этого работал с
+              двумя агентствами — оба слили бюджет на тестах. С Григорием
+              договорились на конкретный CPL и держим его четвёртый месяц
+              подряд.»
+            </p>
+            <div class="who">
+              <div class="ava">АК</div>
+              <div>
+                <div class="name">Алексей К.</div>
+                <div class="role">Собственник, МФО</div>
+              </div>
+            </div>
+          </div>
+          <div class="review">
+            <div class="stars">★★★★★</div>
+            <p class="quote">
+              «Самое ценное — отчёт каждую неделю и нормальный человеческий
+              ответ на вопрос „почему так“. Раньше казалось, что таргет — это
+              магия, а тут всё по полочкам.»
+            </p>
+            <div class="who">
+              <div class="ava">МР</div>
+              <div>
+                <div class="name">Мария Р.</div>
+                <div class="role">Школа волейбола, СПб</div>
+              </div>
+            </div>
+          </div>
+          <div class="review">
+            <div class="stars">★★★★★</div>
+            <p class="quote">
+              «За полгода работы окупили рекламу в опте х22. Отдельный плюс —
+              Григорий не зацикливается на одном канале, перенёс часть бюджета в
+              Авито и оттуда тоже пошли заказы.»
+            </p>
+            <div class="who">
+              <div class="ava">ИШ</div>
+              <div>
+                <div class="name">Игорь Ш.</div>
+                <div class="role">Пошив одежды опт</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" style="padding-top: 0">
+      <div class="wrap">
+        <span class="sec-label">09 / Частые вопросы</span>
+        <h2 class="sec-h">Если ещё думаете — <em>почитайте</em>.</h2>
+
+        <div class="faq-wrap" id="faq-list">
+          <div class="faq-item is-open">
+            <div class="faq-q">
+              Через сколько пойдут первые заявки? <span class="plus">+</span>
+            </div>
+            <div class="faq-a">
+              Обычно — 5–7 дней после запуска. На Яндекс Поиске часто быстрее, в
+              ВК нужно 3–5 дней на разгон и тест связок. Я не обещаю «заявки за
+              24 часа» — это маркетинговая сказка.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">
+              Гарантируете количество заявок? <span class="plus">+</span>
+            </div>
+            <div class="faq-a">
+              Гарантирую запуск, ведение и работу по чек-листу. Количество
+              заявок зависит от продукта, конкурентности ниши и качества сайта.
+              На брифе всегда обсуждаем реалистичный диапазон CPL — и работаем
+              именно на него.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">
+              Минимальный рекламный бюджет? <span class="plus">+</span>
+            </div>
+            <div class="faq-a">
+              Для Яндекс Директа — от 50 000 ₽/мес, для ВК — от 40 000 ₽/мес,
+              для Авито — от 30 000 ₽/мес. На меньшем бюджете не наберётся
+              статистики для оптимизации.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">
+              Кто платит за рекламу? <span class="plus">+</span>
+            </div>
+            <div class="faq-a">
+              Вы — напрямую через свой рекламный кабинет. Я не «прогоняю бюджет
+              через себя» и не беру комиссию с открутки. Моя оплата — отдельный
+              фикс за ведение.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">
+              А если ниша сложная — банкротство, медицина, МФО?
+              <span class="plus">+</span>
+            </div>
+            <div class="faq-a">
+              С такими нишами работаю чаще, чем со «свободными». МФО,
+              юридические услуги и медицину веду по правилам модерации каждой
+              площадки — без серых схем и блокировок.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">
+              Делаете лендинг или нужен уже готовый? <span class="plus">+</span>
+            </div>
+            <div class="faq-a">
+              Можно прийти со своим сайтом — посмотрю и подскажу, где правки.
+              Можно собрать новый лендинг под трафик — это отдельная услуга, 25
+              000 ₽ за страницу.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section id="form" style="padding-top: 0">
+      <div class="wrap">
+        <div class="form-wrap">
+          <div class="form-grid">
+            <div class="form-side">
+              <span class="sec-label">10 / Обсудим детали</span>
+              <h2>
+                Свяжитесь со&nbsp;мной — отвечу за&nbsp;<em>пару часов</em>.
+              </h2>
+              <p class="lead">
+                Расскажу, подходит ли ваша ниша, какой реалистичный CPL
+                и&nbsp;с&nbsp;каким бюджетом стартовать. Без воды и&nbsp;продаж.
+              </p>
+
+              <div class="form-contacts">
+                <a href="tel:+79120168771"
+                  ><span class="ic">тел</span><span>+7 (912) 016-87-71</span></a
+                >
+                <a
+                  href="https://t.me/grigatarget"
+                  target="_blank"
+                  rel="noopener"
+                  ><span class="ic">tg</span><span>@grigatarget</span></a
+                >
+                <a
+                  href="https://vk.com/grishatarget"
+                  target="_blank"
+                  rel="noopener"
+                  ><span class="ic">vk</span><span>vk.com/grishatarget</span></a
+                >
+              </div>
+            </div>
+
+            <div id="bottom-form-wrap">
+              <form
+                class="form-fields"
+                id="bottom-form"
+                onsubmit="submitBottomForm(event)"
+              >
+                <div class="field">
+                  <input id="f-name" type="text" placeholder="Имя" required />
+                </div>
+                <div class="field">
+                  <input
+                    id="f-contact"
+                    type="text"
+                    placeholder="Телефон или @telegram"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <input
+                    id="f-niche"
+                    type="text"
+                    placeholder="Ниша / продукт"
+                  />
+                </div>
+                <div class="field">
+                  <textarea
+                    id="f-msg"
+                    placeholder="Комментарий: бюджет, цели, что уже пробовали…"
+                  ></textarea>
+                </div>
+                <button class="form-submit" type="submit">
+                  Отправить заявку
+                </button>
+                <div class="form-note">
+                  Нажимая на кнопку, вы даёте согласие на обработку персональных
+                  данных
+                </div>
+              </form>
+              <div
+                id="bottom-form-success"
+                style="display: none; text-align: center; padding: 48px 0"
+              >
+                <div
+                  style="
+                    width: 72px;
+                    height: 72px;
+                    border-radius: 100px;
+                    background: var(--accent);
+                    color: #0a1502;
+                    display: grid;
+                    place-items: center;
+                    margin: 0 auto 24px;
+                    font-size: 30px;
+                    font-weight: 700;
+                  "
+                >
+                  ✓
+                </div>
+                <h3
+                  style="
+                    font-family: &quot;Bricolage Grotesque&quot;, sans-serif;
+                    font-size: 28px;
+                    font-weight: 500;
+                    letter-spacing: -0.02em;
+                    margin: 0 0 10px;
+                    color: var(--ink);
+                  "
+                >
+                  Спасибо!
+                </h3>
+                <p style="color: var(--muted); margin: 0">
+                  Свяжусь с вами в течение пары часов. Если срочно — пишите в
+                  <a
+                    href="https://t.me/grigatarget"
+                    style="color: var(--accent)"
+                    >@grigatarget</a
+                  >.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <div class="logo" style="margin-bottom: 22px">
+              <div class="logo-mark">ГГ</div>
+              <span>Глухов Григорий</span>
+            </div>
+            <div class="foot-big">
+              Реклама, которая работает, а не сливает бюджет.
+            </div>
+          </div>
+          <div>
+            <h4>Каналы</h4>
+            <ul>
+              <li><a href="#services">Яндекс Директ</a></li>
+              <li><a href="#services">ВКонтакте</a></li>
+              <li><a href="#services">Авито</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Сайт</h4>
+            <ul>
+              <li><a href="#cases">Кейсы</a></li>
+              <li><a href="#process">Этапы</a></li>
+              <li><a href="#calc">Калькулятор</a></li>
+              <li><a href="#faq">FAQ</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Контакты</h4>
+            <ul>
+              <li><a href="tel:+79120168771">+7 (912) 016-87-71</a></li>
+              <li>
+                <a
+                  href="https://t.me/grigatarget"
+                  target="_blank"
+                  rel="noopener"
+                  >Telegram</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://vk.com/grishatarget"
+                  target="_blank"
+                  rel="noopener"
+                  >ВКонтакте</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="foot-bot">
+          <div class="mono">© 2026 · Глухов Г. А. · Самозанятый</div>
+          <div class="mono">Сделано вручную, без шаблонов</div>
+        </div>
+      </div>
+    </footer>
+
+    <a href="#" class="corner-tag" data-open-modal
+      ><span class="ic">→</span> Получить расчёт</a
+    >
+
+    <!-- MODAL: форма заявки -->
+    <div
+      class="modal-overlay"
+      id="lead-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="lead-modal-title"
+    >
+      <div class="modal">
+        <button class="modal-close" aria-label="Закрыть">✕</button>
+        <div class="modal-inner">
+          <span
+            class="sec-label"
+            style="margin-bottom: 14px; display: inline-flex"
+            >Оставить заявку</span
+          >
+          <h3 id="lead-modal-title">
+            Напишите — отвечу за&nbsp;<em>пару часов</em>
+          </h3>
+          <p class="modal-sub">
+            Расскажу, подходит ли ваша ниша, какой реалистичный CPL
+            и&nbsp;с&nbsp;каким бюджетом стартовать. Без&nbsp;воды
+            и&nbsp;продаж.
+          </p>
+
+          <form
+            class="form-fields"
+            id="modal-form"
+            onsubmit="
+              event.preventDefault();
+              this.closest('.modal').classList.add('is-success');
+            "
+          >
+            <div class="field">
+              <input type="text" placeholder="Имя" required />
+            </div>
+            <div class="field">
+              <input type="text" placeholder="Телефон или @telegram" required />
+            </div>
+            <div class="field">
+              <input type="text" placeholder="Ниша / продукт (необязательно)" />
+            </div>
+            <div class="field">
+              <textarea
+                placeholder="Комментарий: бюджет, цели, что уже пробовали…"
+              ></textarea>
+            </div>
+            <button class="form-submit" type="submit">
+              Отправить заявку →
+            </button>
+          </form>
+
+          <div class="modal-alt">
+            <a href="tel:+79120168771"
+              ><span class="ic">тел</span>+7 (912) 016-87-71</a
+            >
+            <a href="https://t.me/grigatarget" target="_blank" rel="noopener"
+              ><span class="ic">tg</span>@grigatarget</a
+            >
+          </div>
+          <div class="modal-note">
+            Нажимая «Отправить», вы соглашаетесь <br />с обработкой персональных
+            данных
+          </div>
+
+          <div class="modal-success">
+            <div class="check">✓</div>
+            <h3 style="margin: 0 auto 12px">Спасибо!</h3>
+            <p class="modal-sub" style="margin-bottom: 0">
+              Свяжусь с вами в ближайшие пару часов. Если срочно&nbsp;— пишите в
+              Telegram
+              <a href="https://t.me/grigatarget" style="color: var(--accent)"
+                >@grigatarget</a
+              >.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // === MODAL ===
+      const leadModal = document.getElementById("lead-modal");
+      function openModal() {
+        leadModal.classList.add("is-open");
+        leadModal.classList.remove("is-success");
+        document.body.style.overflow = "hidden";
+        const first = leadModal.querySelector("input");
+        if (first) setTimeout(() => first.focus(), 320);
+      }
+      function closeModal() {
+        leadModal.classList.remove("is-open");
+        document.body.style.overflow = "";
+        // сбрасываем success через паузу
+        setTimeout(() => {
+          const m = leadModal.querySelector(".modal");
+          m.classList.remove("is-success");
+          const f = document.getElementById("modal-form");
+          if (f) f.reset();
+        }, 300);
+      }
+      document.querySelectorAll("[data-open-modal]").forEach((el) => {
+        el.addEventListener("click", (e) => {
+          e.preventDefault();
+          openModal();
+        });
       });
-    });
-  });
+      leadModal
+        .querySelector(".modal-close")
+        .addEventListener("click", closeModal);
+      leadModal.addEventListener("click", (e) => {
+        if (e.target === leadModal) closeModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && leadModal.classList.contains("is-open"))
+          closeModal();
+      });
 
-  const channels = document.querySelectorAll('#calc-channels .calc-opt');
-  const term = document.querySelectorAll('#calc-term .calc-opt');
-  const budget = document.getElementById('calc-budget');
-  const budgetV = document.getElementById('calc-budget-v');
-  const total = document.getElementById('calc-total');
-  const breakdown = document.getElementById('calc-breakdown');
-  function fmt(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
-  function recalc() {
-    let sum = 0; const lines = [];
-    channels.forEach(c => { if (c.classList.contains('is-on')) { const p = parseInt(c.dataset.price, 10); sum += p; lines.push({ k: c.textContent.split('·')[0].trim(), v: p }); } });
-    let mult = 1, termLabel = '';
-    term.forEach(t => { if (t.classList.contains('is-on')) { mult = parseFloat(t.dataset.mult); termLabel = t.textContent.trim(); } });
-    sum = sum * mult;
-    total.textContent = fmt(Math.round(sum));
-    budgetV.textContent = fmt(parseInt(budget.value, 10));
-    let html = '';
-    lines.forEach(l => { html += `<div class="b-row"><span>${l.k}</span><b>${fmt(l.v)}</b></div>`; });
-    if (mult < 1) html += `<div class="b-row" style="color: var(--accent);"><span>Скидка за срок (${termLabel})</span><b>−${Math.round((1-mult)*100)}%</b></div>`;
-    html += `<div class="b-row"><span>Рекламный бюджет</span><b>${fmt(parseInt(budget.value, 10))}</b></div>`;
-    breakdown.innerHTML = html;
-  }
-  function toggleGroup(group, multi = true) {
-    group.forEach(el => el.addEventListener('click', () => {
-      if (multi) el.classList.toggle('is-on');
-      else { group.forEach(x => x.classList.remove('is-on')); el.classList.add('is-on'); }
+      // Появляется автоматически через 35 с — один раз за сессию
+      if (!sessionStorage.getItem("lead-shown")) {
+        setTimeout(() => {
+          if (!leadModal.classList.contains("is-open")) {
+            openModal();
+            sessionStorage.setItem("lead-shown", "1");
+          }
+        }, 35000);
+      }
+
+      function submitBottomForm(e) {
+        e.preventDefault();
+        document.getElementById("bottom-form").style.display = "none";
+        document.getElementById("bottom-form-success").style.display = "block";
+      }
+
+      document.querySelectorAll(".faq-q").forEach((q) => {
+        q.addEventListener("click", () =>
+          q.parentElement.classList.toggle("is-open"),
+        );
+      });
+
+      document.querySelectorAll(".cases-filter .chip").forEach((c) => {
+        c.addEventListener("click", () => {
+          document
+            .querySelectorAll(".cases-filter .chip")
+            .forEach((x) => x.classList.remove("is-active"));
+          c.classList.add("is-active");
+          const f = c.dataset.f;
+          document.querySelectorAll(".case").forEach((card) => {
+            card.style.display =
+              f === "all" || card.dataset.niche === f ? "" : "none";
+          });
+        });
+      });
+
+      const channels = document.querySelectorAll("#calc-channels .calc-opt");
+      const term = document.querySelectorAll("#calc-term .calc-opt");
+      const budget = document.getElementById("calc-budget");
+      const budgetV = document.getElementById("calc-budget-v");
+      const total = document.getElementById("calc-total");
+      const breakdown = document.getElementById("calc-breakdown");
+      function fmt(n) {
+        return n.toLocaleString("ru-RU") + " ₽";
+      }
+      function recalc() {
+        let sum = 0;
+        const lines = [];
+        channels.forEach((c) => {
+          if (c.classList.contains("is-on")) {
+            const p = parseInt(c.dataset.price, 10);
+            sum += p;
+            lines.push({ k: c.textContent.split("·")[0].trim(), v: p });
+          }
+        });
+        let mult = 1,
+          termLabel = "";
+        term.forEach((t) => {
+          if (t.classList.contains("is-on")) {
+            mult = parseFloat(t.dataset.mult);
+            termLabel = t.textContent.trim();
+          }
+        });
+        sum = sum * mult;
+        total.textContent = fmt(Math.round(sum));
+        budgetV.textContent = fmt(parseInt(budget.value, 10));
+        let html = "";
+        lines.forEach((l) => {
+          html += `<div class="b-row"><span>${l.k}</span><b>${fmt(l.v)}</b></div>`;
+        });
+        if (mult < 1)
+          html += `<div class="b-row" style="color: var(--accent);"><span>Скидка за срок (${termLabel})</span><b>−${Math.round((1 - mult) * 100)}%</b></div>`;
+        html += `<div class="b-row"><span>Рекламный бюджет</span><b>${fmt(parseInt(budget.value, 10))}</b></div>`;
+        breakdown.innerHTML = html;
+      }
+      function toggleGroup(group, multi = true) {
+        group.forEach((el) =>
+          el.addEventListener("click", () => {
+            if (multi) el.classList.toggle("is-on");
+            else {
+              group.forEach((x) => x.classList.remove("is-on"));
+              el.classList.add("is-on");
+            }
+            recalc();
+          }),
+        );
+      }
+      toggleGroup(channels, true);
+      toggleGroup(term, false);
+      budget.addEventListener("input", recalc);
       recalc();
-    }));
-  }
-  toggleGroup(channels, true); toggleGroup(term, false);
-  budget.addEventListener('input', recalc); recalc();
-</script>
-</body>
+    </script>
+  </body>
 </html>
