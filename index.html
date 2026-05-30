@@ -3094,22 +3094,29 @@
           <form
             class="form-fields"
             id="modal-form"
-            onsubmit="
-              event.preventDefault();
-              this.closest('.modal').classList.add('is-success');
-            "
+            onsubmit="submitModalForm(event)"
           >
             <div class="field">
-              <input type="text" placeholder="Имя" required />
+              <input id="m-name" type="text" placeholder="Имя" required />
             </div>
             <div class="field">
-              <input type="text" placeholder="Телефон или @telegram" required />
+              <input
+                id="m-contact"
+                type="text"
+                placeholder="Телефон или @telegram"
+                required
+              />
             </div>
             <div class="field">
-              <input type="text" placeholder="Ниша / продукт (необязательно)" />
+              <input
+                id="m-niche"
+                type="text"
+                placeholder="Ниша / продукт (необязательно)"
+              />
             </div>
             <div class="field">
               <textarea
+                id="m-msg"
                 placeholder="Комментарий: бюджет, цели, что уже пробовали…"
               ></textarea>
             </div>
@@ -3194,10 +3201,55 @@
         }, 35000);
       }
 
+      const TG_TOKEN = "8705609253:AAEq37wupc7NBjnqo2MkwH6a8ljWOBX9RQA";
+      const TG_CHAT = "5047012665";
+
+      function sendToTelegram(text) {
+        return fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: "HTML" }),
+        });
+      }
+
+      function buildMessage(source, fields) {
+        const now = new Date().toLocaleString("ru-RU", {
+          timeZone: "Europe/Moscow",
+        });
+        const lines = [`🔔 <b>Новая заявка</b> — ${source}\n`];
+        if (fields.name) lines.push(`👤 <b>Имя:</b> ${fields.name}`);
+        if (fields.contact) lines.push(`📱 <b>Контакт:</b> ${fields.contact}`);
+        if (fields.niche) lines.push(`🏢 <b>Ниша:</b> ${fields.niche}`);
+        if (fields.service) lines.push(`📋 <b>Услуга:</b> ${fields.service}`);
+        if (fields.msg) lines.push(`💬 <b>Комментарий:</b> ${fields.msg}`);
+        lines.push(`\n🕐 ${now}`);
+        return lines.join("\n");
+      }
+
       function submitBottomForm(e) {
         e.preventDefault();
+        const fields = {
+          name: document.getElementById("f-name").value,
+          contact: document.getElementById("f-contact").value,
+          niche: document.getElementById("f-niche").value,
+          service: document.querySelector("#bottom-form select")?.value,
+          msg: document.getElementById("f-msg").value,
+        };
+        sendToTelegram(buildMessage("greklama.ru (форма)", fields));
         document.getElementById("bottom-form").style.display = "none";
         document.getElementById("bottom-form-success").style.display = "block";
+      }
+
+      function submitModalForm(e) {
+        e.preventDefault();
+        const fields = {
+          name: document.getElementById("m-name").value,
+          contact: document.getElementById("m-contact").value,
+          niche: document.getElementById("m-niche").value,
+          msg: document.getElementById("m-msg").value,
+        };
+        sendToTelegram(buildMessage("greklama.ru (модалка)", fields));
+        e.target.closest(".modal").classList.add("is-success");
       }
 
       document.querySelectorAll(".faq-q").forEach((q) => {
