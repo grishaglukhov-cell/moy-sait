@@ -3282,6 +3282,7 @@
           msg: document.getElementById("f-msg").value,
         };
         sendToTelegram(buildMessage("greklama.ru (форма)", fields));
+        ym(109498085, "reachGoal", "lead_form");
         document.getElementById("bottom-form").style.display = "none";
         document.getElementById("bottom-form-success").style.display = "block";
       }
@@ -3295,6 +3296,7 @@
           msg: document.getElementById("m-msg").value,
         };
         sendToTelegram(buildMessage("greklama.ru (модалка)", fields));
+        ym(109498085, "reachGoal", "lead_modal");
         e.target.closest(".modal").classList.add("is-success");
       }
 
