@@ -15,6 +15,7 @@
         --bg: #faf8f5;
         --bg-2: #f2efe9;
         --card: #f7f9fa;
+        --surface: #ffffff;
         --line: rgba(20, 20, 18, 0.08);
         --line-2: rgba(20, 20, 18, 0.16);
         --ink: #1c1b19;
@@ -34,7 +35,14 @@
       }
 
       body {
-        background: var(--bg);
+        background:
+          radial-gradient(
+            circle at 15% 10%,
+            var(--accent-soft) 0%,
+            transparent 45%
+          ),
+          radial-gradient(circle at 85% 90%, var(--bg-2) 0%, transparent 50%),
+          var(--bg);
         color: var(--ink);
         font-family: "Inter", sans-serif;
         line-height: 1.5;
@@ -62,13 +70,21 @@
         min-height: 100vh;
         display: flex;
         align-items: center;
-        padding: 64px 24px;
+        padding: 48px 24px;
       }
 
       .container {
         max-width: 720px;
         margin: 0 auto;
         width: 100%;
+        background: var(--card);
+        border-radius: var(--radius-lg);
+        box-shadow:
+          0 40px 80px -30px rgba(43, 67, 86, 0.18),
+          0 2px 6px rgba(43, 67, 86, 0.06);
+        padding: 56px 48px;
+        position: relative;
+        z-index: 1;
       }
 
       .btn {
@@ -86,10 +102,13 @@
       .btn-primary {
         background: var(--accent);
         color: #fff;
+        box-shadow: 0 12px 24px -10px rgba(43, 67, 86, 0.55);
       }
 
       .btn-primary:hover {
         background: var(--accent-2);
+        transform: translateY(-2px);
+        box-shadow: 0 16px 28px -10px rgba(43, 67, 86, 0.6);
       }
       .btn-primary:disabled {
         opacity: 0.3;
@@ -106,9 +125,10 @@
       }
 
       .card {
-        background: var(--card);
+        background: var(--surface);
         border: 1px solid var(--line);
         border-radius: var(--radius);
+        box-shadow: 0 2px 8px rgba(43, 67, 86, 0.05);
       }
 
       [hidden] {
@@ -155,7 +175,8 @@
         padding: 20px 24px;
         border-radius: var(--radius);
         border: 1px solid var(--line);
-        background: var(--card);
+        background: var(--surface);
+        box-shadow: 0 2px 8px rgba(43, 67, 86, 0.05);
         font-family: "Inter", sans-serif;
         font-size: 16px;
         cursor: pointer;
@@ -164,6 +185,8 @@
 
       .option-btn:hover {
         border-color: var(--line-2);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px -4px rgba(43, 67, 86, 0.1);
       }
       .option-btn.selected {
         border-color: var(--accent);
@@ -183,7 +206,8 @@
         padding: 24px;
         border-radius: var(--radius);
         border: 1px solid var(--line);
-        background: var(--card);
+        background: var(--surface);
+        box-shadow: 0 2px 8px rgba(43, 67, 86, 0.05);
         cursor: pointer;
         transition: 0.2s;
         font-family: "Inter", sans-serif;
@@ -195,6 +219,8 @@
 
       .procedure-card:hover {
         border-color: var(--line-2);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px -4px rgba(43, 67, 86, 0.1);
       }
       .procedure-card.selected {
         border-color: var(--accent);
@@ -239,8 +265,14 @@
         padding: 18px 24px;
         border-radius: var(--radius);
         border: 1px solid var(--line);
-        background: var(--card);
+        background: var(--surface);
+        box-shadow: 0 2px 8px rgba(43, 67, 86, 0.05);
         cursor: pointer;
+        transition: 0.2s;
+      }
+
+      .checkbox-item:hover {
+        border-color: var(--line-2);
       }
 
       .checkbox-item input {
@@ -284,7 +316,8 @@
         padding: 16px 20px;
         border-radius: var(--radius);
         border: 1px solid var(--line);
-        background: var(--card);
+        background: var(--surface);
+        box-shadow: 0 2px 8px rgba(43, 67, 86, 0.05);
         font-family: "Inter", sans-serif;
         font-size: 16px;
         color: var(--ink);
@@ -295,6 +328,25 @@
         border-color: var(--accent);
       }
 
+      .photo-glow {
+        position: relative;
+        width: fit-content;
+        margin: 0 auto 20px;
+      }
+
+      .photo-glow::before {
+        content: "";
+        position: absolute;
+        inset: -24px;
+        background: radial-gradient(
+          circle,
+          var(--accent-soft) 0%,
+          transparent 70%
+        );
+        filter: blur(18px);
+        z-index: -1;
+      }
+
       .doctor-photo-cover {
         width: 96px;
         height: 96px;
@@ -302,8 +354,9 @@
         object-fit: cover;
         object-position: top center;
         display: block;
-        margin: 0 auto 20px;
+        margin: 0;
         border: 2px solid var(--accent);
+        box-shadow: 0 12px 24px -8px rgba(43, 67, 86, 0.35);
       }
 
       .doctor-photo-card {
@@ -318,7 +371,11 @@
 
       @media (max-width: 640px) {
         .screen {
-          padding: 40px 20px;
+          padding: 24px 16px;
+        }
+        .container {
+          padding: 32px 24px;
+          border-radius: var(--radius);
         }
         .procedure-card {
           padding: 20px;
@@ -341,52 +398,51 @@
     >
       <svg
         class="cover-motif"
-        width="520"
-        height="520"
-        viewBox="0 0 520 520"
+        width="900"
+        height="900"
+        viewBox="0 0 900 900"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
         <circle
-          cx="260"
-          cy="260"
-          r="200"
+          cx="450"
+          cy="450"
+          r="420"
           stroke="var(--accent)"
           stroke-width="1"
-          stroke-dasharray="4 7"
+          stroke-dasharray="4 8"
         />
         <circle
-          cx="260"
-          cy="260"
-          r="140"
+          cx="450"
+          cy="450"
+          r="320"
           stroke="var(--accent)"
           stroke-width="1"
-          stroke-dasharray="4 7"
+          stroke-dasharray="4 8"
         />
         <circle
-          cx="260"
-          cy="260"
-          r="80"
+          cx="450"
+          cy="450"
+          r="220"
           stroke="var(--accent)"
           stroke-width="1"
-          stroke-dasharray="4 7"
+          stroke-dasharray="4 8"
         />
         <path
-          d="M260 20V60M260 460V500M20 260H60M460 260H500"
+          d="M450 10V70M450 830V890M10 450H70M830 450H890"
           stroke="var(--accent)"
           stroke-width="1"
         />
       </svg>
-      <div
-        class="container"
-        style="text-align: center; position: relative; z-index: 1"
-      >
-        <img
-          src="assets/savinov-avatar.png"
-          alt="Александр Савинов"
-          class="doctor-photo-cover"
-        />
+      <div class="container" style="text-align: center">
+        <div class="photo-glow">
+          <img
+            src="assets/savinov-avatar.png"
+            alt="Александр Савинов"
+            class="doctor-photo-cover"
+          />
+        </div>
         <p class="eyebrow">Клиника «Основа силуэта» · Москва</p>
         <h1 style="font-size: clamp(36px, 6vw, 64px); margin: 20px 0">
           Пройдите тест — узнайте,
