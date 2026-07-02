@@ -71,6 +71,55 @@
         display: flex;
         align-items: center;
         padding: 48px 24px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .case-marquee {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .case-marquee-row {
+        display: flex;
+        gap: 16px;
+        position: absolute;
+        left: 0;
+        width: max-content;
+        opacity: 0.14;
+        filter: grayscale(25%) blur(0.3px);
+        animation: case-marquee-scroll 90s linear infinite;
+      }
+
+      .case-marquee-row:first-child {
+        top: 6%;
+      }
+
+      .case-marquee-row.reverse {
+        bottom: 6%;
+        top: auto;
+        animation-direction: reverse;
+        animation-duration: 110s;
+      }
+
+      .case-marquee-row img {
+        height: 220px;
+        width: auto;
+        border-radius: 16px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      @keyframes case-marquee-scroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
       }
 
       .container {
@@ -389,10 +438,76 @@
         .quiz-nav .btn {
           width: 100%;
         }
+        .case-marquee-row img {
+          height: 130px;
+        }
       }
     </style>
   </head>
   <body>
+    <div class="case-marquee" aria-hidden="true">
+      <div class="case-marquee-row">
+        <img src="assets/cases/case-01.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-02.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-03.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-04.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-05.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-06.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-07.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-08.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-09.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-10.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-11.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-12.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-13.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-14.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-01.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-02.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-03.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-04.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-05.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-06.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-07.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-08.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-09.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-10.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-11.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-12.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-13.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-14.jpg" alt="" loading="lazy" />
+      </div>
+      <div class="case-marquee-row reverse">
+        <img src="assets/cases/case-14.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-13.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-12.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-11.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-10.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-09.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-08.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-07.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-06.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-05.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-04.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-03.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-02.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-01.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-14.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-13.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-12.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-11.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-10.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-09.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-08.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-07.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-06.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-05.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-04.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-03.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-02.jpg" alt="" loading="lazy" />
+        <img src="assets/cases/case-01.jpg" alt="" loading="lazy" />
+      </div>
+    </div>
+
     <section
       id="cover"
       class="screen"
