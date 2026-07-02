@@ -357,6 +357,8 @@
         margin: 0;
         border: 2px solid var(--accent);
         box-shadow: 0 12px 24px -8px rgba(43, 67, 86, 0.35);
+        transition: transform 0.15s ease-out;
+        will-change: transform;
       }
 
       .doctor-photo-card {
@@ -843,6 +845,42 @@
         document.getElementById("form-step").hidden = true;
         document.getElementById("form-success").hidden = false;
       }
+
+      function tiltElement(el, e, maxDeg) {
+        const rect = el.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        el.style.transform = `perspective(600px) rotateX(${(-y * maxDeg).toFixed(2)}deg) rotateY(${(x * maxDeg).toFixed(2)}deg) translateY(-2px)`;
+      }
+
+      const photoWrap = document.querySelector(".photo-glow");
+      if (photoWrap) {
+        const photoEl = photoWrap.querySelector(".doctor-photo-cover");
+        photoWrap.addEventListener("mousemove", (e) =>
+          tiltElement(photoEl, e, 16),
+        );
+        photoWrap.addEventListener("mouseleave", () => {
+          photoEl.style.transform = "";
+        });
+      }
+
+      let tiltActiveEl = null;
+      document
+        .getElementById("quiz-step-content")
+        .addEventListener("mousemove", (e) => {
+          const card = e.target.closest(".procedure-card, .option-btn");
+          if (tiltActiveEl && tiltActiveEl !== card) {
+            tiltActiveEl.style.transform = "";
+          }
+          tiltActiveEl = card;
+          if (card) tiltElement(card, e, 6);
+        });
+      document
+        .getElementById("quiz-step-content")
+        .addEventListener("mouseleave", () => {
+          if (tiltActiveEl) tiltActiveEl.style.transform = "";
+          tiltActiveEl = null;
+        });
     </script>
   </body>
 </html>
