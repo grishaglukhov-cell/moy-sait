@@ -269,6 +269,26 @@
         border-color: var(--ink);
       }
 
+      .doctor-photo-cover {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: top center;
+        display: block;
+        margin: 0 auto 20px;
+        border: 1px solid var(--line-2);
+      }
+
+      .doctor-photo-card {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: top center;
+        flex-shrink: 0;
+      }
+
       @media (max-width: 640px) {
         .screen {
           padding: 40px 20px;
@@ -289,6 +309,11 @@
   <body>
     <section id="cover" class="screen">
       <div class="container" style="text-align: center">
+        <img
+          src="assets/savinov-avatar.png"
+          alt="Александр Савинов"
+          class="doctor-photo-cover"
+        />
         <p class="eyebrow">Клиника «Основа Силуета» · Москва</p>
         <h1 style="font-size: clamp(36px, 6vw, 64px); margin: 20px 0">
           Пройдите тест — узнайте,
@@ -342,7 +367,21 @@
           style="font-size: clamp(28px, 4vw, 42px); margin: 16px 0 24px"
         ></h2>
         <ul id="result-reasons" class="result-reasons"></ul>
-        <div class="card" style="padding: 24px; margin: 32px 0">
+        <div
+          class="card"
+          style="
+            padding: 24px;
+            margin: 32px 0;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+          "
+        >
+          <img
+            src="assets/savinov-avatar.png"
+            alt="Александр Савинов"
+            class="doctor-photo-card"
+          />
           <p style="color: var(--ink-2)">
             Александр Савинов — практикующий пластический хирург клиники «Основа
             Силуета» в Москве. Индивидуальный план операции обсуждается на очной
