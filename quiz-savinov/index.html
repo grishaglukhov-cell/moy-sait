@@ -14,12 +14,15 @@
       :root {
         --bg: #faf8f5;
         --bg-2: #f2efe9;
-        --card: #ffffff;
+        --card: #f7f9fa;
         --line: rgba(20, 20, 18, 0.08);
         --line-2: rgba(20, 20, 18, 0.16);
         --ink: #1c1b19;
         --ink-2: #55524c;
         --muted: #8c887f;
+        --accent: #2b4356;
+        --accent-2: #3f5c73;
+        --accent-soft: #e9eff2;
         --radius: 24px;
         --radius-lg: 32px;
       }
@@ -52,7 +55,7 @@
         letter-spacing: 0.08em;
         text-transform: uppercase;
         font-size: 12px;
-        color: var(--muted);
+        color: var(--accent);
       }
 
       .screen {
@@ -74,19 +77,19 @@
         font-size: 15px;
         padding: 16px 32px;
         border-radius: 100px;
-        border: 1px solid var(--ink);
+        border: 1px solid var(--accent);
         cursor: pointer;
         transition: 0.2s;
         background: transparent;
       }
 
       .btn-primary {
-        background: var(--ink);
-        color: var(--bg);
+        background: var(--accent);
+        color: #fff;
       }
 
       .btn-primary:hover {
-        opacity: 0.85;
+        background: var(--accent-2);
       }
       .btn-primary:disabled {
         opacity: 0.3;
@@ -95,11 +98,11 @@
 
       .btn-secondary {
         background: transparent;
-        color: var(--ink);
+        color: var(--accent);
       }
 
       .btn-secondary:hover {
-        background: var(--bg-2);
+        background: var(--accent-soft);
       }
 
       .card {
@@ -128,7 +131,7 @@
 
       .quiz-progress .dot.done,
       .quiz-progress .dot.active {
-        background: var(--ink);
+        background: var(--accent);
       }
 
       .quiz-nav {
@@ -163,8 +166,8 @@
         border-color: var(--line-2);
       }
       .option-btn.selected {
-        border-color: var(--ink);
-        background: var(--bg-2);
+        border-color: var(--accent);
+        background: var(--accent-soft);
         font-weight: 600;
       }
 
@@ -194,12 +197,20 @@
         border-color: var(--line-2);
       }
       .procedure-card.selected {
-        border-color: var(--ink);
-        background: var(--bg-2);
+        border-color: var(--accent);
+        background: var(--accent-soft);
       }
 
       .procedure-card .icon {
-        font-size: 24px;
+        font-size: 20px;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--accent-soft);
+        border-radius: 50%;
       }
 
       .checkbox-list {
@@ -221,6 +232,7 @@
       .checkbox-item input {
         width: 18px;
         height: 18px;
+        accent-color: var(--accent);
       }
 
       .result-reasons {
@@ -239,7 +251,7 @@
         content: "—";
         position: absolute;
         left: 0;
-        color: var(--ink);
+        color: var(--accent);
       }
 
       .form-group {
@@ -266,7 +278,7 @@
 
       .form-group input:focus {
         outline: none;
-        border-color: var(--ink);
+        border-color: var(--accent);
       }
 
       .doctor-photo-cover {
@@ -277,7 +289,7 @@
         object-position: top center;
         display: block;
         margin: 0 auto 20px;
-        border: 1px solid var(--line-2);
+        border: 2px solid var(--accent);
       }
 
       .doctor-photo-card {
@@ -287,6 +299,7 @@
         object-fit: cover;
         object-position: top center;
         flex-shrink: 0;
+        border: 2px solid var(--accent);
       }
 
       @media (max-width: 640px) {
@@ -317,7 +330,7 @@
         <p class="eyebrow">Клиника «Основа силуэта» · Москва</p>
         <h1 style="font-size: clamp(36px, 6vw, 64px); margin: 20px 0">
           Пройдите тест — узнайте,
-          <em style="font-style: italic; color: var(--ink-2)"
+          <em style="font-style: italic; color: var(--accent)"
             >какая процедура</em
           >
           подходит именно вам
