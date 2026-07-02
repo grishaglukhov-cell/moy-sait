@@ -66,6 +66,34 @@
         color: var(--accent);
       }
 
+      .promo-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin: 16px 0 0;
+        padding: 10px 18px;
+        border-radius: 100px;
+        background: var(--accent);
+        color: #fff;
+        font-size: 14px;
+        box-shadow: 0 10px 20px -10px rgba(43, 67, 86, 0.5);
+      }
+
+      .promo-badge-price {
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .promo-badge-note {
+        white-space: nowrap;
+      }
+
+      .promo-badge-divider {
+        width: 1px;
+        height: 14px;
+        background: rgba(255, 255, 255, 0.35);
+      }
+
       .screen {
         min-height: 100vh;
         display: flex;
@@ -441,6 +469,14 @@
         .case-marquee-row img {
           height: 130px;
         }
+        .promo-badge {
+          flex-direction: column;
+          gap: 2px;
+          padding: 10px 20px;
+        }
+        .promo-badge-divider {
+          display: none;
+        }
       }
     </style>
   </head>
@@ -561,6 +597,11 @@
           />
         </div>
         <p class="eyebrow">Клиника «Основа силуэта» · Москва</p>
+        <div class="promo-badge">
+          <span class="promo-badge-price">Консультация — 2 500 ₽</span>
+          <span class="promo-badge-divider"></span>
+          <span class="promo-badge-note">до конца лета</span>
+        </div>
         <h1 style="font-size: clamp(36px, 6vw, 64px); margin: 20px 0">
           Пройдите тест — узнайте,
           <em style="font-style: italic; color: var(--accent)"
