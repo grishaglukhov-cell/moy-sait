@@ -1036,16 +1036,48 @@
           ym(109546996, "reachGoal", "quiz_complete");
       }
 
+      const TG_TOKEN = "8877940194:AAHld8knPGYOufIiBkp9WjExHvV1KYL54nc";
+      const TG_CHAT = "5047012665";
+
+      function sendToTelegram(text) {
+        const params = new URLSearchParams({
+          chat_id: TG_CHAT,
+          text,
+          parse_mode: "HTML",
+        });
+        return fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+          method: "POST",
+          body: params,
+        });
+      }
+
+      function buildLeadMessage(name, phone) {
+        const now = new Date().toLocaleString("ru-RU", {
+          timeZone: "Europe/Moscow",
+        });
+        const answersList = Object.values(state.answers).join(", ");
+        const contraList =
+          state.contraindications
+            .map((key) => CONTRAINDICATIONS.find((c) => c.key === key)?.label)
+            .filter(Boolean)
+            .join(", ") || "не отмечено";
+        const lines = [
+          "🔔 <b>Новая заявка с квиза</b>\n",
+          `👤 <b>Имя:</b> ${name}`,
+          `📱 <b>Телефон:</b> ${phone}`,
+          `📋 <b>Процедура:</b> ${PROCEDURES[state.procedure].label}`,
+          `📝 <b>Ответы:</b> ${answersList}`,
+          `⚠️ <b>Противопоказания:</b> ${contraList}`,
+          `\n🕐 ${now}`,
+        ];
+        return lines.join("\n");
+      }
+
       function submitForm(event) {
         event.preventDefault();
-        const data = {
-          name: document.getElementById("lead-name").value,
-          phone: document.getElementById("lead-phone").value,
-          procedure: PROCEDURES[state.procedure].label,
-          answers: state.answers,
-          contraindications: state.contraindications,
-        };
-        console.log("Заявка с квиза:", data);
+        const name = document.getElementById("lead-name").value;
+        const phone = document.getElementById("lead-phone").value;
+        sendToTelegram(buildLeadMessage(name, phone));
         document.getElementById("form-step").hidden = true;
         document.getElementById("form-success").hidden = false;
         if (typeof ym === "function") ym(109546996, "reachGoal", "lead_form");
