@@ -106,6 +106,8 @@
       .case-marquee {
         position: fixed;
         inset: 0;
+        height: 100vh;
+        height: 100dvh;
         z-index: 0;
         overflow: hidden;
         pointer-events: none;
@@ -131,6 +133,15 @@
         top: auto;
         animation-direction: reverse;
         animation-duration: 110s;
+      }
+
+      @media (max-width: 640px) {
+        .case-marquee-row:first-child {
+          top: 1%;
+        }
+        .case-marquee-row.reverse {
+          bottom: 1%;
+        }
       }
 
       .case-marquee-row img {
@@ -467,7 +478,10 @@
           width: 100%;
         }
         .case-marquee-row img {
-          height: 130px;
+          height: 150px;
+        }
+        .case-marquee-row {
+          opacity: 0.22;
         }
         .promo-badge {
           flex-direction: column;
