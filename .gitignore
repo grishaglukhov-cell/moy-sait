@@ -5,3 +5,8 @@ foto.png
 # macOS
 .DS_Store
 .claude/
+.mcp.json
+
+# Claude Code skills cache
+.agents/
+skills-lock.json
