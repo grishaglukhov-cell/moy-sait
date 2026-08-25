@@ -3233,15 +3233,7 @@
           closeModal();
       });
 
-      // Появляется автоматически через 35 с — один раз за сессию
-      if (!sessionStorage.getItem("lead-shown")) {
-        setTimeout(() => {
-          if (!leadModal.classList.contains("is-open")) {
-            openModal();
-            sessionStorage.setItem("lead-shown", "1");
-          }
-        }, 35000);
-      }
+      // Автопоказ модалки через 35 с отключён по запросу пользователя
 
       const TG_TOKEN = "8705609253:AAEq37wupc7NBjnqo2MkwH6a8ljWOBX9RQA";
       const TG_CHAT = "5047012665";
