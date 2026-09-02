@@ -1,5 +1,5 @@
-const http = require("http");
 const https = require("https");
+const express = require("express");
 
 // Корневой сертификат "Russian Trusted Root CA" (Минцифры России) — нужен,
 // потому что platform-api2.max.ru подписан этим УЦ, а он не входит
@@ -74,54 +74,34 @@ function sendToMax(text) {
   });
 }
 
-const server = http.createServer((req, res) => {
+const app = express();
+app.use(express.json());
+
+app.use((req, res, next) => {
   const origin = req.headers.origin || "";
   const allowOrigin = ALLOWED_ORIGINS.has(origin) ? origin : "https://greklama.ru";
   res.setHeader("Access-Control-Allow-Origin", allowOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") return res.sendStatus(204);
+  next();
+});
 
-  if (req.method === "OPTIONS") {
-    res.writeHead(204);
-    return res.end();
+app.get("/", (req, res) => res.type("text/plain").send("ok"));
+
+app.post("/", async (req, res) => {
+  const text = typeof req.body?.text === "string" ? req.body.text.slice(0, 4000) : "";
+  if (!text) {
+    return res.status(422).json({ ok: false, error: "empty_text" });
   }
-  if (req.method === "GET") {
-    res.writeHead(200, { "Content-Type": "text/plain" });
-    return res.end("ok");
+  try {
+    const result = await sendToMax(text);
+    const ok = result.status >= 200 && result.status < 300;
+    res.status(ok ? 200 : 502).json({ ok, result: result.body });
+  } catch (err) {
+    res.status(502).json({ ok: false, error: String(err) });
   }
-  if (req.method !== "POST") {
-    res.writeHead(405);
-    return res.end();
-  }
-
-  let raw = "";
-  req.on("data", (c) => (raw += c));
-  req.on("end", async () => {
-    let data;
-    try {
-      data = JSON.parse(raw || "{}");
-    } catch {
-      res.writeHead(400, { "Content-Type": "application/json" });
-      return res.end(JSON.stringify({ ok: false, error: "bad_json" }));
-    }
-
-    const text = typeof data.text === "string" ? data.text.slice(0, 4000) : "";
-    if (!text) {
-      res.writeHead(422, { "Content-Type": "application/json" });
-      return res.end(JSON.stringify({ ok: false, error: "empty_text" }));
-    }
-
-    try {
-      const result = await sendToMax(text);
-      const ok = result.status >= 200 && result.status < 300;
-      res.writeHead(ok ? 200 : 502, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ ok, result: result.body }));
-    } catch (err) {
-      res.writeHead(502, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ ok: false, error: String(err) }));
-    }
-  });
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log("MAX relay listening on " + PORT));
+app.listen(PORT, () => console.log("MAX relay listening on " + PORT));
