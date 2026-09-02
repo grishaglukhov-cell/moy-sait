@@ -3238,7 +3238,7 @@
       const TG_TOKEN = "8705609253:AAEq37wupc7NBjnqo2MkwH6a8ljWOBX9RQA";
       const TG_CHAT = "5047012665";
 
-      const MAX_PROXY_URL = "https://greklama-max-proxy.greklama.workers.dev";
+      const MAX_PROXY_URL = "https://grishaglukhov-cell-moy-sait-f46c.twc1.net";
 
       function sendToTelegram(text) {
         const params = new URLSearchParams({
@@ -3254,8 +3254,10 @@
 
       function sendToMax(text) {
         // Токен бота MAX не хранится на клиенте — запрос идёт через
-        // Cloudflare Worker, который знает токен и умеет отвечать на CORS
-        // (у самого API MAX поддержки CORS нет, напрямую из браузера не достучаться).
+        // собственный relay-сервер на Timeweb Cloud (умеет CORS и знает токен).
+        // У самого API MAX поддержки CORS нет, из браузера напрямую не достучаться,
+        // а прокси на Cloudflare Workers у части посетителей из РФ блокируется
+        // без VPN — поэтому relay развёрнут на российском хостинге напрямую.
         return fetch(MAX_PROXY_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
