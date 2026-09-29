@@ -44,16 +44,24 @@ const ALLOWED_ORIGINS = new Set([
   "https://greklama.ru",
   "https://www.greklama.ru",
 ]);
+// Сайт «Ваше право»: боевой домен и технический домен Timeweb (*.twc1.net).
+// Его заявки идут в MAX_CHAT_ID_VASHE_PRAVO, а пока он не задан — в общий MAX_CHAT_ID.
+const VASHE_PRAVO_ORIGIN = /^https:\/\/((www\.)?vashe-pravo-sochi\.ru|[a-z0-9-]+\.twc1\.net)$/;
+
+function chatFor(origin) {
+  if (VASHE_PRAVO_ORIGIN.test(origin)) return process.env.MAX_CHAT_ID_VASHE_PRAVO || MAX_CHAT_ID;
+  return MAX_CHAT_ID;
+}
 
 const maxAgent = new https.Agent({ ca: RUSSIAN_TRUSTED_ROOT_CA });
 
-function sendToMax(text) {
+function sendToMax(text, chatId) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({ text, format: "html" });
     const req = https.request(
       {
         hostname: "platform-api2.max.ru",
-        path: "/messages?chat_id=" + encodeURIComponent(MAX_CHAT_ID),
+        path: "/messages?chat_id=" + encodeURIComponent(chatId),
         method: "POST",
         agent: maxAgent,
         headers: {
@@ -79,7 +87,7 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   const origin = req.headers.origin || "";
-  const allowOrigin = ALLOWED_ORIGINS.has(origin) ? origin : "https://greklama.ru";
+  const allowOrigin = ALLOWED_ORIGINS.has(origin) || VASHE_PRAVO_ORIGIN.test(origin) ? origin : "https://greklama.ru";
   res.setHeader("Access-Control-Allow-Origin", allowOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -95,7 +103,7 @@ app.post("/", async (req, res) => {
     return res.status(422).json({ ok: false, error: "empty_text" });
   }
   try {
-    const result = await sendToMax(text);
+    const result = await sendToMax(text, chatFor(req.headers.origin || ""));
     const ok = result.status >= 200 && result.status < 300;
     res.status(ok ? 200 : 502).json({ ok, result: result.body });
   } catch (err) {
