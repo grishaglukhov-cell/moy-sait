@@ -1,7 +1,5 @@
-/* Enable the callback form only after a real endpoint and approved documents are ready. */
+/* web3formsKey — Access Key с web3forms.com (зарегистрирован на почту, куда приходят заявки). */
 window.VP_CONFIG = {
-  leadEndpoint: '',
-  privacyUrl: '',
-  consentUrl: '',
+  web3formsKey: '',
   metrikaId: null
 };

@@ -40,8 +40,6 @@
   let pending = false;
   const form = document.getElementById('lead-form');
   const status = document.getElementById('form-status');
-  const submissionKey = () => window.crypto.randomUUID();
-  let requestId = submissionKey();
   function track(name) {
     // Configure the approved Metrika loader separately; no tracker is loaded in the private preview.
     if (config.metrikaId && typeof window.ym === 'function') {
@@ -56,9 +54,6 @@
       lastTrigger = trigger;
       currentTopic = trigger.dataset.contact || 'Консультация';
       document.getElementById('contact-topic').textContent = currentTopic;
-      document.getElementById('contact-email').href = 'mailto:zina.demidova.82@mail.ru?subject=' +
-        encodeURIComponent('Консультация: ' + currentTopic) + '&body=' +
-        encodeURIComponent('Здравствуйте, Зинаида Алексеевна!\n\nХочу записаться на консультацию.\nМой вопрос: \nУдобное время для связи: ');
       closeMenu();
       dialog.showModal();
       document.body.classList.add('modal-open');
@@ -75,24 +70,26 @@
     lastTrigger?.focus({ preventScroll: true });
   });
 
-  const validUrl = value => {
-    if (!value) return false;
-    try { const url = new URL(value, window.location.origin); return url.protocol === 'https:' || url.origin === window.location.origin; }
-    catch { return false; }
-  };
-  if (validUrl(config.leadEndpoint) && validUrl(config.privacyUrl) && validUrl(config.consentUrl)) {
-    form.hidden = false;
-    document.getElementById('privacy-link').href = config.privacyUrl;
-    document.getElementById('consent-link').href = config.consentUrl;
-  }
   form.addEventListener('submit', async event => {
     event.preventDefault();
-    if (pending || form.hidden || !form.reportValidity()) return;
+    if (pending || !form.reportValidity()) return;
     const fields = new FormData(form);
     const phone = String(fields.get('phone') || '').replace(/\D/g, '');
     status.className = '';
     if (phone.length < 10 || phone.length > 15) {
       status.textContent = 'Проверьте номер телефона: нужно от 10 до 15 цифр.';
+      status.className = 'error';
+      return;
+    }
+    // Bots fill the hidden field; pretend success so they do not retry.
+    if (String(fields.get('website') || '')) {
+      status.textContent = 'Запрос принят. Юрист свяжется с вами в рабочее время.';
+      status.className = 'success';
+      form.reset();
+      return;
+    }
+    if (!config.web3formsKey) {
+      status.textContent = 'Форма пока не подключена. Позвоните, пожалуйста: +7 918 207-09-86.';
       status.className = 'error';
       return;
     }
@@ -108,18 +105,19 @@
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 15000);
     try {
-      const response = await fetch(config.leadEndpoint, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
-        body: JSON.stringify({ requestId, name: String(fields.get('name') || '').trim(), phone, topic: currentTopic,
-          consent: fields.get('consent') === 'on', website: String(fields.get('website') || ''),
-          page: window.location.pathname, attribution })
+      const utm = Object.entries(attribution).map(([key, value]) => key + '=' + value).join(', ');
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, signal: controller.signal,
+        body: JSON.stringify({ access_key: config.web3formsKey, subject: 'Заявка с сайта «Ваше право»: ' + currentTopic,
+          from_name: 'Сайт «Ваше право»', 'Имя': String(fields.get('name') || '').trim() || '—', 'Телефон': '+' + (phone.length === 10 ? '7' + phone : phone.replace(/^8(?=\d{10}$)/, '7')),
+          'Вопрос': String(fields.get('question') || '').trim() || '—', 'Тема': currentTopic,
+          'Страница': window.location.pathname, 'Метки': utm || '—', 'Согласие на обработку ПДн': 'да' })
       });
       const data = await response.json();
-      if (!response.ok || data.accepted !== true || !data.leadId) throw new Error('Delivery not confirmed');
+      if (!response.ok || data.success !== true) throw new Error('Delivery not confirmed');
       status.textContent = 'Запрос принят. Юрист свяжется с вами в рабочее время.';
       status.className = 'success';
       form.reset();
-      requestId = submissionKey();
       track('lead_accepted');
     } catch {
       status.textContent = 'Не удалось подтвердить отправку. Данные сохранены в форме. Попробуйте ещё раз или позвоните: +7 918 207-09-86.';

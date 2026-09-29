@@ -119,3 +119,4 @@
 @media(max-width:700px){.service-card{min-height:320px}.service-card p,.situation p{font-size:14px}.service-card .card-link{font-size:11px}.hero-note{font-size:11px}.hero-copy h1{overflow-wrap:normal}.steps p,.lawyer-copy>p:not(.eyebrow):not(.lead),.faq-list details p{font-size:15px}}
 @media(max-width:380px){.service-card{min-height:265px}.service-card .card-link{font-size:12px}}
 @media(max-width:700px){.experience{bottom:155px}}
+#lead-form button[type=submit]{width:100%;margin-top:6px;justify-content:center}.dialog-note a{text-decoration:underline}.legal{max-width:820px}.legal h1{font-size:clamp(32px,5vw,48px);margin-bottom:24px}.legal h2{font-size:22px;margin:32px 0 10px}.legal p,.legal li{font-size:15px;line-height:1.7;margin-top:10px}.legal ul{padding-left:20px}.legal .button{margin-top:36px}
