@@ -88,7 +88,7 @@
       form.reset();
       return;
     }
-    if (!config.web3formsKey) {
+    if (!config.leadEndpoint) {
       status.textContent = 'Форма пока не подключена. Позвоните, пожалуйста: +7 918 207-09-86.';
       status.className = 'error';
       return;
@@ -105,16 +105,22 @@
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 15000);
     try {
+      // The relay forwards this text to MAX with format: html, so user input is escaped.
+      const safe = value => String(value || '').trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') || '—';
       const utm = Object.entries(attribution).map(([key, value]) => key + '=' + value).join(', ');
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, signal: controller.signal,
-        body: JSON.stringify({ access_key: config.web3formsKey, subject: 'Заявка с сайта «Ваше право»: ' + currentTopic,
-          from_name: 'Сайт «Ваше право»', 'Имя': String(fields.get('name') || '').trim() || '—', 'Телефон': '+' + (phone.length === 10 ? '7' + phone : phone.replace(/^8(?=\d{10}$)/, '7')),
-          'Вопрос': String(fields.get('question') || '').trim() || '—', 'Тема': currentTopic,
-          'Страница': window.location.pathname, 'Метки': utm || '—', 'Согласие на обработку ПДн': 'да' })
+      const text = 'Новая заявка — сайт «Ваше право»' +
+        '\nИмя: ' + safe(fields.get('name')) +
+        '\nТелефон: +' + (phone.length === 10 ? '7' + phone : phone.replace(/^8(?=\d{10}$)/, '7')) +
+        '\nВопрос: ' + safe(fields.get('question')) +
+        '\nТема: ' + safe(currentTopic) +
+        '\nСтраница: ' + safe(window.location.pathname) +
+        (utm ? '\nМетки: ' + safe(utm) : '');
+      const response = await fetch(config.leadEndpoint, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
+        body: JSON.stringify({ text })
       });
       const data = await response.json();
-      if (!response.ok || data.success !== true) throw new Error('Delivery not confirmed');
+      if (!response.ok || data.ok !== true) throw new Error('Delivery not confirmed');
       status.textContent = 'Запрос принят. Юрист свяжется с вами в рабочее время.';
       status.className = 'success';
       form.reset();

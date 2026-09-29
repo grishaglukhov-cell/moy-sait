@@ -1,5 +1,5 @@
-/* web3formsKey — Access Key с web3forms.com (зарегистрирован на почту, куда приходят заявки). */
+/* leadEndpoint — сервер max-relay: пересылает заявки с формы в MAX. */
 window.VP_CONFIG = {
-  web3formsKey: '',
+  leadEndpoint: 'https://grishaglukhov-cell-moy-sait-f46c.twc1.net',
   metrikaId: null
 };
