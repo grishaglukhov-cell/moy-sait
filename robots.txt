@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /consent/
+Disallow: /privacy/
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&ysclid
+
+Sitemap: https://vashepravo-sochi.ru/sitemap.xml
