@@ -85,9 +85,17 @@ contactForm.addEventListener('submit', async event => {
   event.preventDefault();
   if (contactForm.querySelector('button[type="submit"]').disabled || !contactForm.reportValidity()) return;
   if (await sendLead(contactForm, 'форма внизу страницы')) {
-    contactForm.querySelector('.form-status').textContent = 'Заявка принята. Юрист перезвонит в рабочее время (Пн–Пт, 10:00–17:00).';
+    contactForm.hidden = true;
+    contactSuccess.hidden = false;
+    contactSuccess.focus({ preventScroll: true });
+    contactSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
     track('lead_form');
   }
+});
+const contactSuccess = document.getElementById('contact-success');
+document.getElementById('contact-again').addEventListener('click', () => {
+  contactSuccess.hidden = true;
+  contactForm.hidden = false;
 });
 
 // Всплывающее окно с заявкой: открывается любой кнопкой, ведущей на #consultation.
@@ -116,6 +124,7 @@ leadForm.addEventListener('submit', async event => {
   if (await sendLead(leadForm, 'всплывающее окно')) {
     leadForm.hidden = true;
     leadSuccess.hidden = false;
+    leadSuccess.focus();
     track('lead_modal');
   }
 });
