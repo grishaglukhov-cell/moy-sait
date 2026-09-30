@@ -19,8 +19,8 @@ document.getElementById('more-reviews').addEventListener('click', event => {
 
 // Заявки уходят в MAX через max-relay (ветка max-relay в moy-sait, Timeweb app 247551).
 const LEAD_ENDPOINT = 'https://grishaglukhov-cell-moy-sait-f46c.twc1.net';
-// Номер счётчика Яндекс.Метрики. Пока null — Метрика не грузится, цели не шлются.
-const METRIKA_ID = null;
+// Номер счётчика Яндекс.Метрики (null — Метрика не грузится, цели не шлются).
+const METRIKA_ID = 113207324;
 
 if (METRIKA_ID) {
   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
