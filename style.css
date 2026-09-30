@@ -7,3 +7,17 @@
 .honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .office-note{margin-top:20px;font-size:14px}
 .legal{max-width:820px;padding:60px 0 90px}.legal h1{font-size:clamp(28px,4vw,42px);line-height:1.15;margin:10px 0 18px}.legal h2{font-size:21px;margin:34px 0 10px}.legal p,.legal li{color:var(--muted)}.legal a{text-decoration:underline}
+.lead-dialog{width:min(94vw,520px);padding:22px 30px 30px;max-height:94vh;overflow:auto}
+.lead-dialog .dialog-close{margin-bottom:6px}
+.lead-card h3{font-size:26px;line-height:1.2;margin:12px 0 10px}
+.lead-sub{font-size:14px;color:var(--muted);margin:0 0 6px}
+.lead-card label small{color:var(--muted)}
+.lead-card textarea{min-height:0;resize:vertical}
+.lead-card .btn{width:100%;margin-top:20px}
+.lead-success{text-align:center;padding:10px 0 4px}
+.lead-success h3{font-size:26px;margin:14px 0 10px}
+.lead-success p{color:var(--muted);font-size:15px}
+.lead-success a{text-decoration:underline;white-space:nowrap}
+.lead-success .btn{width:100%;margin-top:14px}
+.lead-check{display:inline-flex;width:58px;height:58px;border-radius:50%;align-items:center;justify-content:center;background:var(--gold);color:#22213f;font-size:28px;font-weight:700}
+@media(max-width:700px){.lead-dialog{width:100%;max-width:100%;max-height:100%;height:100%;margin:0;border-radius:0;padding:16px 18px 24px}.lead-card h3{font-size:23px}}

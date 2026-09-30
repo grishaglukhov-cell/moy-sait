@@ -38,17 +38,14 @@ document.addEventListener('click', event => {
   else if (href.startsWith('mailto:')) track('click_email');
 });
 
-const form = document.getElementById('contact-form');
-const formStatus = document.getElementById('form-status');
-let pending = false;
-form.addEventListener('submit', async event => {
-  event.preventDefault();
-  if (pending || !form.reportValidity()) return;
+// Отправка заявки в MAX. Общая для нижней формы (#contact-form) и всплывающего окна (#lead-form).
+async function sendLead(form, source) {
+  const formStatus = form.querySelector('.form-status');
   const data = new FormData(form);
   // Боты заполняют скрытое поле — делаем вид, что всё прошло, чтобы не повторяли.
-  if (String(data.get('website') || '')) { form.reset(); formStatus.textContent = 'Заявка принята. Юрист перезвонит в рабочее время.'; return; }
+  if (String(data.get('website') || '')) { form.reset(); return true; }
   const digits = String(data.get('phone')).replace(/\D/g, '');
-  if (digits.length < 10 || digits.length > 15) { formStatus.textContent = 'Проверьте номер телефона: нужно от 10 до 15 цифр.'; return; }
+  if (digits.length < 10 || digits.length > 15) { formStatus.textContent = 'Проверьте номер телефона: нужно от 10 до 15 цифр.'; return false; }
   const phone = digits.length === 10 ? '7' + digits : digits.replace(/^8(?=\d{10}$)/, '7');
   const params = new URLSearchParams(location.search);
   const utm = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','yclid']
@@ -60,9 +57,10 @@ form.addEventListener('submit', async event => {
     '\nТелефон: +' + phone +
     '\nНаправление: ' + safe(data.get('topic')) +
     '\nСитуация: ' + safe(data.get('question')) +
+    '\nФорма: ' + source +
     (utm ? '\nМетки: ' + safe(utm) : '');
   const button = form.querySelector('button[type="submit"]');
-  pending = true; button.disabled = true;
+  button.disabled = true;
   formStatus.textContent = 'Отправляем заявку…';
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 15000);
@@ -71,11 +69,53 @@ form.addEventListener('submit', async event => {
     const result = await response.json();
     if (!response.ok || result.ok !== true) throw new Error('Delivery not confirmed');
     form.reset();
-    formStatus.textContent = 'Заявка принята. Юрист перезвонит в рабочее время (Пн–Пт, 10:00–17:00).';
-    track('lead_form'); track('lead');
+    formStatus.textContent = '';
+    track('lead');
+    return true;
   } catch {
     formStatus.textContent = 'Не удалось отправить заявку. Данные остались в форме — попробуйте ещё раз или позвоните: +7 (918) 207-09-86.';
+    return false;
   } finally {
-    clearTimeout(timer); pending = false; button.disabled = false;
+    clearTimeout(timer); button.disabled = false;
+  }
+}
+
+const contactForm = document.getElementById('contact-form');
+contactForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (contactForm.querySelector('button[type="submit"]').disabled || !contactForm.reportValidity()) return;
+  if (await sendLead(contactForm, 'форма внизу страницы')) {
+    contactForm.querySelector('.form-status').textContent = 'Заявка принята. Юрист перезвонит в рабочее время (Пн–Пт, 10:00–17:00).';
+    track('lead_form');
+  }
+});
+
+// Всплывающее окно с заявкой: открывается любой кнопкой, ведущей на #consultation.
+const leadDialog = document.getElementById('lead-dialog');
+const leadForm = document.getElementById('lead-form');
+const leadSuccess = leadDialog.querySelector('.lead-success');
+const leadTitle = document.getElementById('lead-title');
+function openLead(topic) {
+  leadForm.hidden = false;
+  leadSuccess.hidden = true;
+  document.getElementById('lead-topic').value = topic || 'Нужна консультация';
+  leadTitle.textContent = topic ? 'Консультация: ' + topic.toLowerCase() : 'Оставьте заявку на консультацию';
+  leadDialog.showModal();
+  track('form_open');
+}
+document.querySelectorAll('a[href="#consultation"]').forEach(link => link.addEventListener('click', event => {
+  if (typeof leadDialog.showModal !== 'function') return; // старый браузер — просто прокрутка к форме внизу
+  event.preventDefault();
+  openLead(link.dataset.service);
+}));
+leadDialog.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => leadDialog.close()));
+leadDialog.addEventListener('click', event => { if (event.target === leadDialog) leadDialog.close(); });
+leadForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (leadForm.querySelector('button[type="submit"]').disabled || !leadForm.reportValidity()) return;
+  if (await sendLead(leadForm, 'всплывающее окно')) {
+    leadForm.hidden = true;
+    leadSuccess.hidden = false;
+    track('lead_modal');
   }
 });
