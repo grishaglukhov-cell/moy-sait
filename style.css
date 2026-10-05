@@ -25,3 +25,4 @@
 .consult-card.lead-success .btn{margin-top:14px}
 .lead-success:focus{outline:none}
 @media(max-width:700px){footer .wrap>a{display:block;margin-top:8px}}
+.btn{text-align:center}
