@@ -107,7 +107,7 @@ function openLead(topic) {
   leadForm.hidden = false;
   leadSuccess.hidden = true;
   document.getElementById('lead-topic').value = topic || 'Нужна консультация';
-  leadTitle.textContent = topic ? 'Бесплатная консультация: ' + topic.toLowerCase() : 'Оставьте заявку на бесплатную консультацию';
+  leadTitle.textContent = topic ? 'Консультация: ' + topic.toLowerCase() : 'Оставьте заявку на консультацию';
   leadDialog.showModal();
   track('form_open');
 }
