@@ -47,8 +47,12 @@ const ALLOWED_ORIGINS = new Set([
 // Сайт «Ваше право»: боевые домены (старый и vashepravo-sochi.ru) и технический домен Timeweb (*.twc1.net).
 // Его заявки идут в MAX_CHAT_ID_VASHE_PRAVO, а пока он не задан — в общий MAX_CHAT_ID.
 const VASHE_PRAVO_ORIGIN = /^https:\/\/((www\.)?(vashe-pravo-sochi|vashepravo-sochi)\.ru|[a-z0-9-]+\.twc1\.net)$/;
+// Сайт Татьяны Шелест (event-агентство): боевой домен и его технический домен Timeweb.
+// Заявки идут в MAX_CHAT_ID_SHELEST, а пока он не задан — в общий MAX_CHAT_ID.
+const SHELEST_ORIGIN = /^https:\/\/((www\.)?eventagentstvomsk\.ru|grishaglukhov-cell-moy-sait-d8b2\.twc1\.net)$/;
 
 function chatFor(origin) {
+  if (SHELEST_ORIGIN.test(origin)) return process.env.MAX_CHAT_ID_SHELEST || MAX_CHAT_ID;
   if (VASHE_PRAVO_ORIGIN.test(origin)) return process.env.MAX_CHAT_ID_VASHE_PRAVO || MAX_CHAT_ID;
   return MAX_CHAT_ID;
 }
@@ -87,7 +91,7 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   const origin = req.headers.origin || "";
-  const allowOrigin = ALLOWED_ORIGINS.has(origin) || VASHE_PRAVO_ORIGIN.test(origin) ? origin : "https://greklama.ru";
+  const allowOrigin = ALLOWED_ORIGINS.has(origin) || VASHE_PRAVO_ORIGIN.test(origin) || SHELEST_ORIGIN.test(origin) ? origin : "https://greklama.ru";
   res.setHeader("Access-Control-Allow-Origin", allowOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
