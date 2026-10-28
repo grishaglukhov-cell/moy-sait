@@ -55,18 +55,28 @@ function goal(name) {
 }
 // Заявки уходят в MAX через max-relay (ветка max-relay в moy-sait, Timeweb app 247551).
 const LEAD_ENDPOINT = 'https://grishaglukhov-cell-moy-sait-f46c.twc1.net';
-const contactForm = document.querySelector('#contact-form');
-const formStatus = document.querySelector('#form-status');
-const contactSuccess = document.querySelector('#contact-success');
-contactForm.addEventListener('submit', async event => {
-  event.preventDefault();
-  const button = contactForm.querySelector('button[type="submit"]');
-  if (button.disabled || !contactForm.reportValidity()) return;
-  const data = new FormData(contactForm);
+
+// Скидка 20% действует 10 часов с первого визита; дедлайн хранится в браузере,
+// поэтому перезагрузка страницы не сбрасывает таймер.
+const OFFER_KEY = 'shelest_offer_deadline';
+const OFFER_MS = 10 * 60 * 60 * 1000;
+let offerDeadline = Date.now() + OFFER_MS;
+try {
+  const saved = Number(localStorage.getItem(OFFER_KEY));
+  if (saved > 0) offerDeadline = saved;
+  else localStorage.setItem(OFFER_KEY, String(offerDeadline));
+} catch {}
+const offerActive = () => offerDeadline - Date.now() > 0;
+
+async function sendLead(form, source) {
+  const status = form.querySelector('.form-status');
+  const button = form.querySelector('button[type="submit"]');
+  if (button.disabled || !form.reportValidity()) return false;
+  const data = new FormData(form);
   // Боты заполняют скрытое поле — делаем вид, что всё прошло.
-  if (String(data.get('website') || '')) { contactForm.hidden = true; contactSuccess.hidden = false; return; }
+  if (String(data.get('website') || '')) return true;
   const digits = String(data.get('phone')).replace(/\D/g, '');
-  if (digits.length < 10 || digits.length > 15) { formStatus.textContent = 'Проверьте номер телефона: нужно от 10 до 15 цифр.'; return; }
+  if (digits.length < 10 || digits.length > 15) { status.textContent = 'Проверьте номер телефона: нужно от 10 до 15 цифр.'; return false; }
   const phone = digits.length === 10 ? '7' + digits : digits.replace(/^8(?=\d{10}$)/, '7');
   const params = new URLSearchParams(location.search);
   const utm = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'yclid']
@@ -76,10 +86,12 @@ contactForm.addEventListener('submit', async event => {
   const text = 'Новая заявка — Татьяна Шелест (eventagentstvomsk.ru)' +
     '\nИмя: ' + safe(data.get('name')) +
     '\nТелефон: +' + phone +
-    '\nО мероприятии: ' + safe(data.get('comment')) +
+    (data.has('comment') ? '\nО мероприятии: ' + safe(data.get('comment')) : '') +
+    '\nФорма: ' + source +
+    (offerActive() ? '\nСкидка 20%: да (успел до конца таймера)' : '') +
     (utm ? '\nМетки: ' + safe(utm) : '');
   button.disabled = true;
-  formStatus.textContent = 'Отправляем заявку…';
+  status.textContent = 'Отправляем заявку…';
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 15000);
   try {
@@ -87,18 +99,78 @@ contactForm.addEventListener('submit', async event => {
     const result = await response.json();
     if (!response.ok || result.ok !== true) throw new Error('Delivery not confirmed');
     goal('form_submit');
-    contactForm.reset();
-    formStatus.textContent = '';
-    contactForm.hidden = true;
-    contactSuccess.hidden = false;
-    contactSuccess.focus({ preventScroll: true });
-    contactSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    form.reset();
+    status.textContent = '';
+    return true;
   } catch {
     const wa = 'https://wa.me/79031602028?text=' + encodeURIComponent('Здравствуйте! Хочу обсудить мероприятие.\nИмя: ' + data.get('name') + '\nТелефон: +' + phone);
-    formStatus.innerHTML = 'Не удалось отправить заявку. Данные остались в форме — попробуйте ещё раз, позвоните <a href="tel:+79031602028">+7 (903) 160-20-28</a> или <a href="' + wa + '" target="_blank" rel="noopener">напишите в WhatsApp</a>.';
+    status.innerHTML = 'Не удалось отправить заявку. Данные остались в форме — попробуйте ещё раз, позвоните <a href="tel:+79031602028">+7 (903) 160-20-28</a> или <a href="' + wa + '" target="_blank" rel="noopener">напишите в WhatsApp</a>.';
+    return false;
   } finally {
     clearTimeout(timer);
     button.disabled = false;
+  }
+}
+
+function showSuccess(form, success) {
+  form.hidden = true;
+  success.hidden = false;
+  success.focus({ preventScroll: true });
+}
+
+const contactForm = document.querySelector('#contact-form');
+const contactSuccess = document.querySelector('#contact-success');
+contactForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (await sendLead(contactForm, 'форма внизу страницы')) {
+    showSuccess(contactForm, contactSuccess);
+    contactSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+});
+
+// Всплывающее окно заявки со скидкой — открывается кнопками в первых блоках.
+const leadModal = document.querySelector('#lead-modal');
+const leadForm = document.querySelector('#lead-form');
+const leadSuccess = document.querySelector('#lead-success');
+const offer = document.querySelector('#offer');
+const timerParts = { h: offer.querySelector('[data-t="h"]'), m: offer.querySelector('[data-t="m"]'), s: offer.querySelector('[data-t="s"]') };
+let leadSource = '';
+let tick;
+function renderTimer() {
+  const left = offerDeadline - Date.now();
+  if (left <= 0) {
+    offer.hidden = true;
+    leadSuccess.querySelector('[data-offer-note]').hidden = true;
+    clearInterval(tick);
+    return;
+  }
+  const total = Math.floor(left / 1000);
+  const pad = n => String(n).padStart(2, '0');
+  timerParts.h.textContent = pad(Math.floor(total / 3600));
+  timerParts.m.textContent = pad(Math.floor(total % 3600 / 60));
+  timerParts.s.textContent = pad(total % 60);
+}
+document.querySelectorAll('[data-lead-open]').forEach(link => link.addEventListener('click', event => {
+  event.preventDefault();
+  leadSource = 'всплывающее окно (кнопка «' + link.dataset.leadOpen + '»)';
+  renderTimer();
+  clearInterval(tick);
+  if (offerActive()) tick = setInterval(renderTimer, 1000);
+  leadModal.showModal();
+  document.body.classList.add('modal-open');
+  goal('popup_open');
+}));
+leadModal.querySelector('.lead-modal-close').addEventListener('click', () => leadModal.close());
+leadModal.addEventListener('click', event => { if (event.target === leadModal) leadModal.close(); });
+leadModal.addEventListener('close', () => {
+  clearInterval(tick);
+  document.body.classList.remove('modal-open');
+});
+leadForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (await sendLead(leadForm, leadSource)) {
+    goal('popup_submit');
+    showSuccess(leadForm, leadSuccess);
   }
 });
 document.addEventListener('click', event => {
