@@ -98,6 +98,8 @@ async function sendLead(form, source) {
     const response = await fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }), signal: controller.signal });
     const result = await response.json();
     if (!response.ok || result.ok !== true) throw new Error('Delivery not confirmed');
+    // Универсальная цель «Заявка»: любая форма, только после подтверждённой доставки в MAX.
+    goal('lead');
     goal('form_submit');
     form.reset();
     status.textContent = '';
