@@ -53,14 +53,53 @@ const COUNTER = 113801854;
 function goal(name) {
   if (typeof window.ym === 'function') window.ym(COUNTER, 'reachGoal', name);
 }
-document.querySelector('#contact-form').addEventListener('submit', event => {
+// Заявки уходят в MAX через max-relay (ветка max-relay в moy-sait, Timeweb app 247551).
+const LEAD_ENDPOINT = 'https://grishaglukhov-cell-moy-sait-f46c.twc1.net';
+const contactForm = document.querySelector('#contact-form');
+const formStatus = document.querySelector('#form-status');
+const contactSuccess = document.querySelector('#contact-success');
+contactForm.addEventListener('submit', async event => {
   event.preventDefault();
-  const values = new FormData(event.currentTarget);
-  const comment = (values.get('comment') || '').trim();
-  const text = `Здравствуйте! Хочу обсудить мероприятие.\nИмя: ${values.get('name')}\nТелефон: ${values.get('phone')}` + (comment ? `\n${comment}` : '');
-  goal('form_submit');
-  window.open(`https://wa.me/79031602028?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
-  document.querySelector('#form-status').textContent = 'Открыли WhatsApp с вашим сообщением — нажмите «Отправить». Если не открылся, позвоните: +7 (903) 160-20-28.';
+  const button = contactForm.querySelector('button[type="submit"]');
+  if (button.disabled || !contactForm.reportValidity()) return;
+  const data = new FormData(contactForm);
+  // Боты заполняют скрытое поле — делаем вид, что всё прошло.
+  if (String(data.get('website') || '')) { contactForm.hidden = true; contactSuccess.hidden = false; return; }
+  const digits = String(data.get('phone')).replace(/\D/g, '');
+  if (digits.length < 10 || digits.length > 15) { formStatus.textContent = 'Проверьте номер телефона: нужно от 10 до 15 цифр.'; return; }
+  const phone = digits.length === 10 ? '7' + digits : digits.replace(/^8(?=\d{10}$)/, '7');
+  const params = new URLSearchParams(location.search);
+  const utm = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'yclid']
+    .filter(key => params.get(key)).map(key => key + '=' + params.get(key).slice(0, 200)).join(', ');
+  // Relay шлёт текст в MAX как HTML, поэтому пользовательский ввод экранируем.
+  const safe = value => String(value || '').trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') || '—';
+  const text = 'Новая заявка — Татьяна Шелест (eventagentstvomsk.ru)' +
+    '\nИмя: ' + safe(data.get('name')) +
+    '\nТелефон: +' + phone +
+    '\nО мероприятии: ' + safe(data.get('comment')) +
+    (utm ? '\nМетки: ' + safe(utm) : '');
+  button.disabled = true;
+  formStatus.textContent = 'Отправляем заявку…';
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 15000);
+  try {
+    const response = await fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }), signal: controller.signal });
+    const result = await response.json();
+    if (!response.ok || result.ok !== true) throw new Error('Delivery not confirmed');
+    goal('form_submit');
+    contactForm.reset();
+    formStatus.textContent = '';
+    contactForm.hidden = true;
+    contactSuccess.hidden = false;
+    contactSuccess.focus({ preventScroll: true });
+    contactSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } catch {
+    const wa = 'https://wa.me/79031602028?text=' + encodeURIComponent('Здравствуйте! Хочу обсудить мероприятие.\nИмя: ' + data.get('name') + '\nТелефон: +' + phone);
+    formStatus.innerHTML = 'Не удалось отправить заявку. Данные остались в форме — попробуйте ещё раз, позвоните <a href="tel:+79031602028">+7 (903) 160-20-28</a> или <a href="' + wa + '" target="_blank" rel="noopener">напишите в WhatsApp</a>.';
+  } finally {
+    clearTimeout(timer);
+    button.disabled = false;
+  }
 });
 document.addEventListener('click', event => {
   const link = event.target.closest('a[href]');
