@@ -49,11 +49,25 @@ dialog.addEventListener('close', () => {
   document.body.classList.remove('modal-open');
   activeTrigger?.focus();
 });
+const COUNTER = 113801854;
+function goal(name) {
+  if (typeof window.ym === 'function') window.ym(COUNTER, 'reachGoal', name);
+}
 document.querySelector('#contact-form').addEventListener('submit', event => {
   event.preventDefault();
   const values = new FormData(event.currentTarget);
-  const body = `Имя: ${values.get('name')}\nТелефон: ${values.get('phone')}\n\n${values.get('comment') || ''}`;
-  const address = `mailto:9031602028@mail.ru?subject=${encodeURIComponent('Обсудим ваше мероприятие')}&body=${encodeURIComponent(body)}`;
-  window.location.href = address;
-  document.querySelector('#form-status').textContent = 'Подготовлено письмо. Отправьте его в открывшейся почтовой программе. Если она не открылась, напишите на 9031602028@mail.ru или в мессенджер.';
+  const comment = (values.get('comment') || '').trim();
+  const text = `Здравствуйте! Хочу обсудить мероприятие.\nИмя: ${values.get('name')}\nТелефон: ${values.get('phone')}` + (comment ? `\n${comment}` : '');
+  goal('form_submit');
+  window.open(`https://wa.me/79031602028?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+  document.querySelector('#form-status').textContent = 'Открыли WhatsApp с вашим сообщением — нажмите «Отправить». Если не открылся, позвоните: +7 (903) 160-20-28.';
+});
+document.addEventListener('click', event => {
+  const link = event.target.closest('a[href]');
+  if (!link) return;
+  const href = link.getAttribute('href');
+  if (href.startsWith('tel:')) goal('click_phone');
+  else if (href.includes('wa.me')) goal('click_whatsapp');
+  else if (href.includes('t.me')) goal('click_telegram');
+  else if (href.startsWith('mailto:')) goal('click_email');
 });
