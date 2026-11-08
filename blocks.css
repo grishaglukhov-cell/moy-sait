@@ -46,3 +46,5 @@
 @media(max-width:560px){.auto-case-visual{grid-template-columns:115px 1fr;gap:20px;padding-block:20px}.auto-case-visual>img{width:115px;height:115px}.auto-case-result>strong{font-size:52px}.auto-case-result>span{font-size:11px}.auto-case-label>strong{font-size:25px}.auto-case-card .case-content>p{min-height:0}.cover-auto{min-height:240px}.auto-case-scope>strong{font-size:17px}.auto-project .dialog-metrics{grid-template-columns:1fr;gap:20px}.auto-project .dialog-metrics strong{font-size:24px}.dialog-brand-logo{width:90px;height:90px;margin-bottom:20px}}
 @media(max-width:360px){.auto-case-visual{grid-template-columns:95px 1fr;gap:14px}.auto-case-visual>img{width:95px;height:95px}.auto-case-result>strong{font-size:43px}.auto-case-result>span{font-size:10px}.auto-case-label>strong{font-size:22px}.cover-auto>.cover-bottom{font-size:8px}.auto-case-card .case-summary strong{font-size:19px}}
 
+
+.form-status{font-size:13px;line-height:1.6;margin:8px 0 0;grid-column:1/-1}.form-status:empty{display:none}.form-status a{text-decoration:underline}.lead-form button:disabled{cursor:default;opacity:.75}
