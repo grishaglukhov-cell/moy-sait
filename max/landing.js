@@ -6,6 +6,7 @@ document.addEventListener('click', function(event) {
   const link = event.target.closest('a.max-link');
   if (!link || typeof window.ym !== 'function') return;
   const params = { placement: ['hero', 'middle', 'footer'][Array.from(document.querySelectorAll('.max-link')).indexOf(link)] || 'other' };
+  if (event.defaultPrevented) { window.ym(109498085, 'reachGoal', 'max_channel_click', params); return; }
   if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
     window.ym(109498085, 'reachGoal', 'max_channel_click', params);
     return;
