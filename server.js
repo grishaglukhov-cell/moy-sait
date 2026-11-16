@@ -49,7 +49,7 @@ const ALLOWED_ORIGINS = new Set([
 const VASHE_PRAVO_ORIGIN = /^https:\/\/((www\.)?(vashe-pravo-sochi|vashepravo-sochi)\.ru|[a-z0-9-]+\.twc1\.net)$/;
 // Сайт Татьяны Шелест (event-агентство): боевой домен и его технический домен Timeweb.
 // Заявки идут в MAX_CHAT_ID_SHELEST, а пока он не задан — в общий MAX_CHAT_ID.
-const SHELEST_ORIGIN = /^https:\/\/((www\.)?eventagentstvomsk\.ru|grishaglukhov-cell-moy-sait-d8b2\.twc1\.net)$/;
+const SHELEST_ORIGIN = /^https:\/\/(((www\.)?|newyear\.)eventagentstvomsk\.ru|grishaglukhov-cell-moy-sait-d8b2\.twc1\.net)$/;
 
 function chatFor(origin) {
   if (SHELEST_ORIGIN.test(origin)) return process.env.MAX_CHAT_ID_SHELEST || MAX_CHAT_ID;
