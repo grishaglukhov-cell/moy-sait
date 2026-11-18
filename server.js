@@ -43,6 +43,7 @@ const MAX_CHAT_ID = process.env.MAX_CHAT_ID;
 const ALLOWED_ORIGINS = new Set([
   "https://greklama.ru",
   "https://www.greklama.ru",
+  "https://direct.greklama.ru",
 ]);
 // Сайт «Ваше право»: боевые домены (старый и vashepravo-sochi.ru) и технический домен Timeweb (*.twc1.net).
 // Его заявки идут в MAX_CHAT_ID_VASHE_PRAVO, а пока он не задан — в общий MAX_CHAT_ID.
