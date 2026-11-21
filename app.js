@@ -18,7 +18,7 @@ document.getElementById('more-reviews').addEventListener('click', event => {
 });
 
 // Заявки уходят в MAX через max-relay (ветка max-relay в moy-sait, Timeweb app 247551).
-const LEAD_ENDPOINT = 'https://grishaglukhov-cell-moy-sait-f46c.twc1.net';
+const LEAD_ENDPOINT = 'https://grishaglukhov-cell-moy-sait-7020.twc1.net';
 // Номер счётчика Яндекс.Метрики (null — Метрика не грузится, цели не шлются).
 const METRIKA_ID = 113207324;
 
