@@ -1,5 +1,6 @@
 const https = require("https");
 const express = require("express");
+const path = require("path");
 
 // Корневой сертификат "Russian Trusted Root CA" (Минцифры России) — нужен,
 // потому что platform-api2.max.ru подписан этим УЦ, а он не входит
@@ -100,9 +101,21 @@ app.use((req, res, next) => {
   next();
 });
 
+const landingFiles = express.static(path.join(__dirname, "newyear-public"), {
+  maxAge: "1h",
+  setHeaders(res, filePath) {
+    if (filePath.endsWith(".html")) res.setHeader("Cache-Control", "no-cache");
+  },
+});
+app.use("/newyear-preview", landingFiles);
+app.use((req, res, next) => {
+  if (req.hostname === "newyear.eventagentstvomsk.ru") return landingFiles(req, res, next);
+  next();
+});
+
 app.get("/", (req, res) => res.type("text/plain").send("ok"));
 
-app.post("/", async (req, res) => {
+app.post(["/", "/api/lead"], async (req, res) => {
   const text = typeof req.body?.text === "string" ? req.body.text.slice(0, 4000) : "";
   if (!text) {
     return res.status(422).json({ ok: false, error: "empty_text" });
